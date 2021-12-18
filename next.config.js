@@ -7,7 +7,7 @@ module.exports = {
 		[
 			'BOUNDLESS_API_BASE_URL',
 			'BOUNDLESS_API_PERMANENT_TOKEN',
-			'BOUNDLESS_MEDIA_PREFIX',
+			'BOUNDLESS_S3_PREFIX',
 			'BOUNDLESS_INSTANCE_ID'
 		].forEach((key) => defineMap[`process.env.${key}`] = JSON.stringify(process.env[key]));
 

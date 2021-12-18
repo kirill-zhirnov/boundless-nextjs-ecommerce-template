@@ -1,7 +1,7 @@
 // import {IProduct} from '../@types/catalog/product';
 import {IProduct} from 'boundless-api-client/types/catalog/product';
 import CategoryMenu from '../components/blocks/CategoryMenu';
-import ProductsList from '../components/blocks/ProductList';
+import ProductsList from '../components/blocks/ProductsList';
 import MainLayout from '../layouts/Main';
 import {apiClient} from '../lib/services/api';
 
@@ -30,14 +30,8 @@ interface IIndexPageProps {
 }
 
 export async function getStaticProps() {
-	let categoryTree = null;
-	let products: IProduct[] = [];
-	try {
-		categoryTree = await apiClient.catalog.getCategoryTree();
-		products = await apiClient.catalog.getProducts({'per-page': 8});
-	} catch (err) {
-		console.error(err);
-	}
+	const categoryTree = await apiClient.catalog.getCategoryTree();
+	const {products} = await apiClient.catalog.getProducts({'per-page': 8});
 
 	return {
 		props: {
