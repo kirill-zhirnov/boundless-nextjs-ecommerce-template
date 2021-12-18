@@ -1,0 +1,24 @@
+@use 'sass:math';
+
+@import './bootstrap';
+@import './variables';
+// @import './fonts';
+
+@import './base';
+// @import './page';
+
+//Components
+@import './components/product';
+@import './components/categoryMenu';
+
+// @import './typography';
+// @import './text';
+// @import './icon';
+// @import './form';
+// @import './input';
+// @import './inputEmail';
+// @import './buttons';
+// @import './slider';
+// @import './spinner';
+// @import './nprogress';
+// @import './modal';

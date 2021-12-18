@@ -1,0 +1,18 @@
+.category-menu {
+	&__list {
+		background: #fff;
+		padding: 25px;
+		border-radius: 10px;
+	}
+
+	&__item {
+		a {
+			text-decoration: none;
+			color: #000;
+		}
+		&.has-children {
+			margin-bottom: 15px;
+		}
+	}
+
+}

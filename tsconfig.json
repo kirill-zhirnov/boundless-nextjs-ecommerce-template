@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "commonjs",
+    "lib": [
+      "dom",
+      "es2019",
+      "ES2020"
+    ],
+    "jsx": "preserve",
+    "sourceMap": true,
+    "outDir": "dist",
+    "removeComments": false,
+    "strict": true,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types"
+    ],
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "forceConsistentCasingInFileNames": true,
+    "allowJs": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "isolatedModules": true,
+    "incremental": true
+  },
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
