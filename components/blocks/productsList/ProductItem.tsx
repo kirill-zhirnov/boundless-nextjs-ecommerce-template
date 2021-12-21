@@ -1,10 +1,10 @@
 import {IProduct} from 'boundless-api-client/types/catalog/product';
-import {getProductsListImg} from "../../../lib/services/imgs";
-import {formatMoney} from "../../../lib/formatter";
+import {getProductsListImg} from '../../../lib/services/imgs';
+import ProductPrice from './ProductPrice';
 
 export default function ProductItem({product}: {product: IProduct}) {
 	const schemaAvailability = product.in_stock ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock';
-	const url = `/products/${String(product.url_key || '')}`;
+	const url = `/products/${String(product.url_key || product.product_id || '')}`;
 
 	return (
 		<div
@@ -16,35 +16,50 @@ export default function ProductItem({product}: {product: IProduct}) {
 			<div className='product-item__wrapper'>
 				<div className={'product-item__image'}>
 					<a href={url} >
-						{product.images && product.images.length > 0 ?
-							<div className={'img'}>
+						{product.images && product.images.length > 0
+							? <div className={'img'}>
 								<img src={getProductsListImg(product.images[0].path, 200)}
-										 alt={product.images[0].alt || product.title}
+									alt={product.images[0].alt || product.title}
 								/>
 							</div>
 							: <div className='no-image' />}
 					</a>
 				</div>
 				<div className='product-item__basket-btn'>
-
+					<button type='button' className='btn btn-outline-secondary btn-sm'>Add to basket</button>
 				</div>
-				<h4 className='product-item__title'>
+				<h4 className='product-item__title flex-grow-1'>
 					<a href={`/products/${product.url_key || product.product_id}`} itemProp='url'>
 						<span itemProp='name'>{product.title}</span>
 					</a>
 				</h4>
 
 				<div className='product-item__offer'>
-					{product.price?.value && <div className='product-item__price'>
-						{formatMoney(product.price.value)}
-					</div>}
-					<div className='product-item__availability'>
-						<b className={product.in_stock ? 'product-item__stock-in' : 'product-item__stock-out'}>
-							{product.in_stock ? 'In stock' : 'Out of stock'}
-						</b>
-					</div>
+					{product.price && <>
+						<ProductPrice price={product.price} />
+						<div className='product-item__availability'>
+							<b className={product.in_stock ? 'product-item__stock-in' : 'product-item__stock-out'}>
+								{product.in_stock ? 'In stock' : 'Out of stock'}
+							</b>
+						</div>
+						{product.price?.min
+							?
+							<div itemProp='offers' itemScope itemType='http://schema.org/AggregateOffer'>
+								<meta itemProp='lowPrice' content={String(product.price.min)} />
+								<meta itemProp='highPrice' content={String(product.price.max)} />
+								<meta itemProp='priceCurrency' content={product.price.currency_alias?.toUpperCase()} />
+								<link itemProp='availability' href={schemaAvailability} />
+							</div>
+							:
+							<div itemProp='offers' itemScope itemType='http://schema.org/Offer'>
+								<meta itemProp='price' content={String(product.price.min)} />
+								<meta itemProp='highPrice' content={String(product.price.max)} />
+								<meta itemProp='priceCurrency' content={product.price.currency_alias?.toUpperCase()} />
+								<link itemProp='availability' href={schemaAvailability} />
+							</div>
+						}
+					</>}
 				</div>
-
 				<meta itemProp='productID' content={String(product.product_id)} />
 				<meta itemProp='brand' content={product.manufacturer?.title || ''} />
 				<meta itemProp='sku' content={product.sku || ''} />

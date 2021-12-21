@@ -1,11 +1,12 @@
-// import {IProduct} from '../@types/catalog/product';
+import {ICategory} from 'boundless-api-client/types/catalog/category';
 import {IProduct} from 'boundless-api-client/types/catalog/product';
+import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
 import CategoryMenu from '../components/blocks/CategoryMenu';
 import ProductsList from '../components/blocks/ProductsList';
 import MainLayout from '../layouts/Main';
 import {apiClient} from '../lib/services/api';
 
-export default function IndexPage({categoryTree, products}: IIndexPageProps) {
+export default function IndexPage({categoryTree, products}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	return (
 		<>
 			<MainLayout>
@@ -14,7 +15,7 @@ export default function IndexPage({categoryTree, products}: IIndexPageProps) {
 						<nav className='col-md-3 col-sm-4'>
 							{categoryTree && <CategoryMenu categoryTree={categoryTree} />}
 						</nav>
-						<main className='col-md-9 col-sm-8'>
+						<main className='col-md-9 col-sm-8 content-box'>
 							<ProductsList products={products} />
 						</main>
 					</div>
@@ -24,13 +25,8 @@ export default function IndexPage({categoryTree, products}: IIndexPageProps) {
 	);
 }
 
-interface IIndexPageProps {
-	categoryTree: null;
-	products: IProduct[];
-}
-
-export async function getStaticProps() {
-	const categoryTree = await apiClient.catalog.getCategoryTree();
+export const getServerSideProps: GetServerSideProps<IIndexPageProps> = async () => {
+	const categoryTree = await apiClient.catalog.getCategoryTree({menu: 'category'});
 	const {products} = await apiClient.catalog.getProducts({'per-page': 8});
 
 	return {
@@ -39,4 +35,9 @@ export async function getStaticProps() {
 			products
 		}
 	};
+};
+
+interface IIndexPageProps {
+	categoryTree: ICategory[]|null;
+	products: IProduct[];
 }

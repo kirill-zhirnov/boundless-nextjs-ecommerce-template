@@ -1,11 +1,19 @@
 .category-menu {
 	&__list {
 		background: #fff;
-		padding: 25px;
+		padding: 8px 12px;
 		border-radius: 10px;
 	}
 
 	&__item {
+		padding: 8px 12px;
+		border-radius: 10px;
+		&.active {
+			background-color: #ba86da;
+			a {
+				color: #fff;
+			}
+		}
 		a {
 			text-decoration: none;
 			color: #000;
@@ -14,5 +22,4 @@
 			margin-bottom: 15px;
 		}
 	}
-
 }

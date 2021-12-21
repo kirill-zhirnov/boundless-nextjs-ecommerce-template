@@ -1,0 +1,15 @@
+.breadcrumb-wrapper {
+	background-color: $c-bg-body;
+	border-radius: 10px;
+	display: inline-block;
+	padding: 10px 12px;
+	margin-bottom: 1rem;
+
+	.breadcrumb {
+		margin-bottom: 0;
+	}
+
+	.breadcrumb-item a {
+		color: #ba86da;
+	}
+}

@@ -2,6 +2,7 @@ import {ReactNode} from 'react';
 import Head from 'next/head';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import LoadingLine from '../components/LoadingLine';
 
 export default function MainLayout({children}: { children: ReactNode | ReactNode[] }) {
 	return (
@@ -21,6 +22,7 @@ export default function MainLayout({children}: { children: ReactNode | ReactNode
 
 				<title>Boundless-commerce - API’s First Headless E-commerce CMS</title>
 			</Head>
+			<LoadingLine />
 			<div className='page'>
 				<Header/>
 				<main className='page__main'>
