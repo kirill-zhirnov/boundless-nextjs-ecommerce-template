@@ -12,7 +12,7 @@ export default function CategoryBreadCrumbs({parents}: {parents: ICategoryFlatIt
 				{parents?.length > 0 && _parent.reverse().map((parent, i) => {
 					const isActive = parents.length === i + 1;
 					return (
-						<li className={clsx('breadcrumb-item', isActive && 'active')}>
+						<li className={clsx('breadcrumb-item', isActive && 'active')} key={parent.category_id}>
 							{isActive
 								? (parent.title || parent.joined_title)
 								: <Link href={`/category/${parent.url_key || parent.category_id}`}>

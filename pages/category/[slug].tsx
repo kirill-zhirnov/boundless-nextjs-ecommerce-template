@@ -16,7 +16,6 @@ export default function CategoryPage({errorCode, category, products, categoryMen
 	const router = useRouter();
 
 	if (errorCode) return <ErrorComponent statusCode={errorCode} />;
-	console.log(category);
 
 	const title = category?.text?.custom_header || category?.text?.title || null;
 
