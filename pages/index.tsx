@@ -1,7 +1,7 @@
 import {ICategory} from 'boundless-api-client/types/catalog/category';
 import {IProduct} from 'boundless-api-client/types/catalog/product';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
-import CategoryMenu from '../components/blocks/CategoryMenu';
+import CategoryHomeMenu from '../components/blocks/CategoryMenu/CategoryHomeMenu';
 import ProductsList from '../components/blocks/ProductsList';
 import MainLayout from '../layouts/Main';
 import {apiClient} from '../lib/services/api';
@@ -13,7 +13,7 @@ export default function IndexPage({categoryTree, products}: InferGetServerSidePr
 				<div className='container'>
 					<div className='row'>
 						<nav className='col-md-3 col-sm-4'>
-							{categoryTree && <CategoryMenu categoryTree={categoryTree} />}
+							{categoryTree && <CategoryHomeMenu categoryTree={categoryTree} />}
 						</nav>
 						<main className='col-md-9 col-sm-8 content-box'>
 							<ProductsList products={products} />

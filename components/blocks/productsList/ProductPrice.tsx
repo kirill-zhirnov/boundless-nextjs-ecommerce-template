@@ -11,8 +11,8 @@ export default function ProductPrice({price}: {price: IProductPrice}) {
 		<div className='product-item__price'>
 			<span className={clsx('formatted-price', hasOld && 'has-old')}>
 				{!!min && <span className='from'>From: </span>}
-				{hasOld && <s>{formatMoney(old_min || old || 0)}</s>}
-				<span className='current'>{formatMoney(min || value || 0)}</span>
+				{hasOld && <s>{formatMoney(old_min || old)}</s>}
+				<span className='current'>{formatMoney(min || value)}</span>
 			</span>
 		</div>
 	);

@@ -1,10 +1,10 @@
 import {IProduct} from 'boundless-api-client/types/catalog/product';
 import {getProductsListImg} from '../../../lib/services/imgs';
+import {getProductUrl} from '../../../lib/services/urls';
 import ProductPrice from './ProductPrice';
 
 export default function ProductItem({product}: {product: IProduct}) {
 	const schemaAvailability = product.in_stock ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock';
-	const url = `/products/${String(product.url_key || product.product_id || '')}`;
 
 	return (
 		<div
@@ -15,7 +15,7 @@ export default function ProductItem({product}: {product: IProduct}) {
 		>
 			<div className='product-item__wrapper'>
 				<div className={'product-item__image'}>
-					<a href={url} >
+					<a href={getProductUrl(product)} >
 						{product.images && product.images.length > 0
 							? <div className={'img'}>
 								<img src={getProductsListImg(product.images[0].path, 200)}
@@ -29,7 +29,7 @@ export default function ProductItem({product}: {product: IProduct}) {
 					<button type='button' className='btn btn-outline-secondary btn-sm'>Add to basket</button>
 				</div>
 				<h4 className='product-item__title flex-grow-1'>
-					<a href={`/products/${product.url_key || product.product_id}`} itemProp='url'>
+					<a href={getProductUrl(product)} itemProp='url'>
 						<span itemProp='name'>{product.title}</span>
 					</a>
 				</h4>

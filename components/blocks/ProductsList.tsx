@@ -1,5 +1,5 @@
 import {IProduct} from 'boundless-api-client/types/catalog/product';
-import ProductItem from './productsList/ProductItem';
+import ProductItem from './ProductsList/ProductItem';
 
 export default function ProductsList({products}: {products: IProduct[]}) {
 	return (
