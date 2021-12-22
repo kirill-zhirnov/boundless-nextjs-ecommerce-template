@@ -69,15 +69,16 @@
 	}
 
 	&__basket-btn {
-		position: absolute;
+		background-color: #fff;
+		bottom: 0;
 		display: flex;
 		justify-content: center;
-		bottom: 0;
 		left: 0;
+		padding: 5px 10px;
+		margin-bottom: 5px;
+		position: absolute;
 		right: 0;
-		padding: 10px;
-		background-color: #fff;
-		transition: transform 0.3s;
 		transform: translateY(60px);
+		transition: transform 0.3s;
 	}
 }

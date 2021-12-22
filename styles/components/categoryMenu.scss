@@ -8,6 +8,7 @@
 	&__item {
 		padding: 8px 12px;
 		border-radius: 10px;
+
 		&.active {
 			background-color: #ba86da;
 			a {
@@ -15,6 +16,8 @@
 			}
 		}
 		a {
+			display: inline-block;
+			line-height: 21px;
 			text-decoration: none;
 			color: #000;
 		}

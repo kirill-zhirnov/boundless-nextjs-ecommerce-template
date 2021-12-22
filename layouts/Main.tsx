@@ -4,7 +4,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LoadingLine from '../components/LoadingLine';
 
-export default function MainLayout({children}: { children: ReactNode | ReactNode[] }) {
+export default function MainLayout({children, title}: { children: ReactNode | ReactNode[], title?: string }) {
 	return (
 		<>
 			<Head>
@@ -20,7 +20,7 @@ export default function MainLayout({children}: { children: ReactNode | ReactNode
 				<meta name='msapplication-TileColor' content='#da532c'/>
 				<meta name='theme-color' content='#ffffff'/>
 
-				<title>Boundless-commerce - API’s First Headless E-commerce CMS</title>
+				<title>{title || 'Boundless-commerce - API’s First Headless E-commerce CMS'}</title>
 			</Head>
 			<LoadingLine />
 			<div className='page'>

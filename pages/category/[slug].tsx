@@ -9,7 +9,6 @@ import CategoryMenu from '../../components/blocks/CategoryMenu';
 import {IPagination} from 'boundless-api-client/types/common';
 import Pagination from '../../components/Pagination';
 import {useRouter} from 'next/router';
-import Head from 'next/head';
 import CategoryBreadCrumbs from '../../components/breadcrumbs/CategoryBreadCrumbs';
 
 export default function CategoryPage({errorCode, category, products, categoryMenu, pagination}: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -28,22 +27,7 @@ export default function CategoryPage({errorCode, category, products, categoryMen
 
 	return (
 		<>
-			<Head>
-				<meta charSet='UTF-8' />
-				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
-				<meta httpEquiv='X-UA-Compatible' content='ie=edge' />
-
-				<link rel='apple-touch-icon' sizes='180x180' href='/apple-touch-icon.png' />
-				<link rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png' />
-				<link rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png' />
-				<link rel='manifest' href='/site.webmanifest' />
-				<link rel='mask-icon' href='/safari-pinned-tab.svg' color='#5bbad5' />
-				<meta name='msapplication-TileColor' content='#da532c' />
-				<meta name='theme-color' content='#ffffff' />
-
-				<title>{title}</title>
-			</Head>
-			<MainLayout>
+			<MainLayout title={title || ''}>
 				<div className='container'>
 					<div className='row'>
 						<div className='col-md-3 col-sm-4'>
