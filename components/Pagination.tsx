@@ -1,44 +1,43 @@
 import {IPagination} from 'boundless-api-client/types/common';
+import {createGetStr} from 'boundless-api-client/utils.js';
 import clsx from 'clsx';
+import Link from 'next/link';
 import React from 'react';
 
-export default function Pagination({pagination, setPage}: IPaginationProps) {
+export default function Pagination({pagination, navUrl}: IPaginationProps) {
 	const {currentPage, pageCount} = pagination;
 
-
-	const prevClick = (e: React.MouseEvent) => {
-		e.preventDefault();
-		setPage(currentPage - 1);
+	const getFullNavUrl = (page: number) => {
+		const {baseUrl, params} = navUrl;
+		return `${baseUrl}?${createGetStr(Object.assign(params, {page}))}`;
 	};
 
-	const nextClick = (e: React.MouseEvent) => {
-		e.preventDefault();
-		setPage(currentPage + 1);
-	};
-
-	const pageClick = (e: React.MouseEvent, page: number) => {
-		e.preventDefault();
-		setPage(page);
-	};
+	const prevPageNum = currentPage - 1 < 1 ? 1 : currentPage - 1;
+	const nextPageNum = currentPage + 1 > pageCount ? pageCount : currentPage + 1;
 
 	return (
-
 		<nav className={clsx('d-flex justify-content-center', pageCount < 2 && 'd-none')}>
 			<ul className='pagination'>
 				<li className={clsx('page-item', currentPage <= 1 && 'disabled')}>
-					<a className='page-link' href='#' aria-label='Previous' onClick={prevClick}>
-						<span aria-hidden='true'>&laquo;</span>
-					</a>
+					<Link href={getFullNavUrl(prevPageNum)} shallow>
+						<a className='page-link' aria-label='Previous'>
+							<span aria-hidden='true'>&laquo;</span>
+						</a>
+					</Link>
 				</li>
 				{[...Array(pageCount)].map((_, index) => (
 					<li className={clsx('page-item', index + 1 === currentPage && 'active')} key={index}>
-						<a className='page-link' href='#' onClick={(e) => pageClick(e, index + 1)}>{index + 1}</a>
+						<Link href={getFullNavUrl(index + 1)} shallow>
+							<a className='page-link' >{index + 1}</a>
+						</Link>
 					</li>
 				))}
 				<li className={clsx('page-item', currentPage >= pageCount && 'disabled')}>
-					<a className='page-link' href='#' aria-label='Next' onClick={nextClick}>
-						<span aria-hidden='true'>&raquo;</span>
-					</a>
+					<Link href={getFullNavUrl(nextPageNum)} shallow>
+						<a className='page-link' aria-label='Next'>
+							<span aria-hidden='true'>&raquo;</span>
+						</a>
+					</Link>
 				</li>
 			</ul>
 		</nav>
@@ -47,5 +46,8 @@ export default function Pagination({pagination, setPage}: IPaginationProps) {
 
 interface IPaginationProps {
 	pagination: IPagination;
-	setPage: (page: number) => void;
+	navUrl: {
+		baseUrl: string;
+		params: {[key: string]: any};
+	}
 }

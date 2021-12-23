@@ -20,6 +20,7 @@ export default function ProductItem({product}: {product: IProduct}) {
 							? <div className={'img'}>
 								<img src={getProductsListImg(product.images[0].path, 200)}
 									alt={product.images[0].alt || product.title}
+									itemProp='image'
 								/>
 							</div>
 							: <div className='no-image' />}

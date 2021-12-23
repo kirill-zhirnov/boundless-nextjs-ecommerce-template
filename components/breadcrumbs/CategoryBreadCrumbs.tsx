@@ -3,26 +3,44 @@ import clsx from 'clsx';
 import Link from 'next/link';
 
 export default function CategoryBreadCrumbs({parents}: {parents: ICategoryFlatItem[]}) {
-	const _parent = [...parents];
+	const _parents = [...parents];
+
+	const richItemAttrs = {
+		itemProp: 'itemListElement',
+		itemScope: true,
+		itemType: 'http://schema.org/ListItem'
+	};
 
 	return (
 		<nav className='breadcrumb-wrapper'>
-			<ol className='breadcrumb'>
-				<li className='breadcrumb-item'><a href='/'>Home</a></li>
-				{parents?.length > 0 && _parent.reverse().map((parent, i) => {
+			<ol className='breadcrumb' itemProp='breadcrumb' itemScope itemType='http://schema.org/BreadcrumbList'>
+				<li className='breadcrumb-item' {...richItemAttrs}>
+					<Link href='/'>
+						<a itemProp='item'><span itemProp='name'>Home</span></a>
+					</Link>
+					<meta itemProp='position' content='1' />
+				</li>
+				{parents?.length > 0 && _parents.reverse().map((parent, i) => {
 					const isActive = parents.length === i + 1;
+					const title = parent.title || parent.joined_title;
+
 					return (
-						<li className={clsx('breadcrumb-item', isActive && 'active')} key={parent.category_id}>
+						<li
+							className={clsx('breadcrumb-item', isActive && 'active')}
+							key={parent.category_id}
+							{...(isActive ? {} : richItemAttrs)}
+						>
 							{isActive
-								? (parent.title || parent.joined_title)
+								? title
 								: <Link href={`/category/${parent.url_key || parent.category_id}`}>
-									{parent.title || parent.joined_title}
+									<a itemProp='item'>
+										<span itemProp='name'>{title}</span>
+									</a>
 								</Link>}
+							<meta itemProp='position' content={String(i + 2)} />
 						</li>);
 				})}
 			</ol>
 		</nav>
-
 	);
 }
-
