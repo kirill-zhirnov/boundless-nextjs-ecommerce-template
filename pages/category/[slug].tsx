@@ -12,6 +12,8 @@ import CategoryBreadCrumbs from '../../components/BreadCrumbs/CategoryBreadCrumb
 import CategoryMenu from '../../components/blocks/CategoryMenu/CategoryMenu';
 import {useEffect, useRef, useState} from 'react';
 import {getMenu4Category, getProductsQuery4Category} from '../../lib/services/category';
+import {IFilter} from 'boundless-api-client/types/catalog/filter';
+import FilterFields from '../../components/blocks/FilterFields';
 
 export default function CategoryPage({errorCode, data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const router = useRouter();
@@ -22,15 +24,25 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 		category: data?.category || null,
 		products: data?.products || [],
 		pagination: data?.pagination || null,
-		menu: data?.category ? getMenu4Category(data?.category) : []
+		menu: data?.category ? getMenu4Category(data?.category) : [],
+		filter: data?.filter || null
 	});
 
+	console.log('Filter:', data?.filter);
 	const getData = async (params: {[key: string]: any}) => {
 		const _data = await fetchData(slug as string, params);
 		setCategoryData({
 			..._data,
 			menu: getMenu4Category(_data.category)
 		});
+	};
+
+	const changeFilters = (newParams: {[key: string]: any}) => {
+		const {'per-page': perPage} = params;
+		router.push({
+			pathname: router.pathname,
+			query: Object.assign(newParams, {slug, 'per-page': perPage})
+		}, undefined, {shallow: true}); //shallow to skip SSR of the page
 	};
 
 	useEffect(() => {
@@ -46,7 +58,7 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 
 	if (errorCode) return <ErrorComponent statusCode={errorCode} />;
 
-	const {category, products, pagination, menu} = categoryData;
+	const {category, products, pagination, menu, filter} = categoryData;
 
 	const title = category?.text?.custom_header || category?.text?.title;
 
@@ -57,6 +69,7 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 					<div className='row'>
 						<div className='col-md-3 col-sm-4'>
 							{category && menu && <CategoryMenu categoryTree={menu} active_id={category?.category_id} />}
+							{filter?.fields && <FilterFields fields={filter.fields} changeFilters={changeFilters} />}
 						</div>
 						<main className='col-md-9 col-sm-8 content-box'>
 							{title && <h2 className='text-center mb-3'>{title}</h2>}
@@ -89,12 +102,25 @@ const fetchData = async (slug: string, params: {[key: string]: any}) => {
 	const category = await apiClient.catalog.getCategoryItem(slug as string, {with_children: 1, with_parents: 1, with_siblings: 1});
 
 	const {products, pagination} = await apiClient.catalog.getProducts(getProductsQuery4Category(category.category_id, params));
-
-	return {
+	const out = {
 		category,
 		products,
-		pagination
+		pagination,
+		filter: null as IFilter | null
 	};
+
+	if (category.props && category.props.use_filter) {
+		const filters = await apiClient.catalog.getFilters();
+		const filter = category.props.filter_id
+			? filters.find(filter => filter.filter_id === category.props!.filter_id)
+			: filters.find(filter => filter.is_default === true);
+
+		if (filter) {
+			out.filter = filter;
+		}
+	}
+
+	return out;
 };
 
 interface ICategoryPageProps {
@@ -106,4 +132,5 @@ interface ICategoryPageData {
 	category: ICategoryItem | null;
 	products?: IProduct[];
 	pagination?: IPagination;
+	filter?: IFilter | null;
 }
