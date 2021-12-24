@@ -15,26 +15,55 @@ import {getMenu4Category, getProductsQuery4Category} from '../../lib/services/ca
 import {IFilter} from 'boundless-api-client/types/catalog/filter';
 import FilterFields from '../../components/blocks/FilterFields';
 
+//@ts-ignore
+const changeUrl = (router, query) => {
+	//ts-ignore
+	router.push({
+		pathname: router.pathname,
+		query: Object.assign(query, {slug: router.query.slug})
+	}, undefined, {shallow: true}); //shallow to skip SSR of the page
+};
+
 export default function CategoryPage({errorCode, data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const router = useRouter();
 	const isRerender = useRef(false);
 	const {slug, ...params} = router.query;
+	//@ts-ignore
+	console.log('data.collection', data.collection);
+	//@ts-ignore
+	const [productsQuery, setProductsQuery] = useState(data.productsQuery);
+	console.log('productsQuery:', productsQuery);
+	//@ts-ignore
+	const [collection, setCollection] = useState(data.collection);
 
 	const [categoryData, setCategoryData] = useState({
+		//FIXME: у нас же не может быть так, что категории не будет, зачем null?
 		category: data?.category || null,
-		products: data?.products || [],
-		pagination: data?.pagination || null,
+		// products: data?.products || [],
+		// pagination: data?.pagination || null,
 		menu: data?.category ? getMenu4Category(data?.category) : [],
 		filter: data?.filter || null
 	});
 
-	console.log('Filter:', data?.filter);
 	const getData = async (params: {[key: string]: any}) => {
 		const _data = await fetchData(slug as string, params);
 		setCategoryData({
 			..._data,
 			menu: getMenu4Category(_data.category)
 		});
+	};
+
+	//@ts-ignore
+	const onCollectionChange = async (newParams) => {
+		const query = getProductsQuery4Category(Object.assign(productsQuery, newParams));
+
+
+		//@ts-ignore
+		const collection = await apiClient.catalog.getProducts({category: [categoryData.category.category_id], ...query});
+		setCollection(collection);
+		setProductsQuery(query);
+
+		changeUrl(router, query);
 	};
 
 	const changeFilters = (newParams: {[key: string]: any}) => {
@@ -44,21 +73,21 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 			query: Object.assign(newParams, {slug, 'per-page': perPage})
 		}, undefined, {shallow: true}); //shallow to skip SSR of the page
 	};
-
+/*
 	useEffect(() => {
 		if (isRerender.current) getData(router.query);
 
 		isRerender.current = true;
 	}, [router.query]); //eslint-disable-line
-
+*/
 	const navUrl = {
 		baseUrl: router.asPath.split('?')[0],
-		params
+		params: productsQuery
 	};
 
 	if (errorCode) return <ErrorComponent statusCode={errorCode} />;
 
-	const {category, products, pagination, menu, filter} = categoryData;
+	const {category, menu, filter} = categoryData;
 
 	const title = category?.text?.custom_header || category?.text?.title;
 
@@ -75,9 +104,9 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 							{title && <h2 className='text-center mb-3'>{title}</h2>}
 							{category?.parents && <CategoryBreadCrumbs parents={category?.parents} />}
 							{category?.text?.description_top && <div dangerouslySetInnerHTML={{__html: category?.text?.description_top}} />}
-							{products && <ProductsList products={products} />}
+							{collection.products && <ProductsList products={collection.products} />}
 							{category?.text?.description_bottom && <div dangerouslySetInnerHTML={{__html: category?.text?.description_bottom}} />}
-							{pagination && <Pagination pagination={pagination} navUrl={navUrl} />}
+							{collection.pagination && <Pagination pagination={collection.pagination} navUrl={navUrl} onChange={onCollectionChange} />}
 						</main>
 					</div>
 				</div>
@@ -101,11 +130,14 @@ export const getServerSideProps: GetServerSideProps<ICategoryPageProps> = async 
 const fetchData = async (slug: string, params: {[key: string]: any}) => {
 	const category = await apiClient.catalog.getCategoryItem(slug as string, {with_children: 1, with_parents: 1, with_siblings: 1});
 
-	const {products, pagination} = await apiClient.catalog.getProducts(getProductsQuery4Category(category.category_id, params));
+	params['per-page'] = 1;
+	const productsQuery = getProductsQuery4Category(params);
+
+	const collection = await apiClient.catalog.getProducts({category: [category.category_id], ...productsQuery});
 	const out = {
 		category,
-		products,
-		pagination,
+		collection,
+		productsQuery,
 		filter: null as IFilter | null
 	};
 

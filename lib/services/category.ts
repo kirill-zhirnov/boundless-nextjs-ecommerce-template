@@ -14,7 +14,8 @@ export const getMenu4Category = (category: ICategoryItem): ICategoryFlatItem[] =
 	return categoryMenu;
 };
 
-export const getProductsQuery4Category = (categoryId: number, query: {[key: string]: any}): IGetProductsParams => {
+//FIXME: может переименуем в filterProductsQuery?
+export const getProductsQuery4Category = (query: {[key: string]: any}): IGetProductsParams => {
 	const allowedKeys = ['in_stock', 'price_min', 'price_max', 'brand', 'sort', 'page', 'per-page'];
 	const outQuery: IGetProductsParams = {};
 
@@ -23,9 +24,9 @@ export const getProductsQuery4Category = (categoryId: number, query: {[key: stri
 		Object.assign(outQuery, {[key]: value});
 	}
 
-	Object.assign(outQuery, {
-		category: [categoryId]
-	});
+	// Object.assign(outQuery, {
+	// 	category: [categoryId]
+	// });
 
 	return outQuery;
 };
