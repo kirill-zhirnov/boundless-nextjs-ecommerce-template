@@ -21,6 +21,7 @@
 				display: block;
 			}
 
+			.product-item__availability,
 			.product-item__basket-btn {
 				transform: translateY(0px);
 			}
@@ -68,6 +69,7 @@
 		display: none;
 	}
 
+	&__availability,
 	&__basket-btn {
 		background-color: #fff;
 		bottom: 0;

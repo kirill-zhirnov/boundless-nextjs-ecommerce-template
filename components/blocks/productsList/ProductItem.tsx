@@ -1,4 +1,5 @@
 import {IProduct} from 'boundless-api-client/types/catalog/product';
+import clsx from 'clsx';
 import {getProductsListImg} from '../../../lib/services/imgs';
 import {getProductUrl} from '../../../lib/services/urls';
 import ProductPrice from './ProductPrice';
@@ -26,7 +27,7 @@ export default function ProductItem({product}: {product: IProduct}) {
 							: <div className='no-image' />}
 					</a>
 				</div>
-				<div className='product-item__basket-btn'>
+				<div className={clsx('product-item__basket-btn', !product.in_stock && 'd-none')}>
 					<button type='button' className='btn btn-outline-secondary btn-sm'>Add to basket</button>
 				</div>
 				<h4 className='product-item__title flex-grow-1'>
@@ -38,7 +39,7 @@ export default function ProductItem({product}: {product: IProduct}) {
 				<div className='product-item__offer'>
 					{product.price && <>
 						<ProductPrice price={product.price} />
-						<div className='product-item__availability'>
+						<div className={clsx('product-item__availability', product.in_stock && 'd-none')}>
 							<b className={product.in_stock ? 'product-item__stock-in' : 'product-item__stock-out'}>
 								{product.in_stock ? 'In stock' : 'Out of stock'}
 							</b>

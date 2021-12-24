@@ -2,14 +2,16 @@ import {IPagination} from 'boundless-api-client/types/common';
 import {createGetStr} from 'boundless-api-client/utils.js';
 import clsx from 'clsx';
 import Link from 'next/link';
+import {useRouter} from 'next/router';
 import React from 'react';
 
-export default function Pagination({pagination, navUrl, onChange}: IPaginationProps) {
+export default function Pagination({pagination, params, onChange}: IPaginationProps) {
+	const router = useRouter();
 	const {currentPage, pageCount} = pagination;
-	console.log('in pagination:', navUrl);
+	const baseUrl = router.asPath.split('?')[0];
+
 	const getFullNavUrl = (page: number) => {
-		const {baseUrl, params} = navUrl;
-		return `${baseUrl}?${createGetStr(Object.assign(params, {page}))}`;
+		return `${baseUrl}?${createGetStr(Object.assign({...params}, {page}))}`;
 	};
 
 	const prevPageNum = currentPage - 1 < 1 ? 1 : currentPage - 1;
@@ -18,7 +20,7 @@ export default function Pagination({pagination, navUrl, onChange}: IPaginationPr
 	//@ts-ignore
 	const onClick = (page, e) => {
 		e.preventDefault();
-		onChange({page});
+		onChange({...params, page});
 	};
 
 	return (
@@ -35,8 +37,8 @@ export default function Pagination({pagination, navUrl, onChange}: IPaginationPr
 					<li className={clsx('page-item', index + 1 === currentPage && 'active')} key={index}>
 						{/*<Link href={getFullNavUrl(index + 1)} shallow>*/}
 						<a className='page-link'
-							 onClick={onClick.bind(null, index + 1)}
-							 href={getFullNavUrl(index + 1)}
+							onClick={onClick.bind(null, index + 1)}
+							href={getFullNavUrl(index + 1)}
 						>{index + 1}</a>
 						{/*</Link>*/}
 					</li>
@@ -55,9 +57,6 @@ export default function Pagination({pagination, navUrl, onChange}: IPaginationPr
 
 interface IPaginationProps {
 	pagination: IPagination;
-	navUrl: {
-		baseUrl: string;
-		params: {[key: string]: any};
-	},
+	params: {[key: string]: any};
 	onChange: (params: {page: number}) => void;
 }

@@ -14,19 +14,15 @@ export const getMenu4Category = (category: ICategoryItem): ICategoryFlatItem[] =
 	return categoryMenu;
 };
 
-//FIXME: может переименуем в filterProductsQuery?
-export const getProductsQuery4Category = (query: {[key: string]: any}): IGetProductsParams => {
-	const allowedKeys = ['in_stock', 'price_min', 'price_max', 'brand', 'sort', 'page', 'per-page'];
+export const filterProductsQuery = (query: {[key: string]: any}, withPagination: boolean = true): IGetProductsParams => {
+	const pagitationKeys = withPagination ? ['page', 'per-page'] : [];
+	const allowedKeys = ['in_stock', 'price_min', 'price_max', 'brand', 'sort', ...pagitationKeys];
 	const outQuery: IGetProductsParams = {};
 
 	for (const [key, value] of Object.entries(query)) {
 		if (!allowedKeys.includes(key)) continue;
 		Object.assign(outQuery, {[key]: value});
 	}
-
-	// Object.assign(outQuery, {
-	// 	category: [categoryId]
-	// });
 
 	return outQuery;
 };
