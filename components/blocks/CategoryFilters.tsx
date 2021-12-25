@@ -1,45 +1,73 @@
-import {IFilter} from 'boundless-api-client';
+import {ICategoryItem, IFilter, IFilterField, IFilterFieldProp} from 'boundless-api-client';
 import {useEffect, useState} from 'react';
 import {TQuery} from '../../@types/common';
 import {apiClient} from '../../lib/services/api';
+import {getFilterFieldsQuery} from '../../lib/services/category';
 import FilterFields from './FilterFields';
 
-export default function CategoryFilters({filterId, changeFilters, params}: CategotyFiltersProps) {
+export default function CategoryFilters({category, onCollectionChange, productsQuery}: CategotyFiltersProps) {
 	const [filter, setFilter] = useState<IFilter | null>(null);
+	const [filterFields, setFilterFields] = useState<IFilterFieldProp[]>([]);
 
 	const [loading, setLoading] = useState(false);
 
-	const fetchFilterFields = async () => {
+	const changeFilters = (newParams: TQuery) => {
+		const query = {...newParams};
+		if (productsQuery['per-page']) Object.assign(query, {'per-page': productsQuery['per-page']});
 
+		onCollectionChange(query);
 	};
 
+	const getFilters = async () => {
+		setLoading(true);
+		const filter = await fetchFilter(category.props?.filter_id || null);
+		setFilter(filter || null);
+		if (filter?.fields) {
+			const filterFields = await fetchFilterFields(filter.fields, productsQuery);
+			if (filterFields?.length) setFilterFields(filterFields);
+		}
+		setLoading(false);
+	};
 
 	useEffect(() => {
-		const fetchFilters = async () => {
-			setLoading(true);
-			const filters = await apiClient.catalog.getFilters();
-			const filter = filterId
-				? filters.find(filter => filter.filter_id === filterId)
-				: filters.find(filter => filter.is_default === true);
 
-			if (filter) setFilter(filter);
-			setLoading(false);
-		};
-
-		fetchFilters();
+		if (category.props?.use_filter) {
+			getFilters();
+		}
 	}, []) //eslint-disable-line
 
 	if (loading) return <div>Loading...</div>;
 
 	return (
 		<>
-			{filter && <FilterFields params={params} fields={filter.fields} changeFilters={changeFilters} />}
+			{filter && <FilterFields params={productsQuery} fields={filter.fields} filterFields={filterFields} changeFilters={changeFilters} />}
 		</>
 	);
 }
 
 interface CategotyFiltersProps {
-	changeFilters: (params: {[key: string]: any}) => void;
-	filterId?: number | null;
-	params: TQuery;
+	onCollectionChange: (params: {[key: string]: any}) => void;
+	category: ICategoryItem;
+	productsQuery: TQuery;
 }
+
+const fetchFilter = async (filterId: number | null) => {
+	const filters = await apiClient.catalog.getFilters();
+	const filter = filterId
+		? filters.find(filter => filter.filter_id === filterId)
+		: filters.find(filter => filter.is_default === true);
+
+	return filter;
+};
+
+const fetchFilterFields = async (fields: IFilterField[], productsQuery: TQuery) => {
+	const filter_fields = getFilterFieldsQuery(fields);
+
+	const {filters: filterFields} = await apiClient.catalog.getFiltersProps({
+		filter_fields,
+		values: productsQuery || {}
+	});
+
+	console.log('--fetching fields', fields, filterFields);
+	return filterFields;
+};

@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useMemo, useState} from 'react';
 import MainLayout from '../../layouts/Main';
 import {apiClient} from '../../lib/services/api';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
@@ -19,26 +19,18 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 	const router = useRouter();
 	const [productsQuery, setProductsQuery] = useState(data.productsQuery);
 	const [collection, setCollection] = useState(data.collection);
-	const {category} = data || {};
-	const menu = category ? getMenu4Category(category) : [];
+	const {category} = data;
+	const menu = useMemo(() => category ? getMenu4Category(category) : [], [category]);
 
 	const onCollectionChange = async (newParams: TQuery) => {
-		const {collection, filteredQuery} = await fetchCollection(category!.category_id, newParams);
+		const {collection, filteredQuery} = await fetchCollection(category.category_id, newParams);
 		setCollection(collection);
 		setProductsQuery(filteredQuery);
+
 		changeUrl(router, filteredQuery);
 	};
 
-	const changeFilters = (newParams: TQuery) => {
-		const query = {...newParams};
-		if (productsQuery['per-page']) Object.assign(query, {'per-page': productsQuery['per-page']});
-
-		onCollectionChange(query);
-
-		// changeUrl(router, query);
-	};
-
-	if (errorCode) return <ErrorComponent statusCode={errorCode} />;
+	if (errorCode) return <ErrorComponent statusCode={errorCode} />; //FIXME currently errorCode is not provided
 
 	const title = category?.text?.custom_header || category?.text?.title;
 
@@ -49,10 +41,10 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 					<div className='row'>
 						<div className='col-md-3 col-sm-4'>
 							{category && menu && <CategoryMenu categoryTree={menu} active_id={category?.category_id} />}
-							{category?.props?.use_filter && <CategoryFilters
-								filterId={category.props.filter_id}
-								params={productsQuery}
-								changeFilters={changeFilters}
+							{category && <CategoryFilters
+								category={category}
+								productsQuery={productsQuery}
+								onCollectionChange={onCollectionChange}
 							/>}
 						</div>
 						<main className='col-md-9 col-sm-8 content-box'>

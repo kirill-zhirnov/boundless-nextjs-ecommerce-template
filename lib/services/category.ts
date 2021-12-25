@@ -1,3 +1,4 @@
+import {IFilterField, IFilterFieldRequest, TFilterFieldType, TFilterType} from 'boundless-api-client';
 import {IGetProductsParams} from 'boundless-api-client/endpoints/catalog';
 import {ICategoryFlatItem, ICategoryItem} from 'boundless-api-client/types/catalog/category';
 
@@ -25,4 +26,28 @@ export const filterProductsQuery = (query: {[key: string]: any}, withPagination:
 	}
 
 	return outQuery;
+};
+
+export const getFilterFieldsQuery = (fields: IFilterField[]) => {
+	const requestFields: IFilterFieldRequest[] = [];
+
+	for (const field of fields) {
+		if (!(field.type in filterTypes)) continue;
+		const out: IFilterFieldRequest = {
+			type: filterTypes[field.type as keyof typeof filterTypes]
+		};
+
+		if (field.type === TFilterFieldType.characteristic && field.characteristic_id) {
+			out.characteristic_id = field.characteristic_id;
+		}
+		requestFields.push(out);
+	}
+
+	return requestFields;
+};
+
+const filterTypes = {
+	[TFilterFieldType.price]: TFilterType.price_range,
+	[TFilterFieldType.brand]: TFilterType.manufacturer,
+	[TFilterFieldType.characteristic]: TFilterType.characteristic
 };
