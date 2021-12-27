@@ -12,8 +12,9 @@ import {NextRouter, useRouter} from 'next/router';
 import CategoryBreadCrumbs from '../../components/BreadCrumbs/CategoryBreadCrumbs';
 import CategoryMenu from '../../components/blocks/CategoryMenu/CategoryMenu';
 import {getMenu4Category, filterProductsQuery} from '../../lib/services/category';
-import CategoryFilters from '../../components/blocks/CategoryFilters';
+// import CategoryFilters from '../../components/blocks/CategoryFilters';
 import {TQuery} from '../../@types/common';
+import FilterForm from "../../components/FilterForm";
 
 export default function CategoryPage({errorCode, data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const router = useRouter();
@@ -33,7 +34,7 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 	if (errorCode) return <ErrorComponent statusCode={errorCode} />; //FIXME currently errorCode is not provided
 
 	const title = category?.text?.custom_header || category?.text?.title;
-
+	console.log(category);
 	return (
 		<>
 			<MainLayout title={title}>
@@ -41,11 +42,14 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 					<div className='row'>
 						<div className='col-md-3 col-sm-4'>
 							{category && menu && <CategoryMenu categoryTree={menu} active_id={category?.category_id} />}
-							{category && <CategoryFilters
-								category={category}
-								productsQuery={productsQuery}
-								onCollectionChange={onCollectionChange}
-							/>}
+							{category.filter && <FilterForm filterFields={category.filter.fields}
+																							queryParams={productsQuery}
+																							onSearch={(values) => console.log('onSubmit', values)} />}
+							{/*{category && <CategoryFilters*/}
+							{/*	category={category}*/}
+							{/*	productsQuery={productsQuery}*/}
+							{/*	onCollectionChange={onCollectionChange}*/}
+							{/*/>}*/}
 						</div>
 						<main className='col-md-9 col-sm-8 content-box'>
 							{title && <h2 className='text-center mb-3'>{title}</h2>}
@@ -75,7 +79,12 @@ export const getServerSideProps: GetServerSideProps<ICategoryPageProps> = async 
 };
 
 const fetchData = async (slug: string, params: TQuery) => {
-	const category = await apiClient.catalog.getCategoryItem(slug as string, {with_children: 1, with_parents: 1, with_siblings: 1});
+	const category = await apiClient.catalog.getCategoryItem(slug, {
+		with_children: 1,
+		with_parents: 1,
+		with_siblings: 1,
+		with_filter: 1
+	});
 
 	params['per-page'] = 1; // FIXME just for test
 
