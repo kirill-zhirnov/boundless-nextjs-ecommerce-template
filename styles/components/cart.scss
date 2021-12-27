@@ -1,0 +1,88 @@
+.cart {
+	align-items: center;
+	display: flex;
+	gap: 16px;
+
+	&__link {
+		align-items: center;
+		display: flex;
+		gap: 24px;
+		text-decoration: none;
+
+		&:hover {
+			.cart__notify {
+				.cart.is-active & {
+					background: darken($c-bg-purple, 10%);
+				}
+			}
+		}
+	}
+
+
+	&__icon {
+		background: #000;
+		background: url('../../public/icons/shopping_cart.svg') center center / 100% 100% no-repeat;
+		height: 28px;
+		position: relative;
+		width: 28px;
+	}
+
+	&__notify {
+		align-items: center;
+		background: $c-bg-black-12;
+		border-radius: 50%;
+		color: $c-t-base;
+		display: flex;
+		font-size: 12px;
+		font-weight: 500;
+		height: 23px;
+		justify-content: center;
+		line-height: 1;
+		position: absolute;
+		right: -11px;
+		text-align: center;
+		top: -8px;
+		transition: color .35s ease-in-out, background-color .35s ease-in-out;
+		width: 23px;
+
+		.cart.is-active & {
+			background: $c-bg-purple;
+			color: $c-t-white;
+		}
+	}
+
+	&__detailed {
+
+		display: none;
+		flex-direction: column;
+		gap: 1px;
+
+		@include media-breakpoint-up(md) {
+			display: flex;
+		}
+
+		.text {
+			color: $c-t-black-48;
+			font-size: 12px;
+			font-weight: 500;
+			line-height: 1.17;
+		}
+
+		.total-price {
+			color: $c-t-base;
+			display: flex;
+			font-size: 14px;
+			font-weight: 700;
+			gap: 3px;
+			line-height: 16px;
+		}
+	}
+
+	.btn {
+		display: none;
+
+		@include media-breakpoint-up(md) {
+			display: flex;
+		}
+	}
+}

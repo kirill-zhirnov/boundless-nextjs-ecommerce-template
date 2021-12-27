@@ -1,19 +1,16 @@
-import Head from 'next/head';
+import {Provider} from 'react-redux';
+import {store} from '../redux/store';
 import 'nprogress/nprogress.css';
 import '../styles/styles.scss';
 // import 'swiper/swiper.scss';
 import {AppProps} from 'next/app';
 
-
 function MyApp({Component, pageProps}: AppProps) {
 	return (
 		<>
-			<Head>
-				<title>Boundless-Commerce Shop Example</title>
-			</Head>
-
-			<Component {...pageProps} />
-
+			<Provider store={store}>
+				<Component {...pageProps} />
+			</Provider>
 		</>
 	);
 }
