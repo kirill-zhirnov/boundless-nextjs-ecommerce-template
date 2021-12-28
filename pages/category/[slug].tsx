@@ -12,9 +12,10 @@ import {NextRouter, useRouter} from 'next/router';
 import CategoryBreadCrumbs from '../../components/BreadCrumbs/CategoryBreadCrumbs';
 import CategoryMenu from '../../components/blocks/CategoryMenu/CategoryMenu';
 import {getMenu4Category, filterProductsQuery} from '../../lib/services/category';
-// import CategoryFilters from '../../components/blocks/CategoryFilters';
 import {TQuery} from '../../@types/common';
-import FilterForm from "../../components/FilterForm";
+import FilterForm from '../../components/FilterForm';
+import {createGetStr} from 'boundless-api-client/utils';
+import qs from 'qs';
 
 export default function CategoryPage({errorCode, data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const router = useRouter();
@@ -34,7 +35,7 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 	if (errorCode) return <ErrorComponent statusCode={errorCode} />; //FIXME currently errorCode is not provided
 
 	const title = category?.text?.custom_header || category?.text?.title;
-	console.log(category);
+
 	return (
 		<>
 			<MainLayout title={title}>
@@ -43,16 +44,11 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 						<div className='col-md-3 col-sm-4'>
 							{category && menu && <CategoryMenu categoryTree={menu} active_id={category?.category_id} />}
 							{category.filter && <FilterForm filterFields={category.filter.fields}
-																							queryParams={productsQuery}
-																							onSearch={(values) => console.log('onSubmit', values)} />}
-							{/*{category && <CategoryFilters*/}
-							{/*	category={category}*/}
-							{/*	productsQuery={productsQuery}*/}
-							{/*	onCollectionChange={onCollectionChange}*/}
-							{/*/>}*/}
+																							queryParams={{category: [category.category_id], ...productsQuery}}
+																							onSearch={onCollectionChange} />}
 						</div>
 						<main className='col-md-9 col-sm-8 content-box'>
-							{title && <h2 className='text-center mb-3'>{title}</h2>}
+							<h2 className='text-center mb-3'>{title}</h2>
 							{category?.parents && <CategoryBreadCrumbs parents={category?.parents} />}
 							{category?.text?.description_top && <div dangerouslySetInnerHTML={{__html: category?.text?.description_top}} />}
 							{collection.products && <ProductsList products={collection.products} />}
@@ -66,7 +62,10 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 	);
 }
 
-export const getServerSideProps: GetServerSideProps<ICategoryPageProps> = async ({params, query}) => {
+export const getServerSideProps: GetServerSideProps<ICategoryPageProps> = async ({req, params}) => {
+	const url = new URL(`http://host${req.url!}`);
+	const query = qs.parse(url.search.replace(/^\?/, ''));
+
 	const {slug} = params || {};
 
 	const data = await fetchData(slug as string, query);
@@ -86,7 +85,7 @@ const fetchData = async (slug: string, params: TQuery) => {
 		with_filter: 1
 	});
 
-	params['per-page'] = 1; // FIXME just for test
+	// params['per-page'] = 1; // FIXME just for test
 
 	const {collection, filteredQuery: productsQuery} = await fetchCollection(category.category_id, params);
 
@@ -110,10 +109,8 @@ const fetchCollection = async (categoryId: number, params: TQuery) => {
 };
 
 const changeUrl = (router: NextRouter, query: TQuery) => {
-	router.push({
-		pathname: router.pathname,
-		query: Object.assign({...query}, {slug: router.query.slug})
-	}, undefined, {shallow: true}); //shallow to skip SSR of the page
+	const baseUrl = router.asPath.split('?')[0];
+	router.push(`${baseUrl}?${createGetStr(query)}`, undefined, {shallow: true}); //shallow to skip SSR of the page
 };
 
 interface ICategoryPageProps {

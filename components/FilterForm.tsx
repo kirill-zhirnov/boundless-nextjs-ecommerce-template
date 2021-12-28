@@ -1,10 +1,14 @@
-import {IFilterField, IFilterFieldRange, TCharacteristicType, TFilterFieldType} from "boundless-api-client";
-import {TQuery} from "../@types/common";
-import {SyntheticEvent, useCallback, useEffect, useState} from "react";
-import {apiClient} from "../lib/services/api";
-import PriceRangeField from "./filterForm/PriceRange";
-import _debounce from "lodash/debounce";
-import MultipleSelectCharacteristic from "./filterForm/MultipleSelectCharacteristic";
+import {IFilterField, IFilterFieldRange, TCharacteristicType, TFilterFieldType} from 'boundless-api-client';
+import {TQuery} from '../@types/common';
+import {SyntheticEvent, useCallback, useEffect, useState} from 'react';
+import {apiClient} from '../lib/services/api';
+import PriceRangeField from './filterForm/PriceRange';
+import _debounce from 'lodash/debounce';
+import _omit from 'lodash/omit';
+import _isObjectLike from 'lodash/isObjectLike';
+import _pick from 'lodash/pick';
+import MultipleSelectCharacteristic from './filterForm/MultipleSelectCharacteristic';
+import TextCharacteristic from './filterForm/TextCharacteristic';
 
 /**
  * @param filterFields - might be passed manually, e.g. pass:
@@ -18,25 +22,29 @@ export default function FilterForm({filterFields, queryParams, onSearch}: IFilte
 	const [hasChanged, setHasChanged] = useState<boolean>(false);
 	const [values, setValues] = useState<TQuery>({});
 	const [ranges, setRanges] = useState<IFilterFieldRange[]>([]);
-	const [isLoading, setIsLoading] = useState<boolean>(false);
-	const [isReCalculating, setIsReCalculating] = useState<boolean>(false);
+	const [isFetching, setIsFetching] = useState<boolean>(false);
 	const [preSearchResult, setPreSearchResult] = useState<null|number>(null);
 
 	useEffect(() => {
-		setIsLoading(true);
-		fetchRanges(filterFields, queryParams).then(ranges => {
-			setValues({...makeInitialValues(ranges), ...queryParams});
+		const sanitizedQuery = sanitizeIncomingQuery(queryParams);
+
+		setIsFetching(true);
+		fetchRanges(filterFields, sanitizedQuery).then(({ranges}) => {
+			setValues({...sanitizedQuery, ...makeInitialValues(ranges, sanitizedQuery)});
 			setRanges(ranges);
-			setIsLoading(false);
-		});
-	}, []);
+			setIsFetching(false);
+		}).catch(console.error);
+	}, []); // eslint-disable-line
+
+	// eslint-disable-next-line
 	const reCalcRanges = useCallback(_debounce((values) => {
-		setIsReCalculating(true);
-		fetchRanges(filterFields, values).then(ranges => {
+		setIsFetching(true);
+		fetchRanges(filterFields, values).then(({ranges, totalProducts}) => {
 			setRanges(ranges);
-			setIsReCalculating(false);
-		});
-	}, 1000), []);
+			setPreSearchResult(totalProducts);
+			setIsFetching(false);
+		}).catch(console.error);
+	}, 500), []);
 
 	const onChange = (key: string, value: any, characteristicId?: number) => {
 		let newValues: TQuery = {};
@@ -54,14 +62,34 @@ export default function FilterForm({filterFields, queryParams, onSearch}: IFilte
 
 	const onSubmit = (e: SyntheticEvent) => {
 		e.preventDefault();
-		onSearch(values);
+
+		const filteredValues = filterEmptyValues(values);
+		onSearch(_omit(filteredValues, ['page']));
+
+		setHasChanged(false);
 	};
 
-	if (!ranges.length)
-		return null;
+	const onClear = (e: SyntheticEvent) => {
+		e.preventDefault();
 
-	if (isLoading)
-		return <div>Loading...</div>;
+		const clearedValues = _omit(values, ['page', 'in_stock', 'props', 'price_min', 'price_max']);
+
+		onSearch(clearedValues);
+		setValues({...clearedValues, ...makeInitialValues(ranges, clearedValues)});
+		setIsFetching(true);
+		fetchRanges(filterFields, clearedValues).then(({ranges}) => {
+			setRanges(ranges);
+			setHasChanged(false);
+			setIsFetching(false);
+		}).catch(console.error);
+	};
+
+	if (!ranges.length) {
+		if (isFetching)
+			return <div>Loading...</div>;
+
+		return null;
+	}
 
 	return (
 		<form className={'filters'} onSubmit={onSubmit}>
@@ -80,17 +108,27 @@ export default function FilterForm({filterFields, queryParams, onSearch}: IFilte
 								onChange={onChange}
 								values={values}
 								key={i} />;
+						} else {
+							return <TextCharacteristic
+								field={filterField}
+								onChange={onChange}
+								values={values}
+								key={i} />;
 						}
 						break;
 					}
 				}
 			})}
-			<div className="btn-group" role="group">
-				<button type="submit"
-								className="btn btn-primary"
-								disabled={!hasChanged}
-				>{getSubmitLabel(isReCalculating, preSearchResult)}</button>
-				<button type="button" className="btn btn-secondary">Clear</button>
+			<div className='btn-group' role='group'>
+				<button type='button'
+								className='btn btn-secondary'
+								onClick={onClear}
+								disabled={isFetching}
+				>Clear</button>
+				<button type='submit'
+								className='btn btn-primary'
+								disabled={!hasChanged || isFetching}
+				>{getSubmitLabel(hasChanged, isFetching, preSearchResult)}</button>
 			</div>
 		</form>
 	);
@@ -100,42 +138,96 @@ const fetchRanges = async (filterFields: TShortFilterField[], values: TQuery) =>
 	const filter_fields = filterFields.map(
 		({type, characteristic_id}) => ({type, characteristic_id})
 	);
-	const {ranges} = await apiClient.catalog.getFilterFieldsRanges({filter_fields, values})
+	const data = await apiClient.catalog.getFilterFieldsRanges({filter_fields, values});
 
-	return ranges;
+	return data;
 };
 
-const getSubmitLabel = (isReCalculating: boolean, preSearchResult: null|number): string => {
-	return 'soon :)';
+const getSubmitLabel = (hasChanged: boolean, isFetching: boolean, preSearchResult: null|number): string => {
+	if (hasChanged) {
+		if (isFetching)
+			return 'Calculating...';
+
+		if (preSearchResult !== null)
+			return `Show (${preSearchResult})`;
+	}
+
+	return 'Search';
 };
 
-const makeInitialValues = (filterFields: IFilterFieldRange[]) => {
+const makeInitialValues = (filterFields: IFilterFieldRange[], query: TQuery) => {
 	const out: TQuery = {};
 
 	for (const filterField of filterFields) {
 		switch (filterField.type) {
 			case TFilterFieldType.price:
-				Object.assign(out, {price_min: '', price_max: ''});
+				Object.assign(out, {price_min: '', price_max: ''}, _pick(query, ['price_min', 'price_max']));
 				break;
 
-			case TFilterFieldType.characteristic:
-				if (isMultiCaseType(filterField.characteristic!.type)) {
-					if (!('props' in out)) {
-						out.props = {};
-					}
+			case TFilterFieldType.characteristic: {
+				const props = (_isObjectLike(query.props) && !Array.isArray(query.props)) ? query.props : {};
+				if (!('props' in out)) {
+					out.props = {};
+				}
 
-					out.props[filterField.characteristic_id!] = [];
+				if (isMultiCaseType(filterField.characteristic!.type)) {
+					out.props[filterField.characteristic_id!] = (filterField.characteristic_id! in props && Array.isArray(props[filterField.characteristic_id!]))
+						? props[filterField.characteristic_id!]
+						: [];
+				} else {
+					out.props[filterField.characteristic_id!] = (filterField.characteristic_id! in props)
+						? String(props[filterField.characteristic_id!])
+						: '';
 				}
 				break;
+			}
 		}
 	}
 
 	return out;
 };
 
+const filterEmptyValues = (values: TQuery): TQuery => {
+	const outValues: TQuery = {};
+
+	for (const [key, val] of Object.entries(values)) {
+		if (key == 'props') {
+			const props = filterEmptyValues(val);
+			if (Object.keys(props).length) {
+				outValues[key] = props;
+			}
+		} else {
+			if (Array.isArray(val)) {
+				if (val.length) {
+					outValues[key] = val;
+				}
+			} else if (val !== '') {
+				outValues[key] = val;
+			}
+		}
+	}
+
+	return outValues;
+};
+
+const sanitizeIncomingQuery = (queryParams: TQuery): TQuery => {
+	const sanitizedQuery: TQuery = {};
+	for (const [key, val] of Object.entries(queryParams)) {
+		if (key === 'props') {
+			if (_isObjectLike(val) && !Array.isArray(val)) {
+				sanitizedQuery[key] = val;
+			}
+		} else {
+			sanitizedQuery[key] = val;
+		}
+	}
+
+	return sanitizedQuery;
+};
+
 const isMultiCaseType = (type: TCharacteristicType) => [TCharacteristicType.radio, TCharacteristicType.select, TCharacteristicType.checkbox].includes(type);
 
-type TShortFilterField = Pick<IFilterField, "type" | "characteristic_id">;
+type TShortFilterField = Pick<IFilterField, 'type' | 'characteristic_id'>;
 
 interface IFilterFormProps {
 	filterFields: TShortFilterField[],

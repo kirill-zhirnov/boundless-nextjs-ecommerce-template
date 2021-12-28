@@ -1,6 +1,7 @@
 // import {IFilterField, IFilterFieldRequest, TFilterFieldType} from 'boundless-api-client';
 import {IGetProductsParams} from 'boundless-api-client/endpoints/catalog';
 import {ICategoryFlatItem, ICategoryItem} from 'boundless-api-client/types/catalog/category';
+import {TQuery} from '../../@types/common';
 
 export const getMenu4Category = (category: ICategoryItem): ICategoryFlatItem[] => {
 	const categoryMenu: ICategoryFlatItem[] = [];
@@ -15,9 +16,8 @@ export const getMenu4Category = (category: ICategoryItem): ICategoryFlatItem[] =
 	return categoryMenu;
 };
 
-export const filterProductsQuery = (query: {[key: string]: any}, withPagination: boolean = true): IGetProductsParams => {
-	const pagitationKeys = withPagination ? ['page', 'per-page'] : [];
-	const allowedKeys = ['in_stock', 'price_min', 'price_max', 'brand', 'sort', ...pagitationKeys];
+export const filterProductsQuery = (query: TQuery): IGetProductsParams => {
+	const allowedKeys = ['in_stock', 'price_min', 'price_max', 'brand', 'sort', 'props', 'page', 'per-page'];
 	const outQuery: IGetProductsParams = {};
 
 	for (const [key, value] of Object.entries(query)) {
