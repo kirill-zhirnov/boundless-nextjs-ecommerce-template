@@ -1,4 +1,4 @@
-import {useMemo, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import MainLayout from '../../layouts/Main';
 import {apiClient} from '../../lib/services/api';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
@@ -29,6 +29,11 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 
 		changeUrl(router, filteredQuery);
 	};
+
+	useEffect(() => {
+		setCollection(data.collection);
+		setProductsQuery(data.productsQuery);
+	}, [data]);
 
 	if (errorCode) return <ErrorComponent statusCode={errorCode} />; //FIXME currently errorCode is not provided
 

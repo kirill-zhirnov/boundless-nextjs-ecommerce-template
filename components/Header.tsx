@@ -1,5 +1,7 @@
 import Link from 'next/link';
+import CallToOrder from './Header/CallToOrder';
 import HeaderCart from './Header/Cart';
+import ChooseVariantModal from './Header/ChooseVariantModal';
 
 export default function Header() {
 	return (
@@ -15,7 +17,11 @@ export default function Header() {
 					</div>
 					<HeaderCart />
 				</div>
+				<div className='position-relative'>
+					<CallToOrder />
+				</div>
 			</div>
+			<ChooseVariantModal />
 		</header>
 	);
 }
