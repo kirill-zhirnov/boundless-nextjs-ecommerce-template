@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LoadingLine from '../components/LoadingLine';
+import AlertWidget from '../components/Alert';
 
 export default function MainLayout({children, title}: {children: ReactNode | ReactNode[], title?: string}) {
 	return (
@@ -23,6 +24,7 @@ export default function MainLayout({children, title}: {children: ReactNode | Rea
 				<title>{title || 'Boundless-Commerce Shop Example'}</title>
 			</Head>
 			<LoadingLine />
+			<AlertWidget />
 			<div className='page'>
 				<Header />
 				<main className='page__main'>

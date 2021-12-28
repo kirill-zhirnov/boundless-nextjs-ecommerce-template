@@ -1,11 +1,13 @@
 import {configureStore, ThunkAction, Action} from '@reduxjs/toolkit';
 import xhrReducers from './reducers/xhr';
 import cartReducers from './reducers/cart';
+import alertReducers from './reducers/alert';
 
 export const store = configureStore({
 	reducer: {
 		xhr: xhrReducers,
-		cart: cartReducers
+		cart: cartReducers,
+		alert: alertReducers,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({

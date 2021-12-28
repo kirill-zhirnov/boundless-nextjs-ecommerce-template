@@ -3,6 +3,7 @@ import {AppThunk} from '../store';
 import Cookie from 'js-cookie';
 import {apiClient} from '../../lib/services/api';
 import {addPromise} from '../reducers/xhr';
+import {showErrorAlert} from '../reducers/alert';
 
 export const getCartInfo = (): AppThunk => async (dispatch) => {
 	const cartId = Cookie.get('boundless_cart_id');
@@ -18,7 +19,7 @@ export const retrieveCart = (): AppThunk => async (dispatch) => {
 	dispatch(setCartLoading(true));
 	try {
 		const cart = await apiClient.orders.retrieveCart();
-		if (cart && cart.id) {
+		if (cart?.id && cart?.total) {
 			dispatch(setCartId(cart.id));
 			dispatch(setCartTotal(cart.total));
 			Cookie.set('boundless_cart_id', cart.id, {expires: 365});
@@ -51,20 +52,23 @@ export const getCartTotal = (cartId: string): AppThunk => async (dispatch) => {
 export const addItem2Cart = (itemId: number, qty: number = 1, callToOrder: boolean = true): AppThunk => async (dispatch, getState) => {
 	try {
 		const cartId = getState().cart.cartId;
-		if (cartId) {
-			dispatch(setCartSubmitting(true));
-			const promise = apiClient.orders.addItemToCart(cartId, itemId, qty).then(
-				({variants, product, actionRequired, cartTotal}) => {
-					dispatch(setCartSubmitting(false));
-					if (actionRequired === 'chooseVariant' && variants && product) {
-						dispatch(showVariantModal({product, variants}));
-					} else if (cartTotal) {
-						dispatch(setCartTotal(cartTotal));
-						if (callToOrder) dispatch(showCall2Order({product, qty}));
-					}
-				});
-			dispatch(addPromise(promise));
+		if (!cartId) {
+			dispatch(showErrorAlert('Error loading cart'));
+			return;
 		}
+
+		dispatch(setCartSubmitting(true));
+		const promise = apiClient.orders.addItemToCart(cartId, itemId, qty).then(
+			({variants, product, actionRequired, cartTotal}) => {
+				dispatch(setCartSubmitting(false));
+				if (actionRequired === 'chooseVariant' && variants && product) {
+					dispatch(showVariantModal({product, variants}));
+				} else if (cartTotal) {
+					dispatch(setCartTotal(cartTotal));
+					if (callToOrder) dispatch(showCall2Order({product, qty}));
+				}
+			});
+		dispatch(addPromise(promise));
 	} catch (err) {
 		console.error(err);
 	}

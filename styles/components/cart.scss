@@ -18,10 +18,9 @@
 		}
 	}
 
-
 	&__icon {
 		background: #000;
-		background: url('../../public/icons/shopping_cart.svg') center center / 100% 100% no-repeat;
+		background: url("../../public/icons/shopping_cart.svg") center center / 100% 100% no-repeat;
 		height: 28px;
 		position: relative;
 		width: 28px;
@@ -42,7 +41,7 @@
 		right: -11px;
 		text-align: center;
 		top: -8px;
-		transition: color .35s ease-in-out, background-color .35s ease-in-out;
+		transition: color 0.35s ease-in-out, background-color 0.35s ease-in-out;
 		width: 23px;
 
 		.cart.is-active & {
@@ -52,7 +51,6 @@
 	}
 
 	&__detailed {
-
 		display: none;
 		flex-direction: column;
 		gap: 1px;
@@ -84,5 +82,12 @@
 		@include media-breakpoint-up(md) {
 			display: flex;
 		}
+	}
+}
+
+.cart-items {
+	padding: 0 10px;
+	.row:nth-child(even) {
+		background: #f9f9f9;
 	}
 }
