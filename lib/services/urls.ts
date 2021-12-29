@@ -8,7 +8,8 @@ export const getCategoryUrl = (category: ICategoryPartial) => {
 	return category.custom_link || `${CATEGORY_PREFIX}/${category.url_key || category.category_id}`;
 };
 
-export const getProductUrl = (product: IProduct) => {
+export const getProductUrl = (product: IProductUrlProps) => {
 	return `${PRODUCTS_PREFIX}/${product.url_key || product.product_id}`;
 };
 
+type IProductUrlProps = Pick<IProduct, 'url_key' | 'product_id'>

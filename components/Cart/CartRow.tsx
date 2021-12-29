@@ -1,27 +1,33 @@
 import {ICartItem} from 'boundless-api-client';
+import Link from 'next/link';
 import {formatMoney} from '../../lib/formatter';
 import {getCartImg} from '../../lib/services/imgs';
+import {getProductUrl} from '../../lib/services/urls';
 
 export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 	return (
-		<div className='row mb-2 py-3' key={item.item_id}>
-			<div className='col-md-4 d-flex mb-2 align-items-center'>
-				{item.vwItem?.image?.path
-					? <div className='img me-2'>
-						<img src={getCartImg(item.vwItem?.image?.path)}
-							alt={item.vwItem?.product?.title}
-						/>
-					</div>
-					: <div className='no-image' />}
-				<div>{item.vwItem?.product?.title || ''}</div>
+		<div className='row mb-2 py-3'>
+			<div className='col-md-4 d-flex mb-2 align-items-start'>
+				<Link href={getProductUrl(item.vwItem.product)}>
+					<a className='d-flex'>
+						{item.vwItem?.image?.path
+							? <div className='img me-2'>
+								<img src={getCartImg(item.vwItem?.image?.path)}
+									alt={item.vwItem?.product?.title}
+								/>
+							</div>
+							: <div className='no-image' />}
+						<div className='py-1'>{item.vwItem?.product?.title || ''}</div>
+					</a>
+				</Link>
 			</div>
-			<div className='col-md-2 text-start text-md-center mb-2'>
+			<div className='col-md-2 text-start text-md-center mb-2 py-1'>
 				<span className='d-inline d-md-none'><strong>Price: </strong></span>
 				{formatMoney(item.itemPrice.final_price)}
 			</div>
 			<div className='col-md-2 text-start text-md-center mb-2'>
 				<span className='d-inline d-md-none'><strong>Qty: </strong></span>
-				<div className='input-group input-group-sm mb-3' style={{maxWidth: 150}}>
+				<div className='input-group input-group-sm d-inline-flex' style={{maxWidth: 150}}>
 					<button
 						className='btn btn-outline-secondary text-center'
 						type='button'
@@ -45,7 +51,7 @@ export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 					>+</button>
 				</div>
 			</div>
-			<div className='col-md-2 text-start text-md-center mb-2'>
+			<div className='col-md-2 text-start text-md-center mb-2 py-1'>
 				<span className='d-inline d-md-none'><strong>Total: </strong></span>
 				{formatMoney(parseInt(item.itemPrice.final_price || '') * item.qty)}</div>
 			<div className='col-md-2 text-start text-md-center mb-2'>

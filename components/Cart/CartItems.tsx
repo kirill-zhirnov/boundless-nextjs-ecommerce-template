@@ -15,6 +15,7 @@ export default function CartItems({items}: ICartItemsProps) {
 
 	const rmItem = (itemId: number) => {
 		if (!cartId) return;
+		if (!confirm('Are you sure?')) return;
 
 		setFilteredItems(prevItems => prevItems.filter(el => el.item_id !== itemId));
 

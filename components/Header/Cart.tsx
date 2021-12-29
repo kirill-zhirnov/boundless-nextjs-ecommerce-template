@@ -14,18 +14,20 @@ export default function HeaderCart() {
 	}, []); //eslint-disable-line
 
 	return (
-		<Link href={'/cart'}>
-			<div className='cart mt-1 cursor-pointer'>
-				<div className='cart__icon'>
-					<div className='cart__notify'>{total?.qty ?? 0}</div>
-				</div>
-				{!!total?.qty && <div className='cart__detailed'>
-					<div className='text'>Create an order</div>
-					<div className='total-price'>
-						<div className='total-price_sum'>{formatMoney(total?.total || 0)}</div>
+		<div className='cart mt-1 cursor-pointer'>
+			<Link href={'/cart'}>
+				<a className='cart__link'>
+					<div className='cart__icon'>
+						<div className='cart__notify'>{total?.qty ?? 0}</div>
 					</div>
-				</div>}
-			</div>
-		</Link>
+					{!!total?.qty && <div className='cart__detailed'>
+						<div className='text'>Create an order</div>
+						<div className='total-price'>
+							<div className='total-price_sum'>{formatMoney(total?.total || 0)}</div>
+						</div>
+					</div>}
+				</a>
+			</Link>
+		</div>
 	);
 }
