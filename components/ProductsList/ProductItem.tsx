@@ -1,7 +1,7 @@
 import {IProduct} from 'boundless-api-client/types/catalog/product';
 import clsx from 'clsx';
-import {getProductsListImg} from '../../../lib/services/imgs';
-import {getProductUrl} from '../../../lib/services/urls';
+import {getProductsListImg} from '../../lib/services/imgs';
+import {getProductUrl} from '../../lib/services/urls';
 import ProductPrice from './ProductPrice';
 
 export default function ProductItem({product}: {product: IProduct}) {

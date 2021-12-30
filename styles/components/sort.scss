@@ -1,0 +1,15 @@
+.sort-buttons {
+	ul li {
+		a {
+			text-decoration: none;
+			color: #777;
+			&:hover {
+				text-decoration: underline;
+			}
+		}
+
+		&.active a {
+			color: #000;
+		}
+	}
+}

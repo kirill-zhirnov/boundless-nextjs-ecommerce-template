@@ -1,6 +1,6 @@
 import {IProductPrice} from 'boundless-api-client/types/catalog/product';
 import clsx from 'clsx';
-import {formatMoney} from '../../../lib/formatter';
+import {formatMoney} from '../../lib/formatter';
 
 export default function ProductPrice({price}: {price: IProductPrice}) {
 	const {old, old_max, old_min, max, min, value} = price;
