@@ -5,11 +5,15 @@
 // @import './fonts';
 
 @import './base';
-// @import './page';
+@import './page';
 
 //Components
 @import './components/product';
 @import './components/categoryMenu';
+@import './components/nprogress';
+@import './components/price';
+@import './components/breadcrumb';
+@import './components/sort';
 
 // @import './typography';
 // @import './text';

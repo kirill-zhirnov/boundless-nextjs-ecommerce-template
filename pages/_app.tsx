@@ -1,5 +1,5 @@
 import Head from 'next/head';
-// import 'nprogress/nprogress.css';
+import 'nprogress/nprogress.css';
 import '../styles/styles.scss';
 // import 'swiper/swiper.scss';
 import {AppProps} from 'next/app';

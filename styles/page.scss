@@ -1,0 +1,15 @@
+body .page {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+body .content-box {
+	background: #fff;
+	padding: 10px;
+	border-radius: 10px;
+}
+
+body h2 {
+	color: #BA86DA;
+}
