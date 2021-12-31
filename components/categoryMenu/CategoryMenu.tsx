@@ -29,7 +29,7 @@ export default function CategoryMenu({categoryTree, activeId, parents}: Category
 					key={category.category_id}
 				>
 					<div itemProp='itemListElement' itemScope itemType='http://schema.org/ListItem'>
-						{category.image?.path && <img src={getCategoryImg(category.image?.path)} alt={category.title || ''} className='me-2' />}
+						{category.image?.path && <img src={getCategoryImg(category.image?.path)} alt={category.title} className='me-2' />}
 						<Link href={getCategoryUrl(category)} >
 							<a itemProp='url'>
 								<span itemProp='name'>{category.title}</span>

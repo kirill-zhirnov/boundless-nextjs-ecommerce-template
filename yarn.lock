@@ -571,7 +571,7 @@ bootstrap@^5.1.3:
 
 "boundless-api-client@ssh://git@github.com:kirill-zhirnov/boundless-api-client#category_item":
   version "0.0.1"
-  resolved "ssh://git@github.com:kirill-zhirnov/boundless-api-client#bdd16a281560e8bb3de4989e8044874ec21817c5"
+  resolved "ssh://git@github.com:kirill-zhirnov/boundless-api-client#6d143fb5890309ab56c5127a653882b4b90f5a79"
   dependencies:
     axios "^0.24.0"
     jsonwebtoken "^8.5.1"
