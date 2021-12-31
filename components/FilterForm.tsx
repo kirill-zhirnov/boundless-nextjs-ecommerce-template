@@ -2,15 +2,15 @@ import {IFilterField, IFilterFieldRange, TCharacteristicType, TFilterFieldType} 
 import {TQuery} from '../@types/common';
 import {SyntheticEvent, useCallback, useEffect, useState} from 'react';
 import {apiClient} from '../lib/services/api';
-import PriceRangeField from './FilterForm/PriceRange';
+import PriceRangeField from './filterForm/PriceRange';
 import _debounce from 'lodash/debounce';
 import _omit from 'lodash/omit';
 import _isObjectLike from 'lodash/isObjectLike';
 import _pick from 'lodash/pick';
-import MultipleSelectCharacteristic from './FilterForm/MultipleSelectCharacteristic';
-import TextCharacteristic from './FilterForm/TextCharacteristic';
-import BrandSelect from './FilterForm/BrandSelect';
-import Stock from './FilterForm/Stock';
+import MultipleSelectCharacteristic from './filterForm/MultipleSelectCharacteristic';
+import TextCharacteristic from './filterForm/TextCharacteristic';
+import BrandSelect from './filterForm/BrandSelect';
+import Stock from './filterForm/Stock';
 
 /**
  * @param filterFields - might be passed manually, e.g. pass:

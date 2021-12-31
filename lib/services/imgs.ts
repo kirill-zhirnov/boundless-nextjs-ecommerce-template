@@ -13,7 +13,7 @@ export function getProductsListImg(image: IImagePartial, maxSize: number): IImag
 
 		const attrs = thumb.getAttrs();
 		thumb.setGrayscale(true);
-		thumb.setBlur(5);
+		thumb.setBlur(2);
 
 		return {
 			...attrs,

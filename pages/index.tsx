@@ -1,7 +1,7 @@
 import {ICategory} from 'boundless-api-client/types/catalog/category';
 import {IProduct} from 'boundless-api-client/types/catalog/product';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
-import CategoryHomeMenu from '../components/CategoryMenu/CategoryHomeMenu';
+import CategoryHomeMenu from '../components/categoryMenu/CategoryHomeMenu';
 import ProductsList from '../components/ProductsList';
 import MainLayout from '../layouts/Main';
 import {apiClient} from '../lib/services/api';
