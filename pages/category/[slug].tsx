@@ -145,7 +145,7 @@ const fetchData = async (slug: string, params: TQuery) => {
 
 const fetchCollection = async (categoryId: number, params: TQuery) => {
 	const filteredQuery = filterProductsQuery(params);
-	const collection = await apiClient.catalog.getProducts({category: [categoryId], sort: 'in_category', ...filteredQuery});
+	const collection = await apiClient.catalog.getProducts({category: [categoryId], sort: 'in_category,-in_stock,price', ...filteredQuery});
 
 	return {
 		filteredQuery,
