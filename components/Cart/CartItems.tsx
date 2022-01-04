@@ -1,17 +1,34 @@
 import {ICartItem} from 'boundless-api-client';
-import {useEffect, useMemo, useState} from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import {calcTotal, calcTotalPrice} from '../../lib/calculator';
 import {apiClient} from '../../lib/services/api';
 import {addPromise} from '../../redux/reducers/xhr';
 import {RootState} from '../../redux/store';
-import CartRow from './CartRow';
 import debounce from 'lodash/debounce';
+import CartRow from './CartRow';
+import {getCartTotal} from '../../redux/actions/cart';
 
 export default function CartItems({items}: ICartItemsProps) {
 	const dispatch = useAppDispatch();
+	const submits = useRef<Promise<any>[]>([]);
 	const cartId = useAppSelector((state: RootState) => state.cart.cartId);
 	const [filteredItems, setFilteredItems] = useState(items);
+	const [submitting, setSubmitting] = useState(false);
+
+	const checkBgSubmits = () => {
+		const size = submits.current.length;
+		if (!size) return;
+
+		setSubmitting(true);
+		Promise.allSettled(submits.current)
+			.then(() => {
+				if (submits.current.length === size) {
+					setSubmitting(false);
+					submits.current = [];
+				}
+			});
+	};
 
 	const rmItem = (itemId: number) => {
 		if (!cartId) return;
@@ -19,8 +36,11 @@ export default function CartItems({items}: ICartItemsProps) {
 
 		setFilteredItems(prevItems => prevItems.filter(el => el.item_id !== itemId));
 
-		const promise = apiClient.orders.removeFromCart(cartId, [itemId]);
+		setSubmitting(true);
+		const promise = apiClient.orders.removeFromCart(cartId, [itemId])
+			.then(() => checkBgSubmits());
 
+		submits.current.push(promise);
 		dispatch(addPromise(promise));
 	};
 
@@ -29,14 +49,17 @@ export default function CartItems({items}: ICartItemsProps) {
 		price: calcTotalPrice(el.itemPrice.final_price!, el.qty)
 	}))), [filteredItems]);
 
-	const submitQty = (itemId: number, newQty: number) => {
+	const submitQty = async (itemId: number, newQty: number) => {
 		if (!cartId) return;
+
 		const promise = apiClient.orders.setCartItemsQty(cartId, [{
 			item_id: itemId,
 			qty: newQty
-		}]);
+		}])
+			.then(() => checkBgSubmits());
+		submits.current.push(promise);
 
-		dispatch(addPromise(promise));
+		dispatch(getCartTotal(cartId, true));
 	};
 
 	const debouncedSubmitQty = useMemo(() =>
@@ -54,6 +77,7 @@ export default function CartItems({items}: ICartItemsProps) {
 			return out;
 		});
 
+		setSubmitting(true);
 		debouncedSubmitQty(itemId, newQty);
 	};
 
@@ -93,6 +117,7 @@ export default function CartItems({items}: ICartItemsProps) {
 			<div className='text-end mt-4 mb-2'>
 				<button
 					className='btn btn-primary'
+					disabled={submitting}
 				>
 					Proceed to checkout
 				</button>

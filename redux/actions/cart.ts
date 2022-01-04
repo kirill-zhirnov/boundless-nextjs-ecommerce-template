@@ -31,8 +31,8 @@ export const retrieveCart = (): AppThunk => async (dispatch) => {
 	}
 };
 
-export const getCartTotal = (cartId: string): AppThunk => async (dispatch) => {
-	dispatch(setCartLoading(true));
+export const getCartTotal = (cartId: string, inBackGround: boolean = false): AppThunk => async (dispatch) => {
+	if (!inBackGround) dispatch(setCartLoading(true));
 	try {
 		const cart = await apiClient.orders.getCartInfo(cartId);
 		if (cart && cart.id) {
@@ -45,7 +45,7 @@ export const getCartTotal = (cartId: string): AppThunk => async (dispatch) => {
 	} catch (err) {
 		console.error(err);
 	} finally {
-		dispatch(setCartLoading(false));
+		if (!inBackGround) dispatch(setCartLoading(false));
 	}
 };
 

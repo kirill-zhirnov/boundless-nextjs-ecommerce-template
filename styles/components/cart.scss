@@ -90,4 +90,8 @@
 	.row:nth-child(even) {
 		background: #f9f9f9;
 	}
+	.cart-qty-input {
+		max-width: 150px;
+		min-width: 90px;
+	}
 }

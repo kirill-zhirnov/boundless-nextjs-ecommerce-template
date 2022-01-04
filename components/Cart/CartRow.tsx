@@ -27,12 +27,12 @@ export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 			</div>
 			<div className='col-md-2 text-start text-md-center mb-2'>
 				<span className='d-inline d-md-none'><strong>Qty: </strong></span>
-				<div className='input-group input-group-sm d-inline-flex' style={{maxWidth: 150}}>
+				<div className='cart-qty-input input-group input-group-sm d-inline-flex'>
 					<button
 						className='btn btn-outline-secondary text-center'
 						type='button'
 						style={{width: 25}}
-						disabled={item.qty < 1}
+						disabled={item.qty < 2}
 						onClick={() => onQtyChange(item.qty - 1)}
 					><>&ndash;</></button>
 					<input
@@ -40,7 +40,7 @@ export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 						className='form-control form-control-sm text-center'
 						name={`qty[${item.item_id}]`}
 						value={item.qty}
-						min={0}
+						min={1}
 						onChange={(e) => onQtyChange(Number(e.target.value) || 0)}
 					/>
 					<button

@@ -1,13 +1,13 @@
 import {ICartItem} from 'boundless-api-client';
 import {useEffect, useState} from 'react';
-import CartItems from '../components/Cart/CartItems';
+import CartItems from '../components/cart/CartItems';
 import {useAppDispatch, useAppSelector} from '../hooks/redux';
 import MainLayout from '../layouts/Main';
 import {apiClient} from '../lib/services/api';
 import {setCartTotal} from '../redux/reducers/cart';
 import {addPromise} from '../redux/reducers/xhr';
 import {RootState} from '../redux/store';
-import CartRowLoader from '../components/Cart/CartRowLoader';
+import CartRowLoader from '../components/cart/CartRowLoader';
 
 export default function CartPage() {
 	const dispatch = useAppDispatch();
