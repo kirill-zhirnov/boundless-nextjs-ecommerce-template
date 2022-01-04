@@ -4,6 +4,7 @@ import {useRouter} from 'next/router';
 import {useAppDispatch, useAppSelector} from '../hooks/redux';
 import {RootState} from '../redux/store';
 import {cleanPromises} from '../redux/reducers/xhr';
+import {hideCall2Order} from '../redux/reducers/cart';
 
 export default function LoadingLine() {
 	const router = useRouter();
@@ -11,7 +12,10 @@ export default function LoadingLine() {
 	const promises = useAppSelector((state: RootState) => state.xhr.promises);
 
 	useEffect(() => {
-		const handleStart = () => NProgress.start();
+		const handleStart = () => {
+			dispatch(hideCall2Order());
+			NProgress.start();
+		};
 		const handleComplete = () => NProgress.done();
 
 		checkBgPromises();

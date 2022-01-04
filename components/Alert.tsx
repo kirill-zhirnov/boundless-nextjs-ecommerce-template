@@ -6,9 +6,7 @@ import {RootState} from '../redux/store';
 
 export default function AlertWidget() {
 	const dispatch = useAppDispatch();
-	const show = useAppSelector((state: RootState) => state.alert.show);
-	const text = useAppSelector((state: RootState) => state.alert.text);
-	const type = useAppSelector((state: RootState) => state.alert.type);
+	const {show, text, type} = useAppSelector((state: RootState) => state.alert);
 
 	const onClose = () => {
 		dispatch(hideAlert());
