@@ -14,15 +14,23 @@
 			a {
 				color: #fff;
 			}
+			&:hover {
+				background-color: $c-btn-hover;
+			}
 		}
+
 		a {
 			display: inline-block;
 			line-height: 21px;
 			text-decoration: none;
 			color: #000;
 		}
+
 		&.has-children {
 			margin-bottom: 15px;
+		}
+		&:hover {
+			background-color: $c-bg-body;
 		}
 	}
 }

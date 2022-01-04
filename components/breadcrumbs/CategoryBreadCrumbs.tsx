@@ -1,6 +1,7 @@
 import {ICategoryFlatItem} from 'boundless-api-client/types/catalog/category';
 import clsx from 'clsx';
 import Link from 'next/link';
+import {getCategoryUrl} from '../../lib/services/urls';
 
 export default function CategoryBreadCrumbs({parents}: {parents: ICategoryFlatItem[]}) {
 	const _parents = [...parents];
@@ -32,7 +33,7 @@ export default function CategoryBreadCrumbs({parents}: {parents: ICategoryFlatIt
 						>
 							{isActive
 								? title
-								: <Link href={`/category/${parent.url_key || parent.category_id}`}>
+								: <Link href={getCategoryUrl(parent)}>
 									<a itemProp='item'>
 										<span itemProp='name'>{title}</span>
 									</a>

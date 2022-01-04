@@ -1,6 +1,7 @@
-import {IFilterField, IFilterFieldRequest, TFilterFieldType, TFilterType} from 'boundless-api-client';
+// import {IFilterField, IFilterFieldRequest, TFilterFieldType} from 'boundless-api-client';
 import {IGetProductsParams} from 'boundless-api-client/endpoints/catalog';
 import {ICategoryFlatItem, ICategoryItem} from 'boundless-api-client/types/catalog/category';
+import {TQuery} from '../../@types/common';
 
 export const getMenu4Category = (category: ICategoryItem): ICategoryFlatItem[] => {
 	const categoryMenu: ICategoryFlatItem[] = [];
@@ -15,9 +16,8 @@ export const getMenu4Category = (category: ICategoryItem): ICategoryFlatItem[] =
 	return categoryMenu;
 };
 
-export const filterProductsQuery = (query: {[key: string]: any}, withPagination: boolean = true): IGetProductsParams => {
-	const pagitationKeys = withPagination ? ['page', 'per-page'] : [];
-	const allowedKeys = ['in_stock', 'price_min', 'price_max', 'brand', 'sort', ...pagitationKeys];
+export const filterProductsQuery = (query: TQuery): IGetProductsParams => {
+	const allowedKeys = ['in_stock', 'price_min', 'price_max', 'brand', 'sort', 'props', 'page', 'per-page'];
 	const outQuery: IGetProductsParams = {};
 
 	for (const [key, value] of Object.entries(query)) {
@@ -28,26 +28,26 @@ export const filterProductsQuery = (query: {[key: string]: any}, withPagination:
 	return outQuery;
 };
 
-export const getFilterFieldsQuery = (fields: IFilterField[]) => {
-	const requestFields: IFilterFieldRequest[] = [];
-
-	for (const field of fields) {
-		if (!(field.type in filterTypes)) continue;
-		const out: IFilterFieldRequest = {
-			type: filterTypes[field.type as keyof typeof filterTypes]
-		};
-
-		if (field.type === TFilterFieldType.characteristic && field.characteristic_id) {
-			out.characteristic_id = field.characteristic_id;
-		}
-		requestFields.push(out);
-	}
-
-	return requestFields;
-};
-
-const filterTypes = {
-	[TFilterFieldType.price]: TFilterType.price_range,
-	[TFilterFieldType.brand]: TFilterType.manufacturer,
-	[TFilterFieldType.characteristic]: TFilterType.characteristic
-};
+// export const getFilterFieldsQuery = (fields: IFilterField[]) => {
+// 	const requestFields: IFilterFieldRequest[] = [];
+//
+// 	for (const field of fields) {
+// 		if (!(field.type in filterTypes)) continue;
+// 		const out: IFilterFieldRequest = {
+// 			type: filterTypes[field.type as keyof typeof filterTypes]
+// 		};
+//
+// 		if (field.type === TFilterFieldType.characteristic && field.characteristic_id) {
+// 			out.characteristic_id = field.characteristic_id;
+// 		}
+// 		requestFields.push(out);
+// 	}
+//
+// 	return requestFields;
+// };
+//
+// const filterTypes = {
+// 	[TFilterFieldType.price]: TFilterType.price_range,
+// 	[TFilterFieldType.brand]: TFilterType.manufacturer,
+// 	[TFilterFieldType.characteristic]: TFilterType.characteristic
+// };

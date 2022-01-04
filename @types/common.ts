@@ -6,3 +6,8 @@ export enum TPublishingStatus {
 export type TQuery = {
 	[key: string]: any;
 }
+
+export enum TSortOrder {
+	asc = '',
+	desc = '-',
+}

@@ -1,10 +1,10 @@
 import {IProduct} from 'boundless-api-client/types/catalog/product';
 import clsx from 'clsx';
-import {useAppDispatch, useAppSelector} from '../../../hooks/redux';
-import {getProductsListImg} from '../../../lib/services/imgs';
-import {getProductUrl} from '../../../lib/services/urls';
-import {addItem2Cart} from '../../../redux/actions/cart';
-import {RootState} from '../../../redux/store';
+import {useAppDispatch, useAppSelector} from '../../hooks/redux';
+import {addItem2Cart} from '../../redux/actions/cart';
+import {RootState} from '../../redux/store';
+import {getProductUrl} from '../../lib/services/urls';
+import ProductImage from './ProductImage';
 import ProductPrice from './ProductPrice';
 
 export default function ProductItem({product}: {product: IProduct}) {
@@ -28,12 +28,7 @@ export default function ProductItem({product}: {product: IProduct}) {
 				<div className={'product-item__image'}>
 					<a href={getProductUrl(product)} >
 						{product.images && product.images.length > 0
-							? <div className={'img'}>
-								<img src={getProductsListImg(product.images[0].path, 200)}
-									alt={product.images[0].alt || product.title}
-									itemProp='image'
-								/>
-							</div>
+							? <ProductImage image={{path: product.images[0].path, width: 200, height: 200}} alt={product.images[0].alt || product.title} />
 							: <div className='no-image' />}
 					</a>
 				</div>
