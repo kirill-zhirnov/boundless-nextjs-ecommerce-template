@@ -659,9 +659,9 @@ bootstrap@^5.1.3:
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.1.3.tgz#ba081b0c130f810fa70900acbc1c6d3c28fa8f34"
   integrity sha512-fcQztozJ8jToQWXxVuEyXWW+dSo8AiXWKwiSSrKWsRB/Qt+Ewwza+JWoLKiTuQLaEPhdNAJ7+Dosc9DOIqNy7Q==
 
-"boundless-api-client@ssh://git@github.com:kirill-zhirnov/boundless-api-client#basket":
+"boundless-api-client@ssh://git@github.com:kirill-zhirnov/boundless-api-client":
   version "0.0.1"
-  resolved "ssh://git@github.com:kirill-zhirnov/boundless-api-client#9192af02debd542fd75083902d4dbcb57fe7f0cf"
+  resolved "ssh://git@github.com:kirill-zhirnov/boundless-api-client#32b058eca1b39a60aa2251474ad00ff542945878"
   dependencies:
     axios "^0.24.0"
     jsonwebtoken "^8.5.1"

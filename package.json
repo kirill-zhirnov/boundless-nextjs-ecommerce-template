@@ -10,8 +10,8 @@
     "lint": "npx eslint --ext .ts --ext .tsx ."
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.7.1",
     "@fortawesome/fontawesome-free": "^5.15.4",
+    "@reduxjs/toolkit": "^1.7.1",
     "@types/accounting": "^0.4.2",
     "@types/js-cookie": "^3.0.1",
     "@types/lodash": "^4.14.178",
@@ -19,7 +19,7 @@
     "@types/react-redux": "^7.1.21",
     "accounting": "^0.4.1",
     "bootstrap": "^5.1.3",
-    "boundless-api-client": "ssh://git@github.com:kirill-zhirnov/boundless-api-client#basket",
+    "boundless-api-client": "ssh://git@github.com:kirill-zhirnov/boundless-api-client",
     "clsx": "^1.1.1",
     "currency.js": "^2.0.4",
     "js-cookie": "^3.0.1",
