@@ -50,11 +50,11 @@ export default function ProductPage({data}: InferGetStaticPropsType<typeof getSt
 					{parents && <CategoryBreadCrumbs parents={parents} />}
 					<div className='product-wrapper' itemScope itemType='http://schema.org/Product'>
 						<div className='row'>
-							<div className='col-sm-7'>
+							<div className='col-md-7'>
 								<h1 className='mb-4' itemProp='name'>{product?.text.title}</h1>
 								<ProductImages images={product?.images!} />
 							</div>
-							<div className='col-sm-5'>
+							<div className='col-md-5'>
 								{product?.has_variants &&
 									<>
 										<VariantPicker variants={product?.extendedVariants!} onPick={setSelectedVariants} error={error} setError={setError} />

@@ -3,6 +3,7 @@ import {IProductImage} from 'boundless-api-client/types/image';
 import clsx from 'clsx';
 import ProductImage from './ProductImage';
 import {getMetaImgUrl} from '../../lib/services/imgs';
+import ImagesSlider from './ImagesSlider';
 
 export default function ProductImages({images}: {images: IProductImage[]}) {
 	const [activeImg, setActiveImg] = useState(0);
@@ -13,10 +14,10 @@ export default function ProductImages({images}: {images: IProductImage[]}) {
 	};
 
 	return (
-		<>
-			<div className='d-flex'>
-				{images.length > 0 &&
-					<>
+		<div>
+			{images.length > 0 ?
+				<>
+					<div className='d-none d-md-flex'>
 						<ul className='list-unstyled thumbs-list'>
 							{images.map((image, i) => (
 								<li
@@ -40,8 +41,13 @@ export default function ProductImages({images}: {images: IProductImage[]}) {
 								{images[activeImg].description!}
 							</figcaption>
 						</figure>
-					</>}
-			</div>
-		</>
+					</div>
+
+					<div className='d-block d-md-none'>
+								<ImagesSlider images={images}/>
+					</div>
+				</>
+				: <div className='text-center my-4'>Product has no images</div>}
+		</div>
 	);
 }
