@@ -2,7 +2,7 @@ import {ICategory} from 'boundless-api-client';
 import {IProduct} from 'boundless-api-client/types/catalog/product';
 
 const CATEGORY_PREFIX = '/category';
-const PRODUCTS_PREFIX = '/products';
+const PRODUCTS_PREFIX = '/product';
 
 export const getCategoryUrl = (category: ICategoryUrlPartial) => {
 	return category.custom_link || `${CATEGORY_PREFIX}/${category.url_key || category.category_id}`;

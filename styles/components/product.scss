@@ -84,3 +84,69 @@
 		transition: transform 0.3s;
 	}
 }
+
+.thumbs-list .thumb {
+	border: 2px solid transparent;
+
+	a {
+		opacity: 0.3;
+		padding: 4px;
+	}
+
+	&.active {
+		border: 2px solid #ddd;
+		border-radius: 8px;
+		a {
+			opacity: 1;
+			padding: 4px;
+		}
+	}
+}
+
+.variant-picker {
+	padding-bottom: 12px;
+}
+
+.variant-picker + .price-and-buy {
+	border-top: 1px solid #eee;
+}
+
+.price-and-buy {
+	border-bottom: 1px solid #eee;
+	margin-bottom: 20px;
+	padding: 20px 0;
+
+	.price {
+		font-size: 26px;
+		color: red;
+	}
+	.price-old {
+		color: #777;
+		font-size: 22px;
+	}
+	.benefit-price span {
+		color: red;
+	}
+}
+
+.modal-price {
+	.prices {
+		margin-bottom: 0;
+	}
+	.price {
+		font-size: 18px;
+		color: red;
+	}
+	.price-old {
+		color: #777;
+	}
+}
+
+.product-characteristics {
+	color: #777;
+	margin-bottom: 20px;
+}
+
+.product-characteristic {
+	border-bottom: 1px solid #eee;
+}

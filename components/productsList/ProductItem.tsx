@@ -4,7 +4,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import {addItem2Cart} from '../../redux/actions/cart';
 import {RootState} from '../../redux/store';
 import {getProductUrl} from '../../lib/services/urls';
-import ProductImage from './ProductImage';
+import ProductListImage from './ProductImage';
 import ProductPrice from './ProductPrice';
 
 export default function ProductItem({product}: {product: IProduct}) {
@@ -28,7 +28,7 @@ export default function ProductItem({product}: {product: IProduct}) {
 				<div className={'product-item__image'}>
 					<a href={getProductUrl(product)} >
 						{product.images && product.images.length > 0
-							? <ProductImage image={{path: product.images[0].path, width: 200, height: 200}} alt={product.images[0].alt || product.title} />
+							? <ProductListImage image={{path: product.images[0].path, width: 200, height: 200}} alt={product.images[0].alt || product.title} />
 							: <div className='no-image' />}
 					</a>
 				</div>
