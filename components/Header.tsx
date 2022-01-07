@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import CallToOrder from './Header/CallToOrder';
-import HeaderCart from './Header/Cart';
-import ChooseVariantModal from './Header/ChooseVariantModal';
+import CallToOrder from './header/CallToOrder';
+import HeaderCart from './header/Cart';
+import ChooseVariantModal from './header/ChooseVariantModal';
 
 export default function Header() {
 	return (
