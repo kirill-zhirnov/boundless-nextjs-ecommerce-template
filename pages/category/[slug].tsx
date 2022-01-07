@@ -9,7 +9,7 @@ import ProductsList from '../../components/ProductsList';
 import {IPagination} from 'boundless-api-client/types/common';
 import Pagination from '../../components/Pagination';
 import {NextRouter, useRouter} from 'next/router';
-import CategoryBreadCrumbs from '../../components/breadcrumbs/CategoryBreadCrumbs';
+import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 import CategoryMenu from '../../components/categoryMenu/CategoryMenu';
 import {getMenu4Category, filterProductsQuery} from '../../lib/services/category';
 import {TQuery} from '../../@types/common';
@@ -58,10 +58,10 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 						</div>
 						<main className='col-md-9 col-sm-8 content-box'>
 							<h2 className='text-center mb-3'>{title}</h2>
-							<CategoryBreadCrumbs parents={category.parents!} />
+							<BreadCrumbs parents={category.parents!} />
 							<SortButtons params={productsQuery} onSort={onCollectionChange} />
 							{category.text?.description_top && <div dangerouslySetInnerHTML={{__html: category.text.description_top}} />}
-							{collection && <ProductsList products={collection.products} />}
+							{collection && <ProductsList products={collection.products} query={productsQuery} categoryId={category.category_id} />}
 							{category.text?.description_bottom && <div dangerouslySetInnerHTML={{__html: category.text.description_bottom}} />}
 							{collection && <Pagination pagination={collection.pagination} params={productsQuery} onChange={onCollectionChange} />}
 						</main>

@@ -6,11 +6,18 @@ import {RootState} from '../../redux/store';
 import {getProductUrl} from '../../lib/services/urls';
 import ProductListImage from './ProductImage';
 import ProductPrice from './ProductPrice';
+import {TQuery} from '../../@types/common';
 
-export default function ProductItem({product}: {product: IProduct}) {
+export default function ProductItem({product, query, categoryId}: IProductItemProps) {
 	const dispatch = useAppDispatch();
 	const submitting = useAppSelector((state: RootState) => state.cart.submitting);
 	const schemaAvailability = product.in_stock ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock';
+
+	const params = {...query};
+	if (categoryId && categoryId !== product.default_category?.category_id) {
+		Object.assign(params, {category: categoryId});
+	}
+	const productUrl = getProductUrl(product, params);
 
 	const onAddToCart = (product: IProduct) => {
 		if (!product.item_id) return;
@@ -26,7 +33,7 @@ export default function ProductItem({product}: {product: IProduct}) {
 		>
 			<div className='product-item__wrapper'>
 				<div className={'product-item__image'}>
-					<a href={getProductUrl(product)} >
+					<a href={productUrl} >
 						{product.images && product.images.length > 0
 							? <ProductListImage image={{path: product.images[0].path, width: 200, height: 200}} alt={product.images[0].alt || product.title} />
 							: <div className='no-image' />}
@@ -43,7 +50,7 @@ export default function ProductItem({product}: {product: IProduct}) {
 					</button>
 				</div>
 				<h4 className='product-item__title flex-grow-1'>
-					<a href={getProductUrl(product)} itemProp='url'>
+					<a href={productUrl} itemProp='url'>
 						<span itemProp='name'>{product.title}</span>
 					</a>
 				</h4>
@@ -80,4 +87,10 @@ export default function ProductItem({product}: {product: IProduct}) {
 			</div>
 		</div>
 	);
+}
+
+interface IProductItemProps {
+	product: IProduct;
+	query: TQuery;
+	categoryId: number;
 }

@@ -4,7 +4,7 @@ import {GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next';
 import MainLayout from '../../layouts/Main';
 import {apiClient} from '../../lib/services/api';
 import {useRouter} from 'next/router';
-import CategoryBreadCrumbs from '../../components/breadcrumbs/CategoryBreadCrumbs';
+import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
 import ProductImages from '../../components/product/ProductImages';
 import VariantPicker from '../../components/VariantPicker';
 import PriceAndBuy from '../../components/product/PriceAndBuy';
@@ -20,6 +20,8 @@ export default function ProductPage({data}: InferGetStaticPropsType<typeof getSt
 	const [error, setError] = useState(false);
 
 	const title = product?.text.custom_title || product?.text.title;
+	const query = qs.parse(router.asPath.split('?')[1] || '');
+	const {category, ...requestParams} = query;
 
 	const fetchNewParents = async (categoryId: number) => {
 		const {parents} = await apiClient.catalog.getCategoryItem(categoryId, {with_parents: 1});
@@ -28,8 +30,7 @@ export default function ProductPage({data}: InferGetStaticPropsType<typeof getSt
 
 	useEffect(() => {
 		if (!product) return;
-		const query = qs.parse(router.asPath.split('?')[1] || '');
-		const categoryId = parseInt(query.in_category as string) || null;
+		const categoryId = parseInt(category as string) || null;
 		if (!categoryId) return;
 		const notDefaultCat = product.categoryRels.some(cat => (cat.is_default !== true && cat.category_id === categoryId));
 
@@ -47,7 +48,7 @@ export default function ProductPage({data}: InferGetStaticPropsType<typeof getSt
 		<>
 			<MainLayout title={title}>
 				<div className='container content-box' >
-					{parents && <CategoryBreadCrumbs parents={parents} />}
+					{parents && <BreadCrumbs parents={parents} activeParams={requestParams}/>}
 					<div className='product-wrapper' itemScope itemType='http://schema.org/Product'>
 						<div className='row'>
 							<div className='col-md-7'>
