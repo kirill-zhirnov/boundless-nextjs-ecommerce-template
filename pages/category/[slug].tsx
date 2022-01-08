@@ -53,7 +53,8 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 						<div className='col-md-3 col-sm-4'>
 							<CategoryMenu categoryTree={menu} activeId={category.category_id} parents={category.parents!} />
 							<FilterForm filterFields={category.filter!.fields}
-								queryParams={{category: [category.category_id], ...productsQuery}}
+								queryParams={productsQuery}
+								categoryId={category.category_id}
 								onSearch={onCollectionChange} />
 						</div>
 						<main className='col-md-9 col-sm-8 content-box'>

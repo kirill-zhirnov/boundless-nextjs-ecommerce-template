@@ -1,6 +1,6 @@
 import {IFilterField, IFilterFieldRange, TCharacteristicType, TFilterFieldType} from 'boundless-api-client';
 import {TQuery} from '../@types/common';
-import {SyntheticEvent, useCallback, useEffect, useState} from 'react';
+import {SyntheticEvent, useCallback, useEffect, useRef, useState} from 'react';
 import {apiClient} from '../lib/services/api';
 import PriceRangeField from './filterForm/PriceRange';
 import _debounce from 'lodash/debounce';
@@ -20,28 +20,41 @@ import Stock from './filterForm/Stock';
  * @param onSubmit
  * @constructor
  */
-export default function FilterForm({filterFields, queryParams, onSearch}: IFilterFormProps) {
+export default function FilterForm({filterFields, queryParams, categoryId, onSearch}: IFilterFormProps) {
 	const [hasChanged, setHasChanged] = useState<boolean>(false);
 	const [values, setValues] = useState<TQuery>({});
 	const [ranges, setRanges] = useState<IFilterFieldRange[]>([]);
 	const [isFetching, setIsFetching] = useState<boolean>(false);
 	const [preSearchResult, setPreSearchResult] = useState<null | number>(null);
 
-	useEffect(() => {
+	const prevQuery = useRef<TQuery>(queryParams);
+
+	const getData = () => {
 		const sanitizedQuery = sanitizeIncomingQuery(queryParams);
 
 		setIsFetching(true);
-		fetchRanges(filterFields, sanitizedQuery).then(({ranges}) => {
+		fetchRanges(filterFields, {category: [categoryId], ...sanitizedQuery}).then(({ranges}) => {
 			setValues({...sanitizedQuery, ...makeInitialValues(ranges, sanitizedQuery)});
 			setRanges(ranges);
 			setIsFetching(false);
 		}).catch(console.error);
+	};
+
+	useEffect(() => {
+		if (filterQueryChanged(prevQuery.current, queryParams)) {
+			getData();
+			prevQuery.current = queryParams;
+		}
 	}, [queryParams]); // eslint-disable-line
+
+	useEffect(() => {
+		getData();
+	}, [categoryId]); //eslint-disable-line
 
 	// eslint-disable-next-line
 	const reCalcRanges = useCallback(_debounce((values) => {
 		setIsFetching(true);
-		fetchRanges(filterFields, values).then(({ranges, totalProducts}) => {
+		fetchRanges(filterFields, {category: [categoryId], ...values}).then(({ranges, totalProducts}) => {
 			setRanges(ranges);
 			setPreSearchResult(totalProducts);
 			setIsFetching(false);
@@ -246,6 +259,21 @@ const sanitizeIncomingQuery = (queryParams: TQuery): TQuery => {
 	return sanitizedQuery;
 };
 
+const filterQueryChanged = (oldQuery: TQuery, newQuery: TQuery) => {
+	if (oldQuery === newQuery) return false;
+
+	const filterKeys = ['brand', 'price_min', 'price_max', 'props', 'in_stock'];
+
+	for (const key of filterKeys) {
+		const valuesEqual = oldQuery[key] && newQuery[key] && oldQuery[key] === newQuery[key];
+		const noValues = !oldQuery[key] && !newQuery[key];
+		if (!(valuesEqual	|| noValues))
+			return true;
+	}
+
+	return false;
+};
+
 const isMultiCaseType = (type: TCharacteristicType) => [TCharacteristicType.radio, TCharacteristicType.select, TCharacteristicType.checkbox].includes(type);
 
 type TShortFilterField = Pick<IFilterField, 'type' | 'characteristic_id'>;
@@ -253,6 +281,7 @@ type TShortFilterField = Pick<IFilterField, 'type' | 'characteristic_id'>;
 interface IFilterFormProps {
 	filterFields: TShortFilterField[],
 	queryParams: TQuery;
+	categoryId: number;
 	onSearch: (data: TQuery) => void;
 }
 
