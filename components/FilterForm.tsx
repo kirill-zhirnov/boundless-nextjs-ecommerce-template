@@ -11,6 +11,7 @@ import MultipleSelectCharacteristic from './filterForm/MultipleSelectCharacteris
 import TextCharacteristic from './filterForm/TextCharacteristic';
 import BrandSelect from './filterForm/BrandSelect';
 import Stock from './filterForm/Stock';
+import isEqual from 'lodash/isEqual';
 
 /**
  * @param filterFields - might be passed manually, e.g. pass:
@@ -265,10 +266,14 @@ const filterQueryChanged = (oldQuery: TQuery, newQuery: TQuery) => {
 	const filterKeys = ['brand', 'price_min', 'price_max', 'props', 'in_stock'];
 
 	for (const key of filterKeys) {
-		const valuesEqual = oldQuery[key] && newQuery[key] && oldQuery[key] === newQuery[key];
-		const noValues = !oldQuery[key] && !newQuery[key];
-		if (!(valuesEqual	|| noValues))
-			return true;
+		if (key === 'props' || key === 'brand') {
+			if (!isEqual(oldQuery[key], newQuery[key])) return true;
+		} else {
+			const valuesEqual = oldQuery[key] && newQuery[key] && oldQuery[key] === newQuery[key];
+			const noValues = !oldQuery[key] && !newQuery[key];
+			if (!(valuesEqual || noValues))
+				return true;
+		}
 	}
 
 	return false;
