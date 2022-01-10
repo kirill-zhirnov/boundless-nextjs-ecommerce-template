@@ -1,0 +1,19 @@
+.call-to-order {
+	background-color: #eee;
+	border-radius: 10px;
+	box-shadow: 0 6px 24px -4px #eee;
+	min-height: 100px;
+	padding: 12px;
+	position: fixed;
+	right: 20px;
+	text-align: start;
+	top: 60px;
+	width: 250px;
+	z-index: 10;
+
+	.btn-close {
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+}

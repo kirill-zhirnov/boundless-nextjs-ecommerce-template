@@ -30,6 +30,10 @@ export function getCategoryImg(localPath: string, maxSize: number = 21): string 
 	return apiClient.makeThumb(localPath, maxSize).getSrc();
 }
 
+export function getCartImg(localPath: string, maxSize: number = 60): string {
+	return apiClient.makeThumb(localPath, maxSize).getSrc();
+}
+
 export interface IImagePartial {
 	path: string;
 	width?: number | null;

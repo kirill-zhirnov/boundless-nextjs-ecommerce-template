@@ -1,11 +1,21 @@
 import {IProduct} from 'boundless-api-client/types/catalog/product';
 import clsx from 'clsx';
+import {useAppDispatch, useAppSelector} from '../../hooks/redux';
+import {addItem2Cart} from '../../redux/actions/cart';
+import {RootState} from '../../redux/store';
 import {getProductUrl} from '../../lib/services/urls';
 import ProductImage from './ProductImage';
 import ProductPrice from './ProductPrice';
 
 export default function ProductItem({product}: {product: IProduct}) {
+	const dispatch = useAppDispatch();
+	const submitting = useAppSelector((state: RootState) => state.cart.submitting);
 	const schemaAvailability = product.in_stock ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock';
+
+	const onAddToCart = (product: IProduct) => {
+		if (!product.item_id) return;
+		dispatch(addItem2Cart(product.item_id, 1));
+	};
 
 	return (
 		<div
@@ -23,7 +33,14 @@ export default function ProductItem({product}: {product: IProduct}) {
 					</a>
 				</div>
 				<div className={clsx('product-item__basket-btn', !product.in_stock && 'd-none')}>
-					<button type='button' className='btn btn-outline-secondary btn-sm'>Add to basket</button>
+					<button
+						type='button'
+						className='btn btn-outline-secondary btn-sm'
+						disabled={submitting}
+						onClick={() => onAddToCart(product)}
+					>
+						Add to basket
+					</button>
 				</div>
 				<h4 className='product-item__title flex-grow-1'>
 					<a href={getProductUrl(product)} itemProp='url'>
