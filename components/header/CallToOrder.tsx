@@ -14,7 +14,7 @@ export default function CallToOrder() {
 	const {item, qty} = useAppSelector((state: RootState) => state.cart.call2OrderData);
 
 	const hide = () => {
-		// dispatch(hideCall2Order());
+		dispatch(hideCall2Order());
 	};
 
 	useEffect(() => {
