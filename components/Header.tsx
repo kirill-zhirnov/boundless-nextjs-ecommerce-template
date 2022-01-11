@@ -5,21 +5,19 @@ import ChooseVariantModal from './header/ChooseVariantModal';
 
 export default function Header() {
 	return (
-		<header className='page__header' >
-			<div className='container text-center'>
+		<header className='page__header'>
+			<div className='container text-center position-relative'>
 				<div className='d-flex justify-content-between py-2'>
 					<div className='page__header-logo'>
 						<Link href='/'>
-							<a >
+							<a>
 								<img src={'/logo.svg'} />
 							</a>
 						</Link>
 					</div>
 					<HeaderCart />
 				</div>
-				<div className='position-relative'>
-					<CallToOrder />
-				</div>
+				<CallToOrder />
 			</div>
 			<ChooseVariantModal />
 		</header>

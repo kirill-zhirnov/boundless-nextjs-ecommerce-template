@@ -1,13 +1,16 @@
 @use 'sass:math';
 
-@import './bootstrap';
-@import './variables';
-// @import './fonts';
+@import '~bootstrap';
 
-@import './base';
-@import './page';
+$theme-color: #C490E4;
+
+@import 'components/defaultVariables';
+
+@import 'themes/sample/basic';
+@import 'themes/sample/page';
 
 //Components
+@import './components/buttons';
 @import './components/product';
 @import './components/categoryMenu';
 @import './components/nprogress';
@@ -18,15 +21,3 @@
 @import './components/alert';
 @import './components/loader';
 @import './components/sort';
-
-// @import './typography';
-// @import './text';
-// @import './icon';
-// @import './form';
-// @import './input';
-// @import './inputEmail';
-// @import './buttons';
-// @import './slider';
-// @import './spinner';
-// @import './nprogress';
-// @import './modal';

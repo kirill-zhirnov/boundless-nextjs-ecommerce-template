@@ -1,0 +1,27 @@
+.btn-action {
+	@include button-variant($btn-action-bg, $btn-action-border, $btn-action-color);
+}
+
+@keyframes move-rhomb {
+	0% { left: 0%; }
+	20% { left: 100%; }
+	100% { left: 100%; }
+}
+
+.btn-anim {
+	position: relative;
+
+	&:before {
+		content: "";
+		display: block;
+		width: 30px;
+		height: 100%;
+		position: absolute;
+		opacity: 0.3;
+		top: 0;
+		left: 0;
+		background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.03) 1%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0.85) 70%, rgba(255, 255, 255, 0.85) 71%, rgba(255, 255, 255, 0) 100%);
+		transform: skew(-10deg, 0deg);
+		animation: move-rhomb 5s linear infinite;
+	}
+}

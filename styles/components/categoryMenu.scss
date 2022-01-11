@@ -11,11 +11,12 @@
 
 		&.active {
 			background-color: #ba86da;
+
 			a {
 				color: #fff;
 			}
 			&:hover {
-				background-color: $c-btn-hover;
+				background-color: #D0A6E9;
 			}
 		}
 
@@ -30,7 +31,7 @@
 			margin-bottom: 15px;
 		}
 		&:hover {
-			background-color: $c-bg-body;
+			background-color: #F9F9F9;
 		}
 	}
 }
