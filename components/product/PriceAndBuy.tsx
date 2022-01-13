@@ -30,7 +30,7 @@ export default function PriceAndBuy({selectedVariants, setError, product}: IPric
 		<div className='price-and-buy'>
 			{isVariantAvailable || !hasVariants ? <>
 				<p className={clsx('prices', price.price_old && 'with-old')}>
-					{!variantPicked && <span className='from me-2'>From: </span>}
+					{!variantPicked && hasVariants && <span className='from me-2'>From: </span>}
 					<span className='price'>{price.price}</span>
 					{price.price_old && <span className='price-old text-muted ms-2'><s>{price.price_old}</s></span>}
 				</p>
@@ -38,9 +38,9 @@ export default function PriceAndBuy({selectedVariants, setError, product}: IPric
 					<label className='me-2'>You save:</label>
 					<span>{price.benefit}</span>
 				</p>}
-				<p className={clsx('stock small text-muted', inStock ? 'in' : 'out')}>
+				{variantPicked && <p className={clsx('stock small text-muted', inStock ? 'in' : 'out')}>
 					{inStock ? 'In stock' : 'Out of stock'}
-				</p>
+				</p>}
 				{inStock &&
 					<div className='d-flex gap-2 flex-wrap'>
 						<div className='to-basket-qty-input input-group input-group-lg d-inline-flex' style={{maxWidth: 200}}>

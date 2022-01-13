@@ -8,6 +8,7 @@ module.exports = {
 		const defineMap = {};
 
 		[
+			'BOUNDLESS_BASE_URL',
 			'BOUNDLESS_API_BASE_URL',
 			'BOUNDLESS_API_PERMANENT_TOKEN',
 			'BOUNDLESS_S3_PREFIX',

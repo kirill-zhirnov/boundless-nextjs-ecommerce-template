@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import {getProductImg, IImagePartial} from '../../lib/services/imgs';
 
-export default function ProductImage({image, alt, maxSize = 200}: {image: IImagePartial, alt: string, maxSize?: number}) {
-	const {src, blurSrc, width, height} = getProductImg(image, maxSize);
+export default function ProductImage({image, alt, maxSize = 800, preserveRatio = false}: IProductImageProps) {
+	const {src, blurSrc, width, height} = getProductImg(image, maxSize, preserveRatio);
 
 	return (
 		<>
@@ -15,6 +15,7 @@ export default function ProductImage({image, alt, maxSize = 200}: {image: IImage
 					blurDataURL={blurSrc}
 					quality={100}
 					alt={alt}
+					priority
 				/>
 				: <img src={src}
 					alt={alt}
@@ -22,4 +23,11 @@ export default function ProductImage({image, alt, maxSize = 200}: {image: IImage
 				/>}
 		</>
 	);
+}
+
+interface IProductImageProps {
+	image: IImagePartial;
+	alt: string;
+	maxSize?: number;
+	preserveRatio?: boolean;
 }

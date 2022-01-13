@@ -87,18 +87,21 @@
 
 .thumbs-list .thumb {
 	border: 2px solid transparent;
+	border-radius: 8px;
+	overflow: hidden;
 
 	a {
+		display: block;
 		opacity: 0.3;
-		padding: 4px;
 	}
 
 	&.active {
 		border: 2px solid #ddd;
 		border-radius: 8px;
+		overflow: hidden;
+
 		a {
 			opacity: 1;
-			padding: 4px;
 		}
 	}
 }
@@ -116,16 +119,21 @@
 	margin-bottom: 20px;
 	padding: 20px 0;
 
-	.price {
-		font-size: 26px;
-		color: red;
+	.prices {
+		.price {
+			font-size: 26px;
+		}
+		&.with-old .price {
+			color: $front-highlighted-color;
+		}
 	}
+
 	.price-old {
 		color: #777;
 		font-size: 22px;
 	}
 	.benefit-price span {
-		color: red;
+		color: $front-highlighted-color;
 	}
 }
 

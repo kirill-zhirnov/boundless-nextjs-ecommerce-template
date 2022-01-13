@@ -1,7 +1,9 @@
 import {IVariantCharacteristic, IVariantIdCombinations} from 'boundless-api-client';
+import {useEffect, useRef} from 'react';
 
 export default function VariantCharacteristic({characteristic, values, onSelect, idCombinations}: IVariantCharProps) {
 	const value = values[characteristic.id];
+	const submitted = useRef(false);
 
 	const checkAvailable = (caseId: number) => {
 		const _values = {...values};
@@ -19,6 +21,27 @@ export default function VariantCharacteristic({characteristic, values, onSelect,
 		return false;
 	};
 
+	const checkRowAvailability = () => {
+		const available = characteristic.cases.filter(caseItem => checkAvailable(caseItem.id));
+
+		if (available.length === 1) {
+			onSubmit(available[0].id);
+		}
+	};
+
+	const onSubmit = (id: number) => {
+		submitted.current = true;
+		onSelect(characteristic.id, id);
+	};
+
+	useEffect(() => {
+		if (!submitted.current) {
+			checkRowAvailability();
+		} else {
+			submitted.current = false;
+		}
+	}, [values, characteristic]); //eslint-disable-line
+
 	return (
 		<>
 			<div className='title'>{`${characteristic.title}: `}</div>
@@ -30,7 +53,7 @@ export default function VariantCharacteristic({characteristic, values, onSelect,
 							className='btn-check'
 							disabled={!checkAvailable(caseItem.id)}
 							name={`characteristic-${characteristic.id}`}
-							onChange={() => onSelect(characteristic.id, caseItem.id)}
+							onChange={() => onSubmit(caseItem.id)}
 							type='radio'
 							checked={value === caseItem.id}
 							value={caseItem.id}

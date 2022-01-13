@@ -11,6 +11,7 @@ import PriceAndBuy from '../../components/product/PriceAndBuy';
 import qs from 'qs';
 import ProductMeta from '../../components/product/ProductMeta';
 import ProductCharacteristics from '../../components/product/ProductCharacteristics';
+import {getProductMetaData} from '../../lib/services/meta';
 
 export default function ProductPage({data}: InferGetStaticPropsType<typeof getStaticProps>) {
 	const router = useRouter();
@@ -36,19 +37,14 @@ export default function ProductPage({data}: InferGetStaticPropsType<typeof getSt
 
 		if (notDefaultCat) {
 			fetchNewParents(categoryId);
-		} else {
-			router.push({
-				pathname: router.pathname,
-				query: {slug: router.query.slug}
-			}, undefined, {shallow: true});
 		}
 	}, []); //eslint-disable-line
 
 	return (
 		<>
-			<MainLayout title={title}>
+			<MainLayout title={title} metaData={getProductMetaData(product!)}>
 				<div className='container content-box' >
-					{parents && <BreadCrumbs parents={parents} activeParams={requestParams}/>}
+					{parents && <BreadCrumbs parents={parents} activeParams={requestParams} />}
 					<div className='product-wrapper' itemScope itemType='http://schema.org/Product'>
 						<div className='row'>
 							<div className='col-md-7'>

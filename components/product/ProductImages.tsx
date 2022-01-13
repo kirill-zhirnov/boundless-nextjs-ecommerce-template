@@ -18,15 +18,15 @@ export default function ProductImages({images}: {images: IProductImage[]}) {
 			{images.length > 0 ?
 				<>
 					<div className='d-none d-md-flex'>
-						<ul className='list-unstyled thumbs-list'>
+						<ul className='list-unstyled thumbs-list flex-shrink-0'>
 							{images.map((image, i) => (
 								<li
 									className={clsx('thumb mb-2', activeImg === i && 'active')}
 									key={image.image_id}
 									onMouseEnter={() => setActiveImg(i)}
 								>
-									<a href='#' onClick={(e) => onThumbClick(e, i)}>
-										<ProductImage image={image.image} maxSize={100} alt={image.alt || image.description!} />
+									<a href='#' className='d-flex justify-content-center align-content-center' onClick={(e) => onThumbClick(e, i)}>
+										<ProductImage image={image.image} maxSize={100} alt={image.alt || image.description!} preserveRatio={true} />
 									</a>
 									<meta itemProp='image' content={getMetaImgUrl(image.image)} />
 								</li>

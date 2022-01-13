@@ -92,5 +92,5 @@ export default function ProductItem({product, query, categoryId}: IProductItemPr
 interface IProductItemProps {
 	product: IProduct;
 	query: TQuery;
-	categoryId: number;
+	categoryId?: number;
 }

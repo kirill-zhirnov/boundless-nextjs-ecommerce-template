@@ -29,10 +29,11 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 	const [preSearchResult, setPreSearchResult] = useState<null | number>(null);
 
 	const prevQuery = useRef<TQuery>(queryParams);
+	const prevCategory = useRef<number>(categoryId);
+	const submitted = useRef(false);
 
 	const getData = () => {
 		const sanitizedQuery = sanitizeIncomingQuery(queryParams);
-
 		setIsFetching(true);
 		fetchRanges(filterFields, {category: [categoryId], ...sanitizedQuery}).then(({ranges}) => {
 			setValues({...sanitizedQuery, ...makeInitialValues(ranges, sanitizedQuery)});
@@ -42,14 +43,17 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 	};
 
 	useEffect(() => {
-		if (filterQueryChanged(prevQuery.current, queryParams)) {
-			getData();
+		if (filterQueryChanged(prevQuery.current, queryParams) && !submitted.current) {
+			if (prevCategory.current === categoryId) getData();
 			prevQuery.current = queryParams;
 		}
+		submitted.current = false;
 	}, [queryParams]); // eslint-disable-line
 
 	useEffect(() => {
 		getData();
+		prevCategory.current = categoryId;
+		submitted.current = false;
 	}, [categoryId]); //eslint-disable-line
 
 	// eslint-disable-next-line
@@ -81,7 +85,7 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 
 		const filteredValues = filterEmptyValues(values);
 		onSearch(_omit(filteredValues, ['page']));
-
+		submitted.current = true;
 		setHasChanged(false);
 	};
 

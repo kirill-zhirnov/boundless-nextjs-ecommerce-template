@@ -40,7 +40,7 @@ $call-to-order-right: 20px;
 
 	&__item {
 		display: flex;
-		justify-content: start;
+		justify-content: flex-start;
 
 		.img {
 			flex-shrink: 0;

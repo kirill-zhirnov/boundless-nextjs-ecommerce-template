@@ -17,5 +17,5 @@ export default function ProductsList({products, query, categoryId}: IProductList
 interface IProductListProps {
 	products: IProduct[];
 	query: TQuery;
-	categoryId: number;
+	categoryId?: number;
 }

@@ -34,7 +34,7 @@ export function getProductsListImg(image: IImagePartial, maxSize: number): IImag
 	};
 }
 
-export function getProductImg(image: IImagePartial, maxSize: number): IImageData {
+export function getProductImg(image: IImagePartial, maxSize: number, preserveRatio: boolean = false): IImageData {
 	const {width, height, path: imgLocalPath} = image;
 	if (height && width) {
 		const thumb = apiClient.makeThumb({
@@ -44,7 +44,7 @@ export function getProductImg(image: IImagePartial, maxSize: number): IImageData
 			originalHeight: height
 		});
 
-		if (productImgRatio) thumb.setRatio(productImgRatio);
+		if (productImgRatio && preserveRatio) thumb.setRatio(productImgRatio);
 
 		const attrs = thumb.getAttrs();
 		thumb.setGrayscale(true);
