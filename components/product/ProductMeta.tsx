@@ -1,5 +1,5 @@
 import {ICategoryFlatItem, IProductItem} from 'boundless-api-client';
-import {getProductUrl} from '../../lib/services/urls';
+import {getProductItemUrl} from '../../lib/services/urls';
 
 export default function ProductMeta({product, parents}: IProductMetaProps) {
 	return (
@@ -17,14 +17,14 @@ export default function ProductMeta({product, parents}: IProductMetaProps) {
 						{variant.sku && <meta itemProp='sku' content={variant.sku} />}
 						{variant.title && <meta itemProp='name' content={variant.title} />}
 						<link itemProp='availability' href={variant.in_stock ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'} />
-						<link itemProp='url' href={getProductUrl(product)} />
+						<link itemProp='url' href={getProductItemUrl(product)} />
 					</div>
 				))
 				: <div itemProp='offers' itemScope itemType='http://schema.org/Offer'>
 					<meta itemProp='price' content={String(product.price)} />
 					<meta itemProp='priceCurrency' content='USD' />
 					<link itemProp='availability' href={product.in_stock ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock'} />
-					<link itemProp='url' href={getProductUrl(product)} />
+					<link itemProp='url' href={getProductItemUrl(product)} />
 				</div>}
 			{product.props.size?.weight && <div itemProp='weight' itemScope itemType='http://schema.org/QuantitativeValue'>
 				<meta itemProp='value' content={String(product.props.size?.weight)} />

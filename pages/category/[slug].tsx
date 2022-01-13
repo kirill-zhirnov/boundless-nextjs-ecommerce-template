@@ -16,8 +16,9 @@ import {TQuery} from '../../@types/common';
 import FilterForm from '../../components/FilterForm';
 import {createGetStr} from 'boundless-api-client/utils';
 import qs from 'qs';
-import {getCategoryUrl} from '../../lib/services/urls';
+import {getCategoryItemUrl} from '../../lib/services/urls';
 import SortButtons from '../../components/SortButtons';
+import {getCategoryMetaData} from '../../lib/services/meta';
 
 export default function CategoryPage({errorCode, data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const router = useRouter();
@@ -47,7 +48,7 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 
 	return (
 		<>
-			<MainLayout title={title}>
+			<MainLayout title={title} metaData={getCategoryMetaData(category)}>
 				<div className='container'>
 					<div className='row'>
 						<div className='col-md-3 col-sm-4'>
@@ -97,15 +98,7 @@ export const getServerSideProps: GetServerSideProps<ICategoryPageProps> = async 
 		}
 	}
 
-	const {category_id} = data.category;
-	const {url_key} = data.category.text || {};
-	const {custom_link} = data.category.props || {};
-
-	const redirectUrl = getCategoryUrl({
-		category_id,
-		url_key: url_key || null,
-		custom_link: custom_link || null
-	});
+	const redirectUrl = getCategoryItemUrl(data.category);
 
 	if (redirectUrl !== `/category/${slug}`) {
 		return {

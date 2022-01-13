@@ -6,20 +6,27 @@ import {getProductUrl} from '../../lib/services/urls';
 
 export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 	return (
-		<div className='row mb-2 py-3'>
+		<div className='cart-row row mb-2 py-3'>
 			<div className='col-md-4 d-flex mb-2 align-items-start'>
-				<Link href={getProductUrl(item.vwItem.product)}>
-					<a className='d-flex'>
-						{item.vwItem?.image?.path
-							? <div className='img me-2'>
+				<div className='d-flex'>
+					{item.vwItem?.image?.path
+						? <Link href={getProductUrl(item.vwItem.product)}>
+							<a className='img me-2'>
 								<img src={getCartImg(item.vwItem?.image?.path)}
 									alt={item.vwItem?.product?.title}
 								/>
-							</div>
-							: <div className='no-image' />}
-						<div className='py-1'>{item.vwItem?.product?.title || ''}</div>
-					</a>
-				</Link>
+							</a>
+						</Link>
+						: <div className='no-image me-2' />}
+					<div className='py-1'>
+						<div>
+							<Link href={getProductUrl(item.vwItem.product)}>
+								{item.vwItem?.product?.title || ''}
+							</Link>
+						</div>
+						{item.vwItem.type === 'variant' && <div className='text-muted text-decoration-none'>{item.vwItem?.variant?.title || ''}</div>}
+					</div>
+				</div>
 			</div>
 			<div className='col-md-2 text-start text-md-center mb-2 py-1'>
 				<span className='d-inline d-md-none'><strong>Price: </strong></span>
@@ -62,7 +69,7 @@ export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 					Remove
 				</button>
 			</div>
-		</div>
+		</div >
 	);
 }
 

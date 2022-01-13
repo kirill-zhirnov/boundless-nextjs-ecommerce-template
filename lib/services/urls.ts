@@ -1,4 +1,4 @@
-import {ICategory} from 'boundless-api-client';
+import {ICategory, ICategoryItem} from 'boundless-api-client';
 import {IProduct, IProductItem} from 'boundless-api-client/types/catalog/product';
 import {createGetStr} from 'boundless-api-client/utils';
 import {TQuery} from '../../@types/common';
@@ -12,6 +12,13 @@ export const getCategoryUrl = (category: ICategoryUrlPartial, params?: TQuery) =
 	const queryStr = params && Object.keys(params).length ? `?${createGetStr(params)}`: '';
 
 	return `${basePath}${queryStr}`;
+};
+
+export const getCategoryItemUrl = (category: ICategoryItem, params?: TQuery) => {
+	const baseUrl = category.props?.custom_link || `${CATEGORY_PREFIX}/${category.text?.url_key || category.category_id}`;
+	const queryStr = params && Object.keys(params).length ? `?${createGetStr(params)}`: '';
+
+	return `${baseUrl}${queryStr}`;
 };
 
 export const getProductUrl = (product: IProductUrlProps, params?: TQuery) => {
@@ -30,6 +37,10 @@ export const getProductItemUrl = (product: IProductItem, params?: TQuery) => {
 
 export const getCanonicalProductUrl = (product: IProductItem) => {
 	return `${shopBaseUrl}${getProductItemUrl(product)}`;
+};
+
+export const getCanonicalCategoryUrl = (category: ICategoryItem) => {
+	return `${shopBaseUrl}${getCategoryItemUrl(category)}`;
 };
 
 type IProductUrlProps = Pick<IProduct, 'url_key' | 'product_id'>

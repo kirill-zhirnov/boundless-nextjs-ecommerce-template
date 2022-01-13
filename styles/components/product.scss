@@ -59,6 +59,17 @@
 			width: 100%;
 			height: 100%;
 		}
+		.no-image {
+			height: 200px;
+			background: #f7f7f7;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			img {
+				width: 80px;
+				height: 80px;
+			}
+		}
 	}
 
 	&__stock-in {
@@ -140,13 +151,16 @@
 .modal-price {
 	.prices {
 		margin-bottom: 0;
+		.price {
+			font-size: 18px;
+		}
+		&.with-old .price {
+			color: $front-highlighted-color;
+		}
 	}
-	.price {
-		font-size: 18px;
-		color: red;
-	}
-	.price-old {
-		color: #777;
+
+	.benefit-price span {
+		color: $front-highlighted-color;
 	}
 }
 

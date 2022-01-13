@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Modal from 'react-bootstrap/Modal';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import {getLowestPrice} from '../../lib/services/price';
@@ -23,6 +23,12 @@ export default function ChooseVariantModal() {
 	const onHide = () => {
 		dispatch(hideVariantModal());
 	};
+
+	useEffect(() => {
+		if (show) {
+			setFilteredVariants(variants?.list || []);
+		}
+	}, [show, variants]);
 
 	const onSubmit = () => {
 		if (!variant || !variantPicked) return;

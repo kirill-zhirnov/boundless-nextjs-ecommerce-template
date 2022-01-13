@@ -9,7 +9,7 @@ export const getLowestPrice = (variants: IProductVariant[]): IPrice => {
 		benefit: null
 	};
 
-	const [lowest] = variants.sort((el1, el2) => {
+	const [lowest] = [...variants].sort((el1, el2) => {
 		if (parseInt(el1.price) > parseInt(el2.price)) return 1;
 		if (parseInt(el1.price) < parseInt(el2.price)) return -1;
 		return 0;

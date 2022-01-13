@@ -28,7 +28,7 @@
 
 	&__notify {
 		align-items: center;
-		background: #E2E2E3;
+		background: #e2e2e3;
 		border-radius: 50%;
 		color: #000;
 		display: flex;
@@ -93,5 +93,21 @@
 	.cart-qty-input {
 		max-width: 150px;
 		min-width: 90px;
+	}
+
+	.cart-row {
+		.img {
+			width: 60px;
+			height: 60px;
+			flex-shrink: 0;
+			text-align: center;
+		}
+		.no-image {
+			background: #eee url('/noImg.png') no-repeat 50% 50%;
+			background-size: 30px;
+			flex-shrink: 0;
+			width: 60px;
+			height: 60px;
+		}
 	}
 }

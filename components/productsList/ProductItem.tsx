@@ -7,6 +7,7 @@ import {getProductUrl} from '../../lib/services/urls';
 import ProductListImage from './ProductImage';
 import ProductPrice from './ProductPrice';
 import {TQuery} from '../../@types/common';
+import Link from 'next/link';
 
 export default function ProductItem({product, query, categoryId}: IProductItemProps) {
 	const dispatch = useAppDispatch();
@@ -33,11 +34,15 @@ export default function ProductItem({product, query, categoryId}: IProductItemPr
 		>
 			<div className='product-item__wrapper'>
 				<div className={'product-item__image'}>
-					<a href={productUrl} >
-						{product.images && product.images.length > 0
-							? <ProductListImage image={{path: product.images[0].path, width: 200, height: 200}} alt={product.images[0].alt || product.title} />
-							: <div className='no-image' />}
-					</a>
+					<Link href={productUrl}>
+						<a >
+							{product.images && product.images.length > 0
+								? <ProductListImage image={{path: product.images[0].path, width: 200, height: 200}} alt={product.images[0].alt || product.title} />
+								: <div className='no-image'>
+									<img src='/noImg.png' alt={product.title} />
+								</div>}
+						</a>
+					</Link>
 				</div>
 				<div className={clsx('product-item__basket-btn', !product.in_stock && 'd-none')}>
 					<button
@@ -50,9 +55,11 @@ export default function ProductItem({product, query, categoryId}: IProductItemPr
 					</button>
 				</div>
 				<h4 className='product-item__title flex-grow-1'>
-					<a href={productUrl} itemProp='url'>
-						<span itemProp='name'>{product.title}</span>
-					</a>
+					<Link href={productUrl}>
+						<a itemProp='url'>
+							<span itemProp='name'>{product.title}</span>
+						</a>
+					</Link>
 				</h4>
 
 				<div className='product-item__offer'>
@@ -73,8 +80,7 @@ export default function ProductItem({product, query, categoryId}: IProductItemPr
 							</div>
 							:
 							<div itemProp='offers' itemScope itemType='http://schema.org/Offer'>
-								<meta itemProp='price' content={String(product.price.min)} />
-								<meta itemProp='highPrice' content={String(product.price.max)} />
+								<meta itemProp='price' content={String(product.price.value)} />
 								<meta itemProp='priceCurrency' content={product.price.currency_alias?.toUpperCase()} />
 								<link itemProp='availability' href={schemaAvailability} />
 							</div>
