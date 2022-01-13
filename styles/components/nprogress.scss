@@ -1,7 +1,7 @@
 #nprogress {
 	.bar {
 		background-color: $theme-color;
-		z-index: 2000;
+		z-index: $zindex-nprogress;
 	}
 
 	.spinner {
