@@ -1,14 +1,38 @@
-import {ReactNode} from 'react';
+import {ReactNode, useEffect} from 'react';
 import Head from 'next/head';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import LoadingLine from '../components/LoadingLine';
 import AlertWidget from '../components/Alert';
+import {useRouter} from 'next/router';
+import {useAppDispatch} from '../hooks/redux';
+import {endRouting, startRouting} from '../redux/reducers/app';
+import {hideCall2Order} from '../redux/reducers/cart';
 
 const shopBaseUrl = process.env.BOUNDLESS_BASE_URL || '';
 
 export default function MainLayout({children, title, metaData}: IMainLayoutProps) {
 	const {canonicalUrl, imgUrl, description} = metaData || {};
+	const router = useRouter();
+	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		const handleStart = () => {
+			dispatch(hideCall2Order());
+			dispatch(startRouting());
+		};
+		const handleComplete = () => dispatch(endRouting());
+
+		router.events.on('routeChangeStart', handleStart);
+		router.events.on('routeChangeComplete', handleComplete);
+		router.events.on('routeChangeError', handleComplete);
+
+		return () => {
+			router.events.off('routeChangeStart', handleStart);
+			router.events.off('routeChangeComplete', handleComplete);
+			router.events.off('routeChangeError', handleComplete);
+		};
+	}, []);//eslint-disable-line
 
 	return (
 		<>
