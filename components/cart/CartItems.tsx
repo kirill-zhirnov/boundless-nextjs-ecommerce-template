@@ -7,7 +7,7 @@ import {addPromise} from '../../redux/reducers/xhr';
 import {RootState} from '../../redux/store';
 import debounce from 'lodash/debounce';
 import CartRow from './CartRow';
-import {getCartTotal} from '../../redux/actions/cart';
+import {setCartTotal} from '../../redux/reducers/cart';
 
 export default function CartItems({items}: ICartItemsProps) {
 	const dispatch = useAppDispatch();
@@ -59,7 +59,7 @@ export default function CartItems({items}: ICartItemsProps) {
 			.then(() => checkBgSubmits());
 		submits.current.push(promise);
 
-		dispatch(getCartTotal(cartId, true));
+		// dispatch(getCartTotal(cartId, true));
 	};
 
 	const debouncedSubmitQty = useMemo(() =>
@@ -80,6 +80,13 @@ export default function CartItems({items}: ICartItemsProps) {
 		setSubmitting(true);
 		debouncedSubmitQty(itemId, newQty);
 	};
+
+	useEffect(() => {
+		dispatch(setCartTotal({
+			qty: totalCount.qty,
+			total: totalCount.price
+		}));
+	},[totalCount]); //eslint-disable-line
 
 	useEffect(() => {
 		setFilteredItems(items);
