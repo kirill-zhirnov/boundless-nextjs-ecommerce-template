@@ -38,7 +38,7 @@ export default function PriceAndBuy({selectedVariants, setError, product}: IPric
 					<label className='me-2'>You save:</label>
 					<span>{price.benefit}</span>
 				</p>}
-				{variantPicked && <p className={clsx('stock small text-muted', inStock ? 'in' : 'out')}>
+				{(variantPicked || !hasVariants) && <p className={clsx('stock small text-muted', inStock ? 'in' : 'out')}>
 					{inStock ? 'In stock' : 'Out of stock'}
 				</p>}
 				{inStock &&

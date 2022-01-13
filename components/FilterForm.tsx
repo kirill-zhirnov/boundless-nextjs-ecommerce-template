@@ -29,7 +29,6 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 	const [preSearchResult, setPreSearchResult] = useState<null | number>(null);
 
 	const prevQuery = useRef<TQuery>(queryParams);
-	const prevCategory = useRef<number>(categoryId);
 	const submitted = useRef(false);
 
 	const getData = () => {
@@ -44,17 +43,15 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 
 	useEffect(() => {
 		if (filterQueryChanged(prevQuery.current, queryParams) && !submitted.current) {
-			if (prevCategory.current === categoryId) getData();
-			prevQuery.current = queryParams;
+			getData();
 		}
+		prevQuery.current = queryParams;
 		submitted.current = false;
 	}, [queryParams]); // eslint-disable-line
 
 	useEffect(() => {
 		getData();
-		prevCategory.current = categoryId;
-		submitted.current = false;
-	}, [categoryId]); //eslint-disable-line
+	}, []); //eslint-disable-line
 
 	// eslint-disable-next-line
 	const reCalcRanges = useCallback(_debounce((values) => {

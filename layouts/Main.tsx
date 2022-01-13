@@ -29,7 +29,7 @@ export default function MainLayout({children, title, metaData}: IMainLayoutProps
 				<meta property='og:type' content='website' />
 				<meta property='og:title' content={title || 'Boundless-Commerce Shop Example'} />
 				<meta property='og:url' content={canonicalUrl || shopBaseUrl} />
-				{imgUrl && <meta property='og:image' content={imgUrl} />}
+				<meta property='og:image' content={imgUrl || (shopBaseUrl+ '/og.jpeg')} />
 				{description && <meta property='og:description' content={description} />}
 
 				<title>{title || 'Boundless-Commerce Shop Example'}</title>

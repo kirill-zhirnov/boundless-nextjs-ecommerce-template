@@ -36,7 +36,9 @@ export default function ProductItem({product, query, categoryId}: IProductItemPr
 					<a href={productUrl} >
 						{product.images && product.images.length > 0
 							? <ProductListImage image={{path: product.images[0].path, width: 200, height: 200}} alt={product.images[0].alt || product.title} />
-							: <div className='no-image' />}
+							: <div className='no-image'>
+								<img src='/noImg.png' alt={product.title} />
+								</div>}
 					</a>
 				</div>
 				<div className={clsx('product-item__basket-btn', !product.in_stock && 'd-none')}>
@@ -73,8 +75,7 @@ export default function ProductItem({product, query, categoryId}: IProductItemPr
 							</div>
 							:
 							<div itemProp='offers' itemScope itemType='http://schema.org/Offer'>
-								<meta itemProp='price' content={String(product.price.min)} />
-								<meta itemProp='highPrice' content={String(product.price.max)} />
+								<meta itemProp='price' content={String(product.price.value)} />
 								<meta itemProp='priceCurrency' content={product.price.currency_alias?.toUpperCase()} />
 								<link itemProp='availability' href={schemaAvailability} />
 							</div>
