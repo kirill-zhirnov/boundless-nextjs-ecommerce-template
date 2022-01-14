@@ -1,10 +1,22 @@
 $theme-color: #C490E4;
 
+$front-text-color: #000;
+$front-link-color: #0d6efd;
+
+$front-font-weight-bold: 700;
+$front-font-weight-light: 300;
+
 $btn-action-color: color-contrast($theme-color);
 $btn-action-bg: $theme-color;
 $btn-action-border: darken($theme-color, 10%);
 
+$front-highlight-link-color: $theme-color;
 $front-highlighted-color: red;
 
 $zindex-call-to-order: 1031;
 $zindex-nprogress: 1032;
+
+$front-bg-color: #f8f8f8;
+
+$front-category-sidebar-color: $front-text-color;
+$front-category-sidebar-hover-color: $front-highlight-link-color;

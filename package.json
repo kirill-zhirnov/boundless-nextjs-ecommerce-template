@@ -11,6 +11,9 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.15.4",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.16",
     "@reduxjs/toolkit": "^1.7.1",
     "@types/accounting": "^0.4.2",
     "@types/js-cookie": "^3.0.1",

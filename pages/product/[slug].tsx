@@ -4,7 +4,7 @@ import {GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next';
 import MainLayout from '../../layouts/Main';
 import {apiClient} from '../../lib/services/api';
 import {useRouter} from 'next/router';
-import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
+import BreadCrumbs from '../../components/BreadCrumbs';
 import ProductImages from '../../components/product/ProductImages';
 import VariantPicker from '../../components/VariantPicker';
 import PriceAndBuy from '../../components/product/PriceAndBuy';

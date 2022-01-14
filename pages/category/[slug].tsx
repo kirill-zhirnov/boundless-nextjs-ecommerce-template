@@ -9,9 +9,9 @@ import ProductsList from '../../components/ProductsList';
 import {IPagination} from 'boundless-api-client/types/common';
 import Pagination from '../../components/Pagination';
 import {NextRouter, useRouter} from 'next/router';
-import BreadCrumbs from '../../components/breadcrumbs/BreadCrumbs';
-import CategoriesSidebar from '../../components/categoryMenu/CategoriesSidebar';
-import {getMenu4Category, filterProductsQuery} from '../../lib/services/category';
+import BreadCrumbs from '../../components/BreadCrumbs';
+import CategorySidebar from '../../components/category/Sidebar';
+import {filterProductsQuery} from '../../lib/services/category';
 import {TQuery} from '../../@types/common';
 import FilterForm from '../../components/FilterForm';
 import {createGetStr} from 'boundless-api-client/utils';
@@ -24,7 +24,6 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 	const router = useRouter();
 	const [productsQuery, setProductsQuery] = useState(data?.productsQuery || {});
 	const [collection, setCollection] = useState(data?.collection || null);
-	const menu = useMemo(() => data?.category ? getMenu4Category(data.category) : [], [data?.category]);
 
 	const onCollectionChange = async (newParams: TQuery) => {
 		const {collection, filteredQuery} = await fetchCollection(category!.category_id, newParams);
@@ -52,7 +51,7 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 				<div className='container'>
 					<div className='row'>
 						<div className='col-md-3 col-sm-4'>
-							<CategoriesSidebar categoryTree={menu} activeId={category.category_id} parents={category.parents!} />
+							<CategorySidebar category={category} />
 							<FilterForm filterFields={category.filter!.fields}
 								queryParams={productsQuery}
 								categoryId={category.category_id}

@@ -8,6 +8,8 @@ import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
 import 'swiper/scss/scrollbar';
 
+import '@fortawesome/fontawesome-free/css/svg-with-js.css';
+
 import {AppProps} from 'next/app';
 
 function MyApp({Component, pageProps}: AppProps) {
