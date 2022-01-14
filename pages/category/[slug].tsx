@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from 'react';
+import {useEffect, useState} from 'react';
 import MainLayout from '../../layouts/Main';
 import {apiClient} from '../../lib/services/api';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';

@@ -25,8 +25,8 @@ export default function ImagesSlider({images}: {images: IProductImage[]}) {
 							spaceBetween: 28,
 						},
 					}}
-					pagination={{ clickable: true }}
-					scrollbar={{ draggable: true }}
+					pagination={{clickable: true}}
+					scrollbar={{draggable: true}}
 					navigation
 					onSwiper={(instance) => swiper.current = instance}
 				>

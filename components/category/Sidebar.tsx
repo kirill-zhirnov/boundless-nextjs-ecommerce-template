@@ -1,12 +1,11 @@
 import clsx from 'clsx';
 import Link from 'next/link';
-import {ICategoryPartial} from '../../@types/category';
 import {getCategoryImg} from '../../lib/services/imgs';
 import {getCategoryUrl} from '../../lib/services/urls';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faChevronLeft} from "@fortawesome/free-solid-svg-icons/faChevronLeft";
-import {ICategoryFlatItem, ICategoryItem} from "boundless-api-client/types/catalog/category";
-import {useMemo} from "react";
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faChevronLeft} from '@fortawesome/free-solid-svg-icons/faChevronLeft';
+import {ICategoryFlatItem, ICategoryItem} from 'boundless-api-client/types/catalog/category';
+import {useMemo} from 'react';
 
 export default function CategorySidebar({category}: {category: ICategoryItem}) {
 	const categoryMenu = useMemo<ICategoryFlatItem[]>(() => {
@@ -17,11 +16,11 @@ export default function CategorySidebar({category}: {category: ICategoryItem}) {
 		}
 
 		return [];
-	}, [category.category_id]);
+	}, [category.category_id]); //eslint-disable-line
 
 	const parentsBreadCrumbs = useMemo<ICategoryFlatItem[]>(() => {
 		if (category.parent_id && category.parents) {
-			let parents = Array.from(category.parents).reverse();
+			const parents = Array.from(category.parents).reverse();
 
 			if (!category.children?.length) {
 				parents.splice(-1, 1);
@@ -31,7 +30,7 @@ export default function CategorySidebar({category}: {category: ICategoryItem}) {
 		}
 
 		return [];
-	}, [category.category_id]);
+	}, [category.category_id]); //eslint-disable-line
 
 	if (!categoryMenu.length) return null;
 
@@ -39,7 +38,7 @@ export default function CategorySidebar({category}: {category: ICategoryItem}) {
 		<nav className={clsx('category-sidebar', {'with-breadcrumbs': parentsBreadCrumbs.length})}>
 			{parentsBreadCrumbs.length > 0 &&
 			<ul className={'category-sidebar__parents list-unstyled'}>
-				{parentsBreadCrumbs.map((item, i) => (
+				{parentsBreadCrumbs.map((item) => (
 					<li key={item.category_id}>
 						{item.category_id === category.category_id
 							? <strong>{item.title}</strong>

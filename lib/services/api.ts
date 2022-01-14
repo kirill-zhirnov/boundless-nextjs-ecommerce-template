@@ -1,4 +1,4 @@
-import { BoundlessClient } from 'boundless-api-client';
+import {BoundlessClient} from 'boundless-api-client';
 
 const baseURL = process.env.BOUNDLESS_API_BASE_URL;
 const permanentToken = process.env.BOUNDLESS_API_PERMANENT_TOKEN;

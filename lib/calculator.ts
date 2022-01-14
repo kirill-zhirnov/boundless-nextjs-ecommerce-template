@@ -18,7 +18,7 @@ export const calcFinalPrice = (basicPrice: string|number, discountAmount:number|
 	let finalPrice = currency(basicPrice);
 
 	if (discountPercent) {
-		const multiply = currency(1).subtract(currency(discountPercent,{ fromCents: true }));
+		const multiply = currency(1).subtract(currency(discountPercent,{fromCents: true}));
 		finalPrice = finalPrice.multiply(multiply);
 	}
 
