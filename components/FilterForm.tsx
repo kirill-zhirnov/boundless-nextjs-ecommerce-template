@@ -1,6 +1,6 @@
 import {IFilterField, IFilterFieldRange, TCharacteristicType, TFilterFieldType} from 'boundless-api-client';
 import {TQuery} from '../@types/common';
-import {SyntheticEvent, useCallback, useEffect, useRef, useState} from 'react';
+import {SyntheticEvent, useCallback, useEffect, useState} from 'react';
 import {apiClient} from '../lib/services/api';
 import PriceRangeField from './filterForm/PriceRange';
 import _debounce from 'lodash/debounce';
@@ -11,7 +11,8 @@ import MultipleSelectCharacteristic from './filterForm/MultipleSelectCharacteris
 import TextCharacteristic from './filterForm/TextCharacteristic';
 import BrandSelect from './filterForm/BrandSelect';
 import Stock from './filterForm/Stock';
-import isEqual from 'lodash/isEqual';
+import _isEqualWith from 'lodash/isEqualWith';
+import {filterKeys, filterProductsQuery} from '../lib/services/category';
 
 /**
  * @param filterFields - might be passed manually, e.g. pass:
@@ -27,13 +28,12 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 	const [ranges, setRanges] = useState<IFilterFieldRange[]>([]);
 	const [isFetching, setIsFetching] = useState<boolean>(false);
 	const [preSearchResult, setPreSearchResult] = useState<null | number>(null);
-
-	const prevQuery = useRef<TQuery>(queryParams);
-	const submitted = useRef(false);
+	const [initedForCategory, setInitedForCategory] = useState<number|null>(null);
 
 	const getData = () => {
 		const sanitizedQuery = sanitizeIncomingQuery(queryParams);
 		setIsFetching(true);
+		setInitedForCategory(categoryId);
 		fetchRanges(filterFields, {category: [categoryId], ...sanitizedQuery}).then(({ranges}) => {
 			setValues({...sanitizedQuery, ...makeInitialValues(ranges, sanitizedQuery)});
 			setRanges(ranges);
@@ -42,16 +42,13 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 	};
 
 	useEffect(() => {
-		if (filterQueryChanged(prevQuery.current, queryParams) && !submitted.current) {
+		const clearedQueryParams = filterEmptyValues(filterProductsQuery(queryParams, filterKeys));
+		const clearedValues = filterEmptyValues(values);
+
+		if (isFilterQueryChanged(clearedQueryParams, clearedValues) || initedForCategory !== categoryId) {
 			getData();
 		}
-		prevQuery.current = queryParams;
-		submitted.current = false;
-	}, [queryParams]); // eslint-disable-line
-
-	useEffect(() => {
-		getData();
-	}, []); //eslint-disable-line
+	}, [queryParams, categoryId]); // eslint-disable-line
 
 	// eslint-disable-next-line
 	const reCalcRanges = useCallback(_debounce((values) => {
@@ -61,7 +58,7 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 			setPreSearchResult(totalProducts);
 			setIsFetching(false);
 		}).catch(console.error);
-	}, 500), []);
+	}, 600), [categoryId]);
 
 	const onChange = (key: string, value: any, characteristicId?: number) => {
 		let newValues: TQuery = {};
@@ -82,14 +79,13 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 
 		const filteredValues = filterEmptyValues(values);
 		onSearch(_omit(filteredValues, ['page']));
-		submitted.current = true;
 		setHasChanged(false);
 	};
 
 	const onClear = (e: SyntheticEvent) => {
 		e.preventDefault();
 
-		const clearedValues = _omit(values, ['page', 'in_stock', 'props', 'price_min', 'price_max', 'brand', 'in_stock']);
+		const clearedValues = _omit(values, ['page', ...filterKeys]);
 
 		onSearch(clearedValues);
 		setValues({...clearedValues, ...makeInitialValues(ranges, clearedValues)});
@@ -261,19 +257,19 @@ const sanitizeIncomingQuery = (queryParams: TQuery): TQuery => {
 	return sanitizedQuery;
 };
 
-const filterQueryChanged = (oldQuery: TQuery, newQuery: TQuery) => {
-	if (oldQuery === newQuery) return false;
-
-	const filterKeys = ['brand', 'price_min', 'price_max', 'props', 'in_stock'];
+const isFilterQueryChanged = (prevQuery: TQuery, newQuery: TQuery): boolean => {
+	const compare = (val1: any, val2: any) => String(val1) === String(val2);
 
 	for (const key of filterKeys) {
-		if (key === 'props' || key === 'brand') {
-			if (!isEqual(oldQuery[key], newQuery[key])) return true;
+		if (!(key in prevQuery) && !(key in newQuery))
+			continue;
+
+		if (['props', 'brand'].includes(key)) {
+			if (!_isEqualWith(prevQuery[key], newQuery[key], compare)) return true;
 		} else {
-			const valuesEqual = oldQuery[key] && newQuery[key] && oldQuery[key] === newQuery[key];
-			const noValues = !oldQuery[key] && !newQuery[key];
-			if (!(valuesEqual || noValues))
+			if (String(prevQuery[key]) !== String(newQuery[key])) {
 				return true;
+			}
 		}
 	}
 

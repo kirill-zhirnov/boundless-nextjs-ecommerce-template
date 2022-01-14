@@ -25,6 +25,10 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 	const [productsQuery, setProductsQuery] = useState(data?.productsQuery || {});
 	const [collection, setCollection] = useState(data?.collection || null);
 
+	useEffect(() => {
+		console.log('router.query changed', router.query);
+	}, [router.query]);
+
 	const onCollectionChange = async (newParams: TQuery) => {
 		const {collection, filteredQuery} = await fetchCollection(category!.category_id, newParams);
 		setCollection(collection);
