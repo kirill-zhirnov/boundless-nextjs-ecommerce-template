@@ -20,7 +20,7 @@
 
 	&__icon {
 		background: #000;
-		background: url("../../public/icons/shopping_cart.svg") center center / 100% 100% no-repeat;
+		background: url('../../public/icons/shopping_cart.svg') center center / 100% 100% no-repeat;
 		height: 28px;
 		position: relative;
 		width: 28px;
@@ -87,9 +87,11 @@
 
 .cart-items {
 	padding: 0 10px;
+
 	.row:nth-child(even) {
 		background: #f9f9f9;
 	}
+
 	.cart-qty-input {
 		max-width: 150px;
 		min-width: 90px;
@@ -97,17 +99,18 @@
 
 	.cart-row {
 		.img {
-			width: 60px;
-			height: 60px;
 			flex-shrink: 0;
+			height: 60px;
 			text-align: center;
+			width: 60px;
 		}
+
 		.no-image {
 			background: #eee url('/noImg.png') no-repeat 50% 50%;
 			background-size: 30px;
 			flex-shrink: 0;
-			width: 60px;
 			height: 60px;
+			width: 60px;
 		}
 	}
 }

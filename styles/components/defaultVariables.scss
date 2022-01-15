@@ -1,4 +1,4 @@
-$theme-color: #C490E4;
+$theme-color: #c490e4;
 
 $front-text-color: #000;
 $front-link-color: #0d6efd;
@@ -11,7 +11,7 @@ $btn-action-bg: $theme-color;
 $btn-action-border: darken($theme-color, 10%);
 
 $front-highlight-link-color: $theme-color;
-$front-highlighted-color: red;
+$front-highlighted-color: #dc3545;
 
 $zindex-call-to-order: 1031;
 $zindex-nprogress: 1032;
@@ -20,3 +20,5 @@ $front-bg-color: #f8f8f8;
 
 $front-category-sidebar-color: $front-text-color;
 $front-category-sidebar-hover-color: $front-highlight-link-color;
+
+$front-products-border-color: #cfd3da;

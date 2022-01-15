@@ -1,7 +1,7 @@
 .category-sidebar {
 	background: $front-bg-color;
-	padding: 4px 7.5px;
 	margin-bottom: 1.5rem;
+	padding: 4px 7.5px;
 
 	@include media-breakpoint-up(xl) {
 		font-size: 1.15rem;
@@ -40,8 +40,8 @@
 
 			.img-link {
 				display: inline-block;
+				margin: 0 0.5rem 0 0;
 				vertical-align: middle;
-				margin: 0 .5rem 0 0;
 
 				img {
 					display: block;
@@ -50,8 +50,8 @@
 
 			.title {
 				color: $front-category-sidebar-color;
-				text-decoration: none;
 				display: inline-block;
+				text-decoration: none;
 
 				&::first-letter {
 					text-transform: uppercase;

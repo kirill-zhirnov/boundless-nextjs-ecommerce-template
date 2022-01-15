@@ -2,7 +2,7 @@
 
 @import '~bootstrap';
 
-$theme-color: #C490E4;
+$theme-color: #c490e4;
 
 @import 'components/defaultVariables';
 
@@ -11,6 +11,7 @@ $theme-color: #C490E4;
 
 //Components
 @import './components/buttons';
+@import './components/products';
 @import './components/product';
 //@import './components/category';
 @import './components/nprogress';

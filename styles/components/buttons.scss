@@ -11,17 +11,17 @@
 .btn-anim {
 	position: relative;
 
-	&:before {
-		content: "";
-		display: block;
-		width: 30px;
-		height: 100%;
-		position: absolute;
-		opacity: 0.3;
-		top: 0;
-		left: 0;
-		background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.03) 1%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0.85) 70%, rgba(255, 255, 255, 0.85) 71%, rgba(255, 255, 255, 0) 100%);
-		transform: skew(-10deg, 0deg);
+	&::before {
 		animation: move-rhomb 5s linear infinite;
+		background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.03) 1%, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0.85) 50%, rgba(255, 255, 255, 0.85) 70%, rgba(255, 255, 255, 0.85) 71%, rgba(255, 255, 255, 0) 100%);
+		content: '';
+		display: block;
+		height: 100%;
+		left: 0;
+		opacity: 0.3;
+		position: absolute;
+		top: 0;
+		transform: skew(-10deg, 0deg);
+		width: 30px;
 	}
 }

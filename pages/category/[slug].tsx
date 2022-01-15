@@ -25,10 +25,6 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 	const [productsQuery, setProductsQuery] = useState(data?.productsQuery || {});
 	const [collection, setCollection] = useState(data?.collection || null);
 
-	useEffect(() => {
-		console.log('router.query changed', router.query);
-	}, [router.query]);
-
 	const onCollectionChange = async (newParams: TQuery) => {
 		const {collection, filteredQuery} = await fetchCollection(category!.category_id, newParams);
 		setCollection(collection);
@@ -64,11 +60,13 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 						<main className='col-md-9 col-sm-8 content-box'>
 							<h2 className='text-center mb-3'>{title}</h2>
 							<BreadCrumbs parents={category.parents!} />
-							<SortButtons params={productsQuery} onSort={onCollectionChange} />
 							{category.text?.description_top && <div dangerouslySetInnerHTML={{__html: category.text.description_top}} />}
-							{collection && <ProductsList products={collection.products} query={productsQuery} categoryId={category.category_id} />}
+							{collection && <>
+								<SortButtons params={productsQuery} onSort={onCollectionChange} />
+								<ProductsList products={collection.products} query={productsQuery} categoryId={category.category_id} />
+								<Pagination pagination={collection.pagination} params={productsQuery} onChange={onCollectionChange} />
+							</>}
 							{category.text?.description_bottom && <div dangerouslySetInnerHTML={{__html: category.text.description_bottom}} />}
-							{collection && <Pagination pagination={collection.pagination} params={productsQuery} onChange={onCollectionChange} />}
 						</main>
 					</div>
 				</div>

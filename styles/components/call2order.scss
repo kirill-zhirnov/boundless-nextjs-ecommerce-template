@@ -11,25 +11,25 @@ $call-to-order-right: 20px;
 }
 
 .call-to-order {
+	background-color: #fff;
+	background-image: linear-gradient(to bottom, #fff 20%, rgba(246, 246, 246, 1) 100%);
+	background-repeat: repeat-x;
+	border: 2px solid $theme-color;
 	box-shadow: 0 6px 24px -4px #eee;
+	display: none;
 	min-height: 100px;
 	padding: 20px;
 	position: absolute;
 	right: $call-to-order-right;
-	top: 60px;
 	text-align: left;
+	top: 60px;
 	width: 300px;
 	z-index: $zindex-call-to-order;
-	border: 2px solid $theme-color;
-	background-color: #fff;
-	background-image: linear-gradient(to bottom, #fff 20%, rgba(246,246,246,1) 100%);
-	background-repeat: repeat-x;
-	display: none;
 
 	&__header {
-		position: relative;
-		padding: 0 21px 8px 0;
 		border-bottom: 1px solid #eee;
+		padding: 0 21px 8px 0;
+		position: relative;
 
 		.btn-close {
 			position: absolute;
@@ -44,8 +44,8 @@ $call-to-order-right: 20px;
 
 		.img {
 			flex-shrink: 0;
-			width: 60px;
 			margin: 0 5px 0 0;
+			width: 60px;
 		}
 
 		.desc {
@@ -56,7 +56,7 @@ $call-to-order-right: 20px;
 	}
 
 	&.opened {
-		display: block;
 		animation: call-to-order-show-from-right 0.2s forwards;
+		display: block;
 	}
 }

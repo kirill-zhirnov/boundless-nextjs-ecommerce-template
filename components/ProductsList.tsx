@@ -4,13 +4,11 @@ import ProductItem from './productsList/ProductItem';
 
 export default function ProductsList({products, query, categoryId}: IProductListProps) {
 	return (
-		<>
-			<div className='product-list row'>
-				{products && products.map(product => (
-					<ProductItem product={product} key={product.product_id} query={query} categoryId={categoryId} />
-				))}
-			</div>
-		</>
+		<ul className='products list-unstyled'>
+			{products.map(product => (
+				<ProductItem product={product} key={product.product_id} query={query} categoryId={categoryId} />
+			))}
+		</ul>
 	);
 }
 
