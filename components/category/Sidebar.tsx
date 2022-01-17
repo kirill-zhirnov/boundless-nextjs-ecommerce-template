@@ -12,7 +12,7 @@ export default function CategorySidebar({category}: {category: ICategoryItem}) {
 		if (category.children?.length) {
 			return Array.from(category.children);
 		} else if (category.siblings?.length) {
-			return Array.from(category.siblings);
+			return category.siblings.filter(({parent_id}) => category.parent_id === parent_id);
 		}
 
 		return [];

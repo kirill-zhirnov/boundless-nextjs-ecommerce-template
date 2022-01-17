@@ -6,6 +6,8 @@ import {calcTotalPrice} from '../../lib/calculator';
 import {hideCall2Order} from '../../redux/reducers/cart';
 import {RootState} from '../../redux/store';
 import ProductImage from '../productsList/ProductImage';
+import NoImage from '../NoImage';
+import {TThumbRatio} from '../../@types/image';
 import ProductPrice from '../productsList/ProductPrice';
 
 export default function CallToOrder() {
@@ -34,19 +36,26 @@ export default function CallToOrder() {
 				Product added to cart
 				<button className='btn-close btn-sm' onClick={hide} />
 			</h5>
-			<div className='call-to-order__item mb-3'>
-				<>
-					{item?.image && <ProductImage image={item.image} alt={item?.product.title} maxSize={100} />}
-					<div className={'desc'}>
-						<div>{item?.product.title || ''}</div>
-						{item?.variant && <div className={'text-muted variant mt-1'}>{item.variant.title}</div>}
+			{item &&
+			<>
+				<div className='call-to-order__item mb-3'>
+					<div className='call-to-order__img-wrapper'>
+						{item.image
+							? <ProductImage image={item.image} alt={item.product.title} maxSize={100} />
+							: <NoImage ratio={TThumbRatio['1-1']} />
+						}
 					</div>
-				</>
-			</div>
-			{item?.prices && item.prices.length > 0 &&
+					<div className={'desc'}>
+						<div>{item.product.title}</div>
+						{item.variant && <div className={'text-muted variant mt-1'}>{item.variant.title}</div>}
+					</div>
+				</div>
+				{item.prices.length > 0 &&
 				<div className='mb-3'>
 					<ProductPrice price={item?.prices[0]} className='d-inline' /> {` x ${qty} = ${item.prices[0].value ? calcTotalPrice(item.prices[0].value, qty!) : ''}`}
 				</div>}
+			</>
+			}
 			<div className='text-end'>
 				<Link href='/cart'>
 					<a className='btn btn-action btn-anim'>Place an order</a>

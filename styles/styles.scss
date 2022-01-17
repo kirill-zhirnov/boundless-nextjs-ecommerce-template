@@ -10,6 +10,7 @@ $theme-color: #c490e4;
 @import 'themes/sample/page';
 
 //Components
+@import './components/noImage';
 @import './components/buttons';
 @import './components/products';
 @import './components/product';

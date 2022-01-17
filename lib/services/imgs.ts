@@ -2,35 +2,35 @@ import {TThumbRatio} from '../../@types/image';
 import {apiClient} from './api';
 
 //fixed aspect ratio for product images
-const productImgRatio = process.env.BOUNDLESS_PRODUCTS_IMAGE_PROPORTION as TThumbRatio || null;
+export const productImgRatio = process.env.BOUNDLESS_PRODUCTS_IMAGE_PROPORTION as TThumbRatio || null;
 
 export function getProductsListImg(image: IImagePartial, maxSize: number): IImageData {
 	const {width, height, path: imgLocalPath} = image;
-	if (height && width) {
-		const thumb = apiClient.makeThumb({
-			imgLocalPath,
-			maxSize,
-			originalWidth: width,
-			originalHeight: height
-		});
 
-		if (productImgRatio) thumb.setRatio(productImgRatio);
-
-		const attrs = thumb.getAttrs();
-		thumb.setGrayscale(true);
-		thumb.setBlur(2);
-
-		return {
-			...attrs,
-			blurSrc: thumb.getSrc()
-		};
+	const thumb = apiClient.makeThumb({imgLocalPath, maxSize});
+	if (productImgRatio) {
+		thumb
+			.setRatio(productImgRatio)
+			.setPad(true)
+		;
 	}
 
+	if (!width || !height) {
+		return {src: thumb.getSrc()};
+	}
+
+	thumb.setOriginalSize(width, height);
+
+	const imgAttrs = thumb.getAttrs();
+
+	thumb
+		.setGrayscale(true)
+		.setBlur(2)
+	;
+
 	return {
-		src: apiClient.makeThumb({
-			imgLocalPath,
-			maxSize
-		}).getSrc()
+		...imgAttrs,
+		blurSrc: thumb.getSrc()
 	};
 }
 

@@ -1,0 +1,49 @@
+.no-image {
+	position: relative;
+
+	&__bg {
+		background: #d8d8d8 url('../../assets/noImg.png') no-repeat center;
+		background-size: 50px;
+		bottom: 0;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
+	&.r-1-1 {
+		padding-bottom: calc(1/1 * 100%);
+	}
+
+	&.r-2-3 {
+		padding-bottom: calc(3/2 * 100%);
+	}
+
+	&.r-3-2 {
+		padding-bottom: calc(2/3 * 100%);
+	}
+
+	&.r-4-5 {
+		padding-bottom: calc(5/4 * 100%);
+	}
+
+	&.r-5-4 {
+		padding-bottom: calc(4/5 * 100%);
+	}
+
+	&.r-3-4 {
+		padding-bottom: calc(4/3 * 100%);
+	}
+
+	&.r-4-3 {
+		padding-bottom: calc(3/4 * 100%);
+	}
+
+	&.r-16-9 {
+		padding-bottom: calc(9/16 * 100%);
+	}
+
+	&.r-9-16 {
+		padding-bottom: calc(16/9 * 100%);
+	}
+}

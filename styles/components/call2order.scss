@@ -42,16 +42,20 @@ $call-to-order-right: 20px;
 		display: flex;
 		justify-content: flex-start;
 
-		.img {
-			flex-shrink: 0;
-			margin: 0 5px 0 0;
-			width: 60px;
-		}
-
 		.desc {
 			p {
 				margin-bottom: 0;
 			}
+		}
+	}
+
+	&__img-wrapper {
+		flex-shrink: 0;
+		margin: 0 5px 0 0;
+		width: 60px;
+
+		.no-image__bg {
+			background-size: 30px;
 		}
 	}
 

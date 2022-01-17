@@ -1,8 +1,7 @@
 import {IProduct} from 'boundless-api-client/types/catalog/product';
 import clsx from 'clsx';
-import {useAppDispatch, useAppSelector} from '../../hooks/redux';
+import {useAppDispatch} from '../../hooks/redux';
 import {addItem2Cart} from '../../redux/actions/cart';
-import {RootState} from '../../redux/store';
 import {getProductUrl} from '../../lib/services/urls';
 import ProductListImage from './ProductImage';
 import ProductPrice from './ProductPrice';
@@ -11,6 +10,9 @@ import Link from 'next/link';
 import ProductLabels from '../product/Labels';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCartPlus} from '@fortawesome/free-solid-svg-icons/faCartPlus';
+import NoImage from '../NoImage';
+import {productImgRatio} from '../../lib/services/imgs';
+import {TThumbRatio} from '../../@types/image';
 
 export default function ProductItem({product, query, categoryId}: IProductItemProps) {
 	const params = {...query};
@@ -74,7 +76,7 @@ function ProductImage({product, productUrl}: {product: IProduct, productUrl: str
 			<a className={'products__image'}>
 				{img
 					? <ProductListImage image={img} alt={img.alt || product.title} />
-					: <div className='no-image' />
+					: <NoImage ratio={productImgRatio || TThumbRatio['1-1']} />
 				}
 				<ProductLabels labels={product.labels!} />
 			</a>
