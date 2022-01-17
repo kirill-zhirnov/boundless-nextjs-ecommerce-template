@@ -26,7 +26,7 @@ export default function ProductPage({data}: InferGetStaticPropsType<typeof getSt
 
 	const fetchNewParents = async (categoryId: number) => {
 		const {parents} = await apiClient.catalog.getCategoryItem(categoryId, {with_parents: 1});
-		if (parents) setParents(parents);
+		setParents(parents!);
 	};
 
 	useEffect(() => {

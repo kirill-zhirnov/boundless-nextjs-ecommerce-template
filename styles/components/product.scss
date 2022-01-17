@@ -142,7 +142,7 @@
 		}
 
 		&.with-old .price {
-			color: $front-highlighted-color;
+			color: $front-highlighted-price-color;
 		}
 	}
 
@@ -152,7 +152,7 @@
 	}
 
 	.benefit-price span {
-		color: $front-highlighted-color;
+		color: $front-highlighted-price-color;
 	}
 }
 
@@ -165,12 +165,12 @@
 		}
 
 		&.with-old .price {
-			color: $front-highlighted-color;
+			color: $front-highlighted-price-color;
 		}
 	}
 
 	.benefit-price span {
-		color: $front-highlighted-color;
+		color: $front-highlighted-price-color;
 	}
 }
 

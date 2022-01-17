@@ -60,7 +60,10 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 						<main className='col-md-9 col-sm-8 content-box'>
 							<h2 className='text-center mb-3'>{title}</h2>
 							<BreadCrumbs parents={category.parents!} />
-							{category.text?.description_top && <div dangerouslySetInnerHTML={{__html: category.text.description_top}} />}
+							{category.text?.description_top &&
+								<div className={'mb-3'} dangerouslySetInnerHTML={{__html: category.text.description_top}} />
+							}
+
 							{collection && <>
 								<SortButtons params={productsQuery} onSort={onCollectionChange} />
 								<ProductsList products={collection.products} query={productsQuery} categoryId={category.category_id} />
@@ -125,7 +128,7 @@ const fetchData = async (slug: string, params: TQuery) => {
 		with_filter: 1
 	});
 
-	// params['per-page'] = 1; // FIXME just for test
+	params['per-page'] = 12;
 
 	const {collection, filteredQuery: productsQuery} = await fetchCollection(category.category_id, params);
 
