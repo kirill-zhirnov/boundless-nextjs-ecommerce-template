@@ -1,23 +1,13 @@
-// import {IFilterField, IFilterFieldRequest, TFilterFieldType} from 'boundless-api-client';
 import {IGetProductsParams} from 'boundless-api-client/endpoints/catalog';
-import {ICategoryFlatItem, ICategoryItem} from 'boundless-api-client/types/catalog/category';
 import {TQuery} from '../../@types/common';
 
-export const getMenu4Category = (category: ICategoryItem): ICategoryFlatItem[] => {
-	const categoryMenu: ICategoryFlatItem[] = [];
-	const {parent_id, siblings, children} = category;
-	if (children && children.length > 0) {
-		categoryMenu.push(...children);
-	} else if (siblings && siblings.length > 0) {
-		const filteredSiblings = siblings.filter(elem => elem.parent_id === parent_id);
-		categoryMenu.push(...filteredSiblings);
+export const filterKeys = ['brand', 'price_min', 'price_max', 'props', 'in_stock'];
+
+export const filterProductsQuery = (query: TQuery, allowedKeys: string[]|null = null): IGetProductsParams => {
+	if (allowedKeys === null) {
+		allowedKeys = ['sort', 'page', 'per-page', ...filterKeys];
 	}
 
-	return categoryMenu;
-};
-
-export const filterProductsQuery = (query: TQuery): IGetProductsParams => {
-	const allowedKeys = ['in_stock', 'price_min', 'price_max', 'brand', 'sort', 'props', 'page', 'per-page'];
 	const outQuery: IGetProductsParams = {};
 
 	for (const [key, value] of Object.entries(query)) {
@@ -27,27 +17,3 @@ export const filterProductsQuery = (query: TQuery): IGetProductsParams => {
 
 	return outQuery;
 };
-
-// export const getFilterFieldsQuery = (fields: IFilterField[]) => {
-// 	const requestFields: IFilterFieldRequest[] = [];
-//
-// 	for (const field of fields) {
-// 		if (!(field.type in filterTypes)) continue;
-// 		const out: IFilterFieldRequest = {
-// 			type: filterTypes[field.type as keyof typeof filterTypes]
-// 		};
-//
-// 		if (field.type === TFilterFieldType.characteristic && field.characteristic_id) {
-// 			out.characteristic_id = field.characteristic_id;
-// 		}
-// 		requestFields.push(out);
-// 	}
-//
-// 	return requestFields;
-// };
-//
-// const filterTypes = {
-// 	[TFilterFieldType.price]: TFilterType.price_range,
-// 	[TFilterFieldType.brand]: TFilterType.manufacturer,
-// 	[TFilterFieldType.characteristic]: TFilterType.characteristic
-// };

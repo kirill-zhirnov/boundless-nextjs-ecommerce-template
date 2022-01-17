@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import {getProductsListImg, IImagePartial} from '../../lib/services/imgs';
 
-export default function ProductImage({image, alt, maxSize = 200}: {image: IImagePartial, alt: string, maxSize?: number}) {
+export default function ProductListImage({image, alt, maxSize = 200}: {image: IImagePartial, alt: string, maxSize?: number}) {
 	const {src, blurSrc, width, height} = getProductsListImg(image, maxSize);
 
 	return (

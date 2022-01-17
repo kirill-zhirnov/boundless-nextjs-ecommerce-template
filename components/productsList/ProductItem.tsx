@@ -1,83 +1,120 @@
 import {IProduct} from 'boundless-api-client/types/catalog/product';
 import clsx from 'clsx';
-import {useAppDispatch, useAppSelector} from '../../hooks/redux';
+import {useAppDispatch} from '../../hooks/redux';
 import {addItem2Cart} from '../../redux/actions/cart';
-import {RootState} from '../../redux/store';
 import {getProductUrl} from '../../lib/services/urls';
-import ProductImage from './ProductImage';
+import ProductListImage from './ProductImage';
 import ProductPrice from './ProductPrice';
+import {TQuery} from '../../@types/common';
+import Link from 'next/link';
+import ProductLabels from '../product/Labels';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCartPlus} from '@fortawesome/free-solid-svg-icons/faCartPlus';
+import NoImage from '../NoImage';
+import {productImgRatio} from '../../lib/services/imgs';
+import {TThumbRatio} from '../../@types/image';
 
-export default function ProductItem({product}: {product: IProduct}) {
-	const dispatch = useAppDispatch();
-	const submitting = useAppSelector((state: RootState) => state.cart.submitting);
-	const schemaAvailability = product.in_stock ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock';
-
-	const onAddToCart = (product: IProduct) => {
-		if (!product.item_id) return;
-		dispatch(addItem2Cart(product.item_id, 1));
-	};
+export default function ProductItem({product, query, categoryId}: IProductItemProps) {
+	const params = {...query};
+	if (categoryId && categoryId !== product.default_category?.category_id) {
+		Object.assign(params, {category: categoryId});
+	}
+	const productUrl = getProductUrl(product, params);
 
 	return (
-		<div
-			className='product-item col-6 col-md-4 col-lg-3'
+		<li
+			className={clsx('products__item', {'in-stock': product.in_stock, 'out-of-stock': !product.in_stock})}
 			data-id={product.product_id}
 			itemScope
 			itemType='http://schema.org/Product'
 		>
-			<div className='product-item__wrapper'>
-				<div className={'product-item__image'}>
-					<a href={getProductUrl(product)} >
-						{product.images && product.images.length > 0
-							? <ProductImage image={{path: product.images[0].path, width: 200, height: 200}} alt={product.images[0].alt || product.title} />
-							: <div className='no-image' />}
-					</a>
-				</div>
-				<div className={clsx('product-item__basket-btn', !product.in_stock && 'd-none')}>
-					<button
-						type='button'
-						className='btn btn-outline-secondary btn-sm'
-						disabled={submitting}
-						onClick={() => onAddToCart(product)}
-					>
-						Add to basket
-					</button>
-				</div>
-				<h4 className='product-item__title flex-grow-1'>
-					<a href={getProductUrl(product)} itemProp='url'>
-						<span itemProp='name'>{product.title}</span>
-					</a>
+			<div className='products__item-wrapper'>
+				<ProductImage product={product}
+											productUrl={productUrl} />
+				<h4 className='products__title'>
+					<Link href={productUrl}>
+						<a itemProp='url'>
+							<span itemProp='name'>{product.title}</span>
+						</a>
+					</Link>
 				</h4>
-
-				<div className='product-item__offer'>
-					{product.price && <>
-						<ProductPrice price={product.price} />
-						<div className={clsx('product-item__availability', product.in_stock && 'd-none')}>
-							<b className={product.in_stock ? 'product-item__stock-in' : 'product-item__stock-out'}>
-								{product.in_stock ? 'In stock' : 'Out of stock'}
-							</b>
-						</div>
-						{product.price?.min
-							?
-							<div itemProp='offers' itemScope itemType='http://schema.org/AggregateOffer'>
-								<meta itemProp='lowPrice' content={String(product.price.min)} />
-								<meta itemProp='highPrice' content={String(product.price.max)} />
-								<meta itemProp='priceCurrency' content={product.price.currency_alias?.toUpperCase()} />
-								<link itemProp='availability' href={schemaAvailability} />
-							</div>
-							:
-							<div itemProp='offers' itemScope itemType='http://schema.org/Offer'>
-								<meta itemProp='price' content={String(product.price.min)} />
-								<meta itemProp='highPrice' content={String(product.price.max)} />
-								<meta itemProp='priceCurrency' content={product.price.currency_alias?.toUpperCase()} />
-								<link itemProp='availability' href={schemaAvailability} />
-							</div>
-						}
-					</>}
+				<div className='products__offer'>
+					{product.price && <ProductPrice price={product.price} />}
 				</div>
-				<meta itemProp='productID' content={String(product.product_id)} />
-				<meta itemProp='brand' content={product.manufacturer?.title || ''} />
-				<meta itemProp='sku' content={product.sku || ''} />
+				<Product2Cart product={product} />
 			</div>
+			<ProductSchemaOrgMarkup product={product} />
+		</li>
+	);
+}
+
+function Product2Cart({product}: {product: IProduct}) {
+	const dispatch = useAppDispatch();
+	const onAddToCart = () => dispatch(addItem2Cart(product.item_id!, 1));
+
+	return (
+		<div className={'products__to-cart'}>
+			{product.in_stock
+				? <button
+					type='button'
+					className='btn btn-action'
+					onClick={onAddToCart}
+				>
+					<FontAwesomeIcon icon={faCartPlus} /> Add to cart
+				</button>
+				: <span className={'text-muted'}>Out of stock</span>
+			}
 		</div>
 	);
+}
+
+function ProductImage({product, productUrl}: {product: IProduct, productUrl: string}) {
+	const img = product.images!.find(({is_default}) => is_default);
+
+	return (
+		<Link href={productUrl}>
+			<a className={'products__image'}>
+				{img
+					? <ProductListImage image={img} alt={img.alt || product.title} />
+					: <NoImage ratio={productImgRatio || TThumbRatio['1-1']} />
+				}
+				<ProductLabels labels={product.labels!} />
+			</a>
+		</Link>
+	);
+}
+
+function ProductSchemaOrgMarkup({product}: {product: IProduct}) {
+	const schemaAvailability = product.in_stock ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock';
+
+	return (
+		<>
+			<meta itemProp='productID' content={String(product.product_id)} />
+			<meta itemProp='brand' content={product.manufacturer?.title || ''} />
+			<meta itemProp='sku' content={product.sku || ''} />
+			{product.price &&
+			(product.price?.min
+					?
+					<div itemProp='offers' itemScope itemType='http://schema.org/AggregateOffer'>
+						<meta itemProp='lowPrice' content={String(product.price.min)} />
+						<meta itemProp='highPrice' content={String(product.price.max)} />
+						<meta itemProp='priceCurrency' content={product.price.currency_alias?.toUpperCase()} />
+						<link itemProp='availability' href={schemaAvailability} />
+					</div>
+					:
+					<div itemProp='offers' itemScope itemType='http://schema.org/Offer'>
+						<meta itemProp='price' content={String(product.price.value)} />
+						<meta itemProp='priceCurrency' content={product.price.currency_alias?.toUpperCase()} />
+						<link itemProp='availability' href={schemaAvailability} />
+					</div>
+			)
+			}
+		</>
+	);
+}
+
+interface IProductItemProps {
+	product: IProduct;
+	query: TQuery;
+	categoryId?: number;
 }

@@ -1,3 +1,5 @@
+@import './product/labels';
+
 .product-item {
 	display: flex;
 	flex-direction: column;
@@ -23,21 +25,22 @@
 
 			.product-item__availability,
 			.product-item__basket-btn {
-				transform: translateY(0px);
+				transform: translateY(0);
 			}
 		}
 	}
 
 	&__title {
-		padding: 12px 6px;
-		font-weight: 300;
 		font-size: 1.3rem;
+		font-weight: 300;
 		margin-bottom: 0;
+		padding: 12px 6px;
 		text-align: center;
 
 		a {
-			text-decoration: none;
 			color: #ba86da;
+			text-decoration: none;
+
 			&:hover {
 				text-decoration: underline;
 			}
@@ -45,8 +48,8 @@
 	}
 
 	&__price {
-		text-align: center;
 		font-weight: 500;
+		text-align: center;
 	}
 
 	&__image {
@@ -55,10 +58,24 @@
 			position: relative;
 			width: 100%;
 		}
+
 		img {
-			width: 100%;
 			height: 100%;
+			width: 100%;
 		}
+
+		//.no-image {
+		//	align-items: center;
+		//	background: #f7f7f7;
+		//	display: flex;
+		//	height: 200px;
+		//	justify-content: center;
+		//
+		//	img {
+		//		height: 80px;
+		//		width: 80px;
+		//	}
+		//}
 	}
 
 	&__stock-in {
@@ -76,11 +93,92 @@
 		display: flex;
 		justify-content: center;
 		left: 0;
-		padding: 5px 10px;
 		margin-bottom: 5px;
+		padding: 5px 10px;
 		position: absolute;
 		right: 0;
 		transform: translateY(60px);
 		transition: transform 0.3s;
 	}
+}
+
+.thumbs-list .thumb {
+	border: 2px solid transparent;
+	border-radius: 8px;
+	overflow: hidden;
+
+	a {
+		display: block;
+		opacity: 0.3;
+	}
+
+	&.active {
+		border: 2px solid #ddd;
+		border-radius: 8px;
+		overflow: hidden;
+
+		a {
+			opacity: 1;
+		}
+	}
+}
+
+.variant-picker {
+	padding-bottom: 12px;
+}
+
+.variant-picker + .price-and-buy {
+	border-top: 1px solid #eee;
+}
+
+.price-and-buy {
+	border-bottom: 1px solid #eee;
+	margin-bottom: 20px;
+	padding: 20px 0;
+
+	.prices {
+		.price {
+			font-size: 26px;
+		}
+
+		&.with-old .price {
+			color: $front-highlighted-price-color;
+		}
+	}
+
+	.price-old {
+		color: #777;
+		font-size: 22px;
+	}
+
+	.benefit-price span {
+		color: $front-highlighted-price-color;
+	}
+}
+
+.modal-price {
+	.prices {
+		margin-bottom: 0;
+
+		.price {
+			font-size: 18px;
+		}
+
+		&.with-old .price {
+			color: $front-highlighted-price-color;
+		}
+	}
+
+	.benefit-price span {
+		color: $front-highlighted-price-color;
+	}
+}
+
+.product-characteristics {
+	color: #777;
+	margin-bottom: 20px;
+}
+
+.product-characteristic {
+	border-bottom: 1px solid #eee;
 }

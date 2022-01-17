@@ -6,6 +6,8 @@ import {calcTotalPrice} from '../../lib/calculator';
 import {hideCall2Order} from '../../redux/reducers/cart';
 import {RootState} from '../../redux/store';
 import ProductImage from '../productsList/ProductImage';
+import NoImage from '../NoImage';
+import {TThumbRatio} from '../../@types/image';
 import ProductPrice from '../productsList/ProductPrice';
 
 export default function CallToOrder() {
@@ -29,25 +31,34 @@ export default function CallToOrder() {
 	}, [show]); //eslint-disable-line
 
 	return (
-		<div className={clsx('call-to-order', !show && 'd-none')} onClick={(e) => e.stopPropagation()}>
-			<div className='position-relative'>
-				<h5>	Product added to cart</h5>
+		<div className={clsx('call-to-order', {opened: show})} onClick={(e) => e.stopPropagation()}>
+			<h5 className={'call-to-order__header mb-3'}>
+				Product added to cart
 				<button className='btn-close btn-sm' onClick={hide} />
-			</div>
-			<hr className='my-0' />
-			<div className='mt-3 d-flex gap-2 text-start'>
-				<>
-					{item?.image && <ProductImage image={item.image} alt={item?.product.title} maxSize={100}/>}
-					{item?.product.title || ''}
-				</>
-			</div>
-			{item?.prices && item.prices.length > 0 &&
-				<div className='my-1'>
-					<ProductPrice price={item?.prices[0]} className='d-inline'/> {` x ${qty} = ${item.prices[0].value ? calcTotalPrice(item.prices[0].value, qty!) : ''}`}
+			</h5>
+			{item &&
+			<>
+				<div className='call-to-order__item mb-3'>
+					<div className='call-to-order__img-wrapper'>
+						{item.image
+							? <ProductImage image={item.image} alt={item.product.title} maxSize={100} />
+							: <NoImage ratio={TThumbRatio['1-1']} />
+						}
+					</div>
+					<div className={'desc'}>
+						<div>{item.product.title}</div>
+						{item.variant && <div className={'text-muted variant mt-1'}>{item.variant.title}</div>}
+					</div>
+				</div>
+				{item.prices.length > 0 &&
+				<div className='mb-3'>
+					<ProductPrice price={item?.prices[0]} className='d-inline' /> {` x ${qty} = ${item.prices[0].value ? calcTotalPrice(item.prices[0].value, qty!) : ''}`}
 				</div>}
-			<div className='mt-2 text-center'>
+			</>
+			}
+			<div className='text-end'>
 				<Link href='/cart'>
-					<a className='btn btn-primary'>Place an order</a>
+					<a className='btn btn-action btn-anim'>Place an order</a>
 				</Link>
 			</div>
 		</div >

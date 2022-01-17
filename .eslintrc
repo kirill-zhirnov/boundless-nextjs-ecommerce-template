@@ -26,6 +26,8 @@
 		"semi": ["error", "always"],
 		"quotes": ["error", "single"],
 		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
+		"object-curly-spacing": ["error", "never"],
+		"array-bracket-spacing": ["error", "never"],
 		"@typescript-eslint/explicit-function-return-type": "off",
 		// "@typescript-eslint/no-explicit-any": 1,
 		"@typescript-eslint/no-unused-vars": "warn",

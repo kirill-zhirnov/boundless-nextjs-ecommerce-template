@@ -9,7 +9,7 @@ export const getCartInfo = (): AppThunk => async (dispatch) => {
 	const cartId = Cookie.get('boundless_cart_id');
 	if (cartId) {
 		dispatch(getCartTotal(cartId));
-		Cookie.set('boundless_cart_id', cartId, {expires: 365}); //refresh cookie expiration
+		Cookie.set('boundless_cart_id', cartId, {expires: 365, sameSite: 'None', secure: true}); //refresh cookie expiration
 	} else {
 		dispatch(retrieveCart());
 	}
@@ -22,7 +22,7 @@ export const retrieveCart = (): AppThunk => async (dispatch) => {
 		if (cart?.id && cart?.total) {
 			dispatch(setCartId(cart.id));
 			dispatch(setCartTotal(cart.total));
-			Cookie.set('boundless_cart_id', cart.id, {expires: 365});
+			Cookie.set('boundless_cart_id', cart.id, {expires: 365, sameSite: 'None', secure: true});
 		}
 	} catch (err) {
 		console.error(err);

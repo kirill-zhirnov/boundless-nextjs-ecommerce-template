@@ -7,7 +7,7 @@ export default function MultipleSelectCharacteristic({field, onChange, values}: 
 
 	const onInput = (caseId: number, e: ChangeEvent<HTMLInputElement>) => {
 		const value = (characteristic.characteristic_id in values.props && Array.isArray(values.props[characteristic.characteristic_id]))
-			? values.props[characteristic.characteristic_id] : []
+			? [...values.props[characteristic.characteristic_id]] : []
 		;
 		const index = value.findIndex((item: string|number) => String(item) == String(caseId));
 

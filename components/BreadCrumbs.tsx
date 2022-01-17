@@ -1,9 +1,10 @@
 import {ICategoryFlatItem} from 'boundless-api-client/types/catalog/category';
 import clsx from 'clsx';
 import Link from 'next/link';
-import {getCategoryUrl} from '../../lib/services/urls';
+import {TQuery} from '../@types/common';
+import {getCategoryUrl} from '../lib/services/urls';
 
-export default function CategoryBreadCrumbs({parents}: {parents: ICategoryFlatItem[]}) {
+export default function BreadCrumbs({parents, activeParams}: IBreadCrumbsProps) {
 	const _parents = [...parents];
 
 	const richItemAttrs = {
@@ -22,7 +23,8 @@ export default function CategoryBreadCrumbs({parents}: {parents: ICategoryFlatIt
 					<meta itemProp='position' content='1' />
 				</li>
 				{parents?.length > 0 && _parents.reverse().map((parent, i) => {
-					const isActive = parents.length === i + 1;
+					const isLast = parents.length === i + 1;
+					const isActive = isLast && !activeParams;
 					const title = parent.title || parent.joined_title;
 
 					return (
@@ -33,7 +35,7 @@ export default function CategoryBreadCrumbs({parents}: {parents: ICategoryFlatIt
 						>
 							{isActive
 								? title
-								: <Link href={getCategoryUrl(parent)}>
+								: <Link href={getCategoryUrl(parent, activeParams)}>
 									<a itemProp='item'>
 										<span itemProp='name'>{title}</span>
 									</a>
@@ -44,4 +46,9 @@ export default function CategoryBreadCrumbs({parents}: {parents: ICategoryFlatIt
 			</ol>
 		</nav>
 	);
+}
+
+interface IBreadCrumbsProps {
+	parents: ICategoryFlatItem[];
+	activeParams?: TQuery;
 }

@@ -1,8 +1,9 @@
 .sort-buttons {
 	ul li {
 		a {
-			text-decoration: none;
 			color: #777;
+			text-decoration: none;
+
 			&:hover {
 				text-decoration: underline;
 			}

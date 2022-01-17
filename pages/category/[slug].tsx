@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from 'react';
+import {useEffect, useState} from 'react';
 import MainLayout from '../../layouts/Main';
 import {apiClient} from '../../lib/services/api';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
@@ -9,21 +9,21 @@ import ProductsList from '../../components/ProductsList';
 import {IPagination} from 'boundless-api-client/types/common';
 import Pagination from '../../components/Pagination';
 import {NextRouter, useRouter} from 'next/router';
-import CategoryBreadCrumbs from '../../components/breadcrumbs/CategoryBreadCrumbs';
-import CategoryMenu from '../../components/categoryMenu/CategoryMenu';
-import {getMenu4Category, filterProductsQuery} from '../../lib/services/category';
+import BreadCrumbs from '../../components/BreadCrumbs';
+import CategorySidebar from '../../components/category/Sidebar';
+import {filterProductsQuery} from '../../lib/services/category';
 import {TQuery} from '../../@types/common';
 import FilterForm from '../../components/FilterForm';
 import {createGetStr} from 'boundless-api-client/utils';
 import qs from 'qs';
-import {getCategoryUrl} from '../../lib/services/urls';
+import {getCategoryItemUrl} from '../../lib/services/urls';
 import SortButtons from '../../components/SortButtons';
+import {getCategoryMetaData} from '../../lib/services/meta';
 
 export default function CategoryPage({errorCode, data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const router = useRouter();
 	const [productsQuery, setProductsQuery] = useState(data?.productsQuery || {});
 	const [collection, setCollection] = useState(data?.collection || null);
-	const menu = useMemo(() => data?.category ? getMenu4Category(data?.category) : [], [data?.category]);
 
 	const onCollectionChange = async (newParams: TQuery) => {
 		const {collection, filteredQuery} = await fetchCollection(category!.category_id, newParams);
@@ -47,23 +47,29 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 
 	return (
 		<>
-			<MainLayout title={title}>
+			<MainLayout title={title} metaData={getCategoryMetaData(category)}>
 				<div className='container'>
 					<div className='row'>
 						<div className='col-md-3 col-sm-4'>
-							<CategoryMenu categoryTree={menu} activeId={category.category_id} parents={category.parents!} />
+							<CategorySidebar category={category} />
 							<FilterForm filterFields={category.filter!.fields}
-								queryParams={{category: [category.category_id], ...productsQuery}}
+								queryParams={productsQuery}
+								categoryId={category.category_id}
 								onSearch={onCollectionChange} />
 						</div>
 						<main className='col-md-9 col-sm-8 content-box'>
 							<h2 className='text-center mb-3'>{title}</h2>
-							<CategoryBreadCrumbs parents={category.parents!} />
-							<SortButtons params={productsQuery} onSort={onCollectionChange} />
-							{category.text?.description_top && <div dangerouslySetInnerHTML={{__html: category.text.description_top}} />}
-							{collection && <ProductsList products={collection.products} />}
+							<BreadCrumbs parents={category.parents!} />
+							{category.text?.description_top &&
+								<div className={'mb-3'} dangerouslySetInnerHTML={{__html: category.text.description_top}} />
+							}
+
+							{collection && <>
+								<SortButtons params={productsQuery} onSort={onCollectionChange} />
+								<ProductsList products={collection.products} query={productsQuery} categoryId={category.category_id} />
+								<Pagination pagination={collection.pagination} params={productsQuery} onChange={onCollectionChange} />
+							</>}
 							{category.text?.description_bottom && <div dangerouslySetInnerHTML={{__html: category.text.description_bottom}} />}
-							{collection && <Pagination pagination={collection.pagination} params={productsQuery} onChange={onCollectionChange} />}
 						</main>
 					</div>
 				</div>
@@ -96,15 +102,7 @@ export const getServerSideProps: GetServerSideProps<ICategoryPageProps> = async 
 		}
 	}
 
-	const {category_id} = data.category;
-	const {url_key} = data.category.text || {};
-	const {custom_link} = data.category.props || {};
-
-	const redirectUrl = getCategoryUrl({
-		category_id,
-		url_key: url_key || null,
-		custom_link: custom_link || null
-	});
+	const redirectUrl = getCategoryItemUrl(data.category);
 
 	if (redirectUrl !== `/category/${slug}`) {
 		return {
@@ -130,7 +128,7 @@ const fetchData = async (slug: string, params: TQuery) => {
 		with_filter: 1
 	});
 
-	// params['per-page'] = 1; // FIXME just for test
+	params['per-page'] = 12;
 
 	const {collection, filteredQuery: productsQuery} = await fetchCollection(category.category_id, params);
 

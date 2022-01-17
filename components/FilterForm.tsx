@@ -11,6 +11,8 @@ import MultipleSelectCharacteristic from './filterForm/MultipleSelectCharacteris
 import TextCharacteristic from './filterForm/TextCharacteristic';
 import BrandSelect from './filterForm/BrandSelect';
 import Stock from './filterForm/Stock';
+import _isEqualWith from 'lodash/isEqualWith';
+import {filterKeys, filterProductsQuery} from '../lib/services/category';
 
 /**
  * @param filterFields - might be passed manually, e.g. pass:
@@ -20,33 +22,43 @@ import Stock from './filterForm/Stock';
  * @param onSubmit
  * @constructor
  */
-export default function FilterForm({filterFields, queryParams, onSearch}: IFilterFormProps) {
+export default function FilterForm({filterFields, queryParams, categoryId, onSearch}: IFilterFormProps) {
 	const [hasChanged, setHasChanged] = useState<boolean>(false);
 	const [values, setValues] = useState<TQuery>({});
 	const [ranges, setRanges] = useState<IFilterFieldRange[]>([]);
 	const [isFetching, setIsFetching] = useState<boolean>(false);
 	const [preSearchResult, setPreSearchResult] = useState<null | number>(null);
+	const [initedForCategory, setInitedForCategory] = useState<number|null>(null);
 
-	useEffect(() => {
+	const getData = () => {
 		const sanitizedQuery = sanitizeIncomingQuery(queryParams);
-
 		setIsFetching(true);
-		fetchRanges(filterFields, sanitizedQuery).then(({ranges}) => {
+		setInitedForCategory(categoryId);
+		fetchRanges(filterFields, {category: [categoryId], ...sanitizedQuery}).then(({ranges}) => {
 			setValues({...sanitizedQuery, ...makeInitialValues(ranges, sanitizedQuery)});
 			setRanges(ranges);
 			setIsFetching(false);
 		}).catch(console.error);
-	}, [queryParams]); // eslint-disable-line
+	};
+
+	useEffect(() => {
+		const clearedQueryParams = filterEmptyValues(filterProductsQuery(queryParams, filterKeys));
+		const clearedValues = filterEmptyValues(values);
+
+		if (isFilterQueryChanged(clearedQueryParams, clearedValues) || initedForCategory !== categoryId) {
+			getData();
+		}
+	}, [queryParams, categoryId]); // eslint-disable-line
 
 	// eslint-disable-next-line
 	const reCalcRanges = useCallback(_debounce((values) => {
 		setIsFetching(true);
-		fetchRanges(filterFields, values).then(({ranges, totalProducts}) => {
+		fetchRanges(filterFields, {category: [categoryId], ...values}).then(({ranges, totalProducts}) => {
 			setRanges(ranges);
 			setPreSearchResult(totalProducts);
 			setIsFetching(false);
 		}).catch(console.error);
-	}, 500), []);
+	}, 600), [categoryId]);
 
 	const onChange = (key: string, value: any, characteristicId?: number) => {
 		let newValues: TQuery = {};
@@ -67,14 +79,13 @@ export default function FilterForm({filterFields, queryParams, onSearch}: IFilte
 
 		const filteredValues = filterEmptyValues(values);
 		onSearch(_omit(filteredValues, ['page']));
-
 		setHasChanged(false);
 	};
 
 	const onClear = (e: SyntheticEvent) => {
 		e.preventDefault();
 
-		const clearedValues = _omit(values, ['page', 'in_stock', 'props', 'price_min', 'price_max', 'brand', 'in_stock']);
+		const clearedValues = _omit(values, ['page', ...filterKeys]);
 
 		onSearch(clearedValues);
 		setValues({...clearedValues, ...makeInitialValues(ranges, clearedValues)});
@@ -246,6 +257,25 @@ const sanitizeIncomingQuery = (queryParams: TQuery): TQuery => {
 	return sanitizedQuery;
 };
 
+const isFilterQueryChanged = (prevQuery: TQuery, newQuery: TQuery): boolean => {
+	const compare = (val1: any, val2: any) => String(val1) === String(val2);
+
+	for (const key of filterKeys) {
+		if (!(key in prevQuery) && !(key in newQuery))
+			continue;
+
+		if (['props', 'brand'].includes(key)) {
+			if (!_isEqualWith(prevQuery[key], newQuery[key], compare)) return true;
+		} else {
+			if (String(prevQuery[key]) !== String(newQuery[key])) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+};
+
 const isMultiCaseType = (type: TCharacteristicType) => [TCharacteristicType.radio, TCharacteristicType.select, TCharacteristicType.checkbox].includes(type);
 
 type TShortFilterField = Pick<IFilterField, 'type' | 'characteristic_id'>;
@@ -253,6 +283,7 @@ type TShortFilterField = Pick<IFilterField, 'type' | 'characteristic_id'>;
 interface IFilterFormProps {
 	filterFields: TShortFilterField[],
 	queryParams: TQuery;
+	categoryId: number;
 	onSearch: (data: TQuery) => void;
 }
 

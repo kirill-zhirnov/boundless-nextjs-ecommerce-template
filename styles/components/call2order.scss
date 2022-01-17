@@ -1,19 +1,66 @@
-.call-to-order {
-	background-color: #eee;
-	border-radius: 10px;
-	box-shadow: 0 6px 24px -4px #eee;
-	min-height: 100px;
-	padding: 12px;
-	position: fixed;
-	right: 20px;
-	text-align: start;
-	top: 60px;
-	width: 250px;
-	z-index: 10;
+$call-to-order-right: 20px;
 
-	.btn-close {
-		position: absolute;
-		right: 0;
-		top: 0;
+@keyframes call-to-order-show-from-right {
+	from {
+		right: -500px;
+	}
+
+	to {
+		right: $call-to-order-right;
+	}
+}
+
+.call-to-order {
+	background-color: #fff;
+	background-image: linear-gradient(to bottom, #fff 20%, rgba(246, 246, 246, 1) 100%);
+	background-repeat: repeat-x;
+	border: 2px solid $theme-color;
+	box-shadow: 0 6px 24px -4px #eee;
+	display: none;
+	min-height: 100px;
+	padding: 20px;
+	position: absolute;
+	right: $call-to-order-right;
+	text-align: left;
+	top: 60px;
+	width: 300px;
+	z-index: $zindex-call-to-order;
+
+	&__header {
+		border-bottom: 1px solid #eee;
+		padding: 0 21px 8px 0;
+		position: relative;
+
+		.btn-close {
+			position: absolute;
+			right: 0;
+			top: 0;
+		}
+	}
+
+	&__item {
+		display: flex;
+		justify-content: flex-start;
+
+		.desc {
+			p {
+				margin-bottom: 0;
+			}
+		}
+	}
+
+	&__img-wrapper {
+		flex-shrink: 0;
+		margin: 0 5px 0 0;
+		width: 60px;
+
+		.no-image__bg {
+			background-size: 30px;
+		}
+	}
+
+	&.opened {
+		animation: call-to-order-show-from-right 0.2s forwards;
+		display: block;
 	}
 }

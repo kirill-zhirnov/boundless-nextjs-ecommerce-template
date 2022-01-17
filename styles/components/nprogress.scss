@@ -1,13 +1,13 @@
 #nprogress {
 	.bar {
-		background-color: $c-btn-default;
-		z-index: 2000;
+		background-color: $theme-color;
+		z-index: $zindex-nprogress;
 	}
 
 	.spinner {
 		.spinner-icon {
-			border-left-color: $c-btn-default;
-			border-top-color: $c-btn-default;
+			border-left-color: $theme-color;
+			border-top-color: $theme-color;
 		}
 	}
 }

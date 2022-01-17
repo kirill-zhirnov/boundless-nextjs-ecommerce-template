@@ -18,7 +18,7 @@ export const calcFinalPrice = (basicPrice: string|number, discountAmount:number|
 	let finalPrice = currency(basicPrice);
 
 	if (discountPercent) {
-		const multiply = currency(1).subtract(currency(discountPercent,{ fromCents: true }));
+		const multiply = currency(1).subtract(currency(discountPercent,{fromCents: true}));
 		finalPrice = finalPrice.multiply(multiply);
 	}
 
@@ -37,3 +37,9 @@ interface ICalcTotalItem {
 	qty: number;
 	price: string|number;
 }
+
+export const calcBenefit = (price: number|string, price_old: number|string|null) => {
+	if (!price_old) return null;
+
+	return currency(price_old).subtract(price).format();
+};

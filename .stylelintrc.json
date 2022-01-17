@@ -1,0 +1,12 @@
+{
+	"extends": "stylelint-config-sass-guidelines",
+	"rules": {
+		"indentation": "tab",
+		"max-nesting-depth": 5,
+		"selector-max-compound-selectors": 5,
+		"selector-max-id": 2,
+		"selector-class-pattern": null,
+		"selector-no-qualifying-type": [true, {"ignore": ["attribute", "class", "id"]}]
+	},
+	"ignoreFiles": ["**/*.css", "**/*.js", "**/*.ts", "**/*.tsx"]
+}

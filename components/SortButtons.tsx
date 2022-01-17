@@ -36,6 +36,7 @@ export default function SortButtons({params, onSort}: {params: TQuery, onSort: (
 		} else {
 			delete newParams.sort;
 		}
+		delete newParams.page;
 
 		onSort(newParams);
 	};

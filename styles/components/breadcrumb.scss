@@ -1,15 +1,21 @@
 .breadcrumb-wrapper {
-	background-color: $c-bg-body;
-	border-radius: 10px;
-	display: inline-block;
+	background-color: $front-bg-color;
+	display: block;
+	margin-bottom: 2rem;
 	padding: 10px 12px;
-	margin-bottom: 1rem;
 
 	.breadcrumb {
 		margin-bottom: 0;
 	}
 
-	.breadcrumb-item a {
-		color: #ba86da;
+	.breadcrumb-item {
+		a {
+			color: $front-text-color;
+			text-decoration: none;
+
+			&:hover {
+				text-decoration: underline;
+			}
+		}
 	}
 }
