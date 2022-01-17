@@ -2,7 +2,7 @@ import {IProduct} from 'boundless-api-client/types/catalog/product';
 import clsx from 'clsx';
 import {useAppDispatch} from '../../hooks/redux';
 import {addItem2Cart} from '../../redux/actions/cart';
-import {getProductUrl} from '../../lib/services/urls';
+import {getProductUrl} from '../../lib/urls';
 import ProductListImage from './ProductImage';
 import ProductPrice from './ProductPrice';
 import {TQuery} from '../../@types/common';
@@ -11,7 +11,7 @@ import ProductLabels from '../product/Labels';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCartPlus} from '@fortawesome/free-solid-svg-icons/faCartPlus';
 import NoImage from '../NoImage';
-import {productImgRatio} from '../../lib/services/imgs';
+import {productImgRatio} from '../../lib/imgs';
 import {TThumbRatio} from '../../@types/image';
 
 export default function ProductItem({product, query, categoryId}: IProductItemProps) {

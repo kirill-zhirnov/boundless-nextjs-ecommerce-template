@@ -4,7 +4,7 @@ import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
 import CategoryHomeMenu from '../components/category/CategoryHomeMenu';
 import ProductsList from '../components/ProductsList';
 import MainLayout from '../layouts/Main';
-import {apiClient} from '../lib/services/api';
+import {apiClient} from '../lib/api';
 
 export default function IndexPage({categoryTree, products}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 

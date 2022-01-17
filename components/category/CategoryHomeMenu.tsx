@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import {ICategoryPartial} from '../../@types/category';
-import {getCategoryImg} from '../../lib/services/imgs';
-import {getCategoryUrl} from '../../lib/services/urls';
+import {getCategoryImg} from '../../lib/imgs';
+import {getCategoryUrl} from '../../lib/urls';
 
 export default function CategoryHomeMenu({categoryTree}: {categoryTree: ICategoryPartial[]}) {
 	return (

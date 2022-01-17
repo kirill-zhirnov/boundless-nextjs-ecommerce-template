@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import Link from 'next/link';
-import {getCategoryImg} from '../../lib/services/imgs';
-import {getCategoryUrl} from '../../lib/services/urls';
+import {getCategoryImg} from '../../lib/imgs';
+import {getCategoryUrl} from '../../lib/urls';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faChevronLeft} from '@fortawesome/free-solid-svg-icons/faChevronLeft';
 import {ICategoryFlatItem, ICategoryItem} from 'boundless-api-client/types/catalog/category';

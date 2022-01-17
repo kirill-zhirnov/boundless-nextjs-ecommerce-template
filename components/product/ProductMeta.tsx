@@ -1,5 +1,5 @@
 import {ICategoryFlatItem, IProductItem} from 'boundless-api-client';
-import {getProductItemUrl} from '../../lib/services/urls';
+import {getProductItemUrl} from '../../lib/urls';
 
 export default function ProductMeta({product, parents}: IProductMetaProps) {
 	return (

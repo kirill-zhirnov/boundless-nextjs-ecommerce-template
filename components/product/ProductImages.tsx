@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {IProductImage} from 'boundless-api-client/types/image';
 import clsx from 'clsx';
 import ProductImage from './ProductImage';
-import {getMetaImgUrl} from '../../lib/services/imgs';
+import {getMetaImgUrl} from '../../lib/imgs';
 import ImagesSlider from './ImagesSlider';
 
 export default function ProductImages({images}: {images: IProductImage[]}) {

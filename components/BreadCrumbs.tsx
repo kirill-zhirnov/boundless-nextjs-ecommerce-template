@@ -2,7 +2,7 @@ import {ICategoryFlatItem} from 'boundless-api-client/types/catalog/category';
 import clsx from 'clsx';
 import Link from 'next/link';
 import {TQuery} from '../@types/common';
-import {getCategoryUrl} from '../lib/services/urls';
+import {getCategoryUrl} from '../lib/urls';
 
 export default function BreadCrumbs({parents, activeParams}: IBreadCrumbsProps) {
 	const _parents = [...parents];

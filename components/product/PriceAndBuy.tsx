@@ -1,7 +1,7 @@
 import {useState} from 'react';
 import {IProductItem, IProductVariant} from 'boundless-api-client';
 import clsx from 'clsx';
-import {getLowestPrice, getProductPrice} from '../../lib/services/price';
+import {getLowestPrice, getProductPrice} from '../../lib/price';
 import {useAppDispatch} from '../../hooks/redux';
 import {addItem2Cart} from '../../redux/actions/cart';
 

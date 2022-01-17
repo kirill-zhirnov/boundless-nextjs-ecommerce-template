@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {ICategoryFlatItem, IProductItem, IProductVariant} from 'boundless-api-client';
 import {GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next';
 import MainLayout from '../../layouts/Main';
-import {apiClient} from '../../lib/services/api';
+import {apiClient} from '../../lib/api';
 import {useRouter} from 'next/router';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import ProductImages from '../../components/product/ProductImages';
@@ -11,7 +11,7 @@ import PriceAndBuy from '../../components/product/PriceAndBuy';
 import qs from 'qs';
 import ProductMeta from '../../components/product/ProductMeta';
 import ProductCharacteristics from '../../components/product/ProductCharacteristics';
-import {getProductMetaData} from '../../lib/services/meta';
+import {getProductMetaData} from '../../lib/meta';
 
 export default function ProductPage({data}: InferGetStaticPropsType<typeof getStaticProps>) {
 	const router = useRouter();

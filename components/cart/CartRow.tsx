@@ -1,8 +1,8 @@
 import {ICartItem} from 'boundless-api-client';
 import Link from 'next/link';
 import {formatMoney} from '../../lib/formatter';
-import {getCartImg} from '../../lib/services/imgs';
-import {getProductUrl} from '../../lib/services/urls';
+import {getCartImg} from '../../lib/imgs';
+import {getProductUrl} from '../../lib/urls';
 
 export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 	return (

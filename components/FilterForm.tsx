@@ -1,7 +1,7 @@
 import {IFilterField, IFilterFieldRange, TCharacteristicType, TFilterFieldType} from 'boundless-api-client';
 import {TQuery} from '../@types/common';
 import {SyntheticEvent, useCallback, useEffect, useState} from 'react';
-import {apiClient} from '../lib/services/api';
+import {apiClient} from '../lib/api';
 import PriceRangeField from './filterForm/PriceRange';
 import _debounce from 'lodash/debounce';
 import _omit from 'lodash/omit';
@@ -12,7 +12,7 @@ import TextCharacteristic from './filterForm/TextCharacteristic';
 import BrandSelect from './filterForm/BrandSelect';
 import Stock from './filterForm/Stock';
 import _isEqualWith from 'lodash/isEqualWith';
-import {filterKeys, filterProductsQuery} from '../lib/services/category';
+import {filterKeys, filterProductsQuery} from '../lib/category';
 
 /**
  * @param filterFields - might be passed manually, e.g. pass:

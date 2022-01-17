@@ -1,7 +1,7 @@
 import {ICategory, ICategoryItem} from 'boundless-api-client';
 import {IProduct, IProductItem} from 'boundless-api-client/types/catalog/product';
 import {createGetStr} from 'boundless-api-client/utils';
-import {TQuery} from '../../@types/common';
+import {TQuery} from '../@types/common';
 
 const CATEGORY_PREFIX = '/category';
 const PRODUCTS_PREFIX = '/product';

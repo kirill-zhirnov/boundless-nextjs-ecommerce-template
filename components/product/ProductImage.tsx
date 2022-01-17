@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import {getProductImg, IImagePartial} from '../../lib/services/imgs';
+import {getProductImg, IImagePartial} from '../../lib/imgs';
 
 export default function ProductImage({image, alt, maxSize = 800, preserveRatio = false}: IProductImageProps) {
 	const {src, blurSrc, width, height} = getProductImg(image, maxSize, preserveRatio);

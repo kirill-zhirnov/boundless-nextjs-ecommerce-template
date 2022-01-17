@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import MainLayout from '../../layouts/Main';
-import {apiClient} from '../../lib/services/api';
+import {apiClient} from '../../lib/api';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
 import {ICategoryItem} from 'boundless-api-client/types/catalog/category';
 import ErrorComponent from 'next/error';
@@ -11,14 +11,14 @@ import Pagination from '../../components/Pagination';
 import {NextRouter, useRouter} from 'next/router';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import CategorySidebar from '../../components/category/Sidebar';
-import {filterProductsQuery} from '../../lib/services/category';
+import {filterProductsQuery} from '../../lib/category';
 import {TQuery} from '../../@types/common';
 import FilterForm from '../../components/FilterForm';
 import {createGetStr} from 'boundless-api-client/utils';
 import qs from 'qs';
-import {getCategoryItemUrl} from '../../lib/services/urls';
+import {getCategoryItemUrl} from '../../lib/urls';
 import SortButtons from '../../components/SortButtons';
-import {getCategoryMetaData} from '../../lib/services/meta';
+import {getCategoryMetaData} from '../../lib/meta';
 
 export default function CategoryPage({errorCode, data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const router = useRouter();
