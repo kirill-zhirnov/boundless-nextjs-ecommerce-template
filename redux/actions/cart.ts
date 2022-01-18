@@ -1,7 +1,7 @@
 import {setCartId, setCartLoading, setCartSubmitting, setCartTotal, showCall2Order, showVariantModal} from '../reducers/cart';
 import {AppThunk} from '../store';
 import Cookie from 'js-cookie';
-import {apiClient} from '../../lib/services/api';
+import {apiClient} from '../../lib/api';
 import {addPromise} from '../reducers/xhr';
 import {showErrorAlert} from '../reducers/alert';
 

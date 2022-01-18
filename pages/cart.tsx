@@ -3,7 +3,7 @@ import {useEffect, useState} from 'react';
 import CartItems from '../components/cart/CartItems';
 import {useAppDispatch, useAppSelector} from '../hooks/redux';
 import MainLayout from '../layouts/Main';
-import {apiClient} from '../lib/services/api';
+import {apiClient} from '../lib/api';
 import {setCartTotal} from '../redux/reducers/cart';
 import {addPromise} from '../redux/reducers/xhr';
 import {RootState} from '../redux/store';

@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import MainLayout from '../../layouts/Main';
-import {apiClient} from '../../lib/services/api';
+import {apiClient} from '../../lib/api';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
 import {ICategoryItem} from 'boundless-api-client/types/catalog/category';
 import ErrorComponent from 'next/error';

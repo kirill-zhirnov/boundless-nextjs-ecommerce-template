@@ -1,5 +1,5 @@
 import {TThumbRatio} from '../../@types/image';
-import {apiClient} from './api';
+import {apiClient} from '../api';
 
 //fixed aspect ratio for product images
 export const productImgRatio = process.env.BOUNDLESS_PRODUCTS_IMAGE_PROPORTION as TThumbRatio || null;

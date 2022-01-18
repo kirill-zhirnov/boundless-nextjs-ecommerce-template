@@ -1,7 +1,7 @@
 import {IFilterField, IFilterFieldRange, TCharacteristicType, TFilterFieldType} from 'boundless-api-client';
 import {TQuery} from '../@types/common';
 import {SyntheticEvent, useCallback, useEffect, useState} from 'react';
-import {apiClient} from '../lib/services/api';
+import {apiClient} from '../lib/api';
 import PriceRangeField from './filterForm/PriceRange';
 import _debounce from 'lodash/debounce';
 import _omit from 'lodash/omit';

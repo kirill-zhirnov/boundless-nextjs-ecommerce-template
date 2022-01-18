@@ -2,7 +2,7 @@ import {ICartItem} from 'boundless-api-client';
 import {useEffect, useMemo, useRef, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import {calcTotal, calcTotalPrice} from '../../lib/calculator';
-import {apiClient} from '../../lib/services/api';
+import {apiClient} from '../../lib/api';
 import {addPromise} from '../../redux/reducers/xhr';
 import {RootState} from '../../redux/store';
 import debounce from 'lodash/debounce';

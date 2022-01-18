@@ -2,7 +2,7 @@ import {useEffect, useMemo, useState} from 'react';
 import {ICategoryFlatItem, IProductItem, IProductVariant} from 'boundless-api-client';
 import {GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next';
 import MainLayout from '../../layouts/Main';
-import {apiClient} from '../../lib/services/api';
+import {apiClient} from '../../lib/api';
 import {useRouter} from 'next/router';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import ProductImages from '../../components/product/Images';
