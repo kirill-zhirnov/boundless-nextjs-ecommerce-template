@@ -1,136 +1,20 @@
 @import './product/labels';
+@import './product/gallery';
+@import './product/variantPicker';
 
-.product-item {
-	display: flex;
-	flex-direction: column;
-	margin-bottom: 16px;
-
-	&__wrapper {
-		// border: 1px solid #eee;
-		border-radius: 10px;
-		box-shadow: 0 6px 24px -4px #eee;
-		display: flex;
-		flex-direction: column;
-		flex-grow: 1;
-		overflow: hidden;
-		padding: 10px;
-		position: relative;
-
-		&:hover {
-			box-shadow: 0 6px 24px -4px #ccc;
-
-			.product-item__stock-out {
-				display: block;
-			}
-
-			.product-item__availability,
-			.product-item__basket-btn {
-				transform: translateY(0);
-			}
-		}
-	}
-
-	&__title {
-		font-size: 1.3rem;
-		font-weight: 300;
-		margin-bottom: 0;
-		padding: 12px 6px;
-		text-align: center;
-
-		a {
-			color: #ba86da;
-			text-decoration: none;
-
-			&:hover {
-				text-decoration: underline;
-			}
-		}
-	}
-
-	&__price {
-		font-weight: 500;
-		text-align: center;
-	}
-
-	&__image {
-		&.ratio-2-3 {
-			padding-bottom: 66.666%;
-			position: relative;
-			width: 100%;
-		}
-
-		img {
-			height: 100%;
-			width: 100%;
-		}
-
-		//.no-image {
-		//	align-items: center;
-		//	background: #f7f7f7;
-		//	display: flex;
-		//	height: 200px;
-		//	justify-content: center;
-		//
-		//	img {
-		//		height: 80px;
-		//		width: 80px;
-		//	}
-		//}
-	}
-
-	&__stock-in {
-		display: none;
-	}
-
-	&__stock-out {
-		display: none;
-	}
-
-	&__availability,
-	&__basket-btn {
-		background-color: #fff;
-		bottom: 0;
-		display: flex;
-		justify-content: center;
-		left: 0;
-		margin-bottom: 5px;
-		padding: 5px 10px;
-		position: absolute;
-		right: 0;
-		transform: translateY(60px);
-		transition: transform 0.3s;
-	}
+.product-description {
+	max-width: 800px;
 }
 
-.thumbs-list .thumb {
-	border: 2px solid transparent;
-	border-radius: 8px;
-	overflow: hidden;
+//.variant-picker {
+//	padding-bottom: 12px;
+//}
+//
+//.variant-picker + .price-and-buy {
+//	border-top: 1px solid #eee;
+//}
 
-	a {
-		display: block;
-		opacity: 0.3;
-	}
-
-	&.active {
-		border: 2px solid #ddd;
-		border-radius: 8px;
-		overflow: hidden;
-
-		a {
-			opacity: 1;
-		}
-	}
-}
-
-.variant-picker {
-	padding-bottom: 12px;
-}
-
-.variant-picker + .price-and-buy {
-	border-top: 1px solid #eee;
-}
-
+/*
 .price-and-buy {
 	border-bottom: 1px solid #eee;
 	margin-bottom: 20px;
@@ -155,6 +39,7 @@
 		color: $front-highlighted-price-color;
 	}
 }
+ */
 
 .modal-price {
 	.prices {

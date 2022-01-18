@@ -6,7 +6,7 @@ import {getLowestPrice} from '../../lib/services/price';
 import {addItem2Cart} from '../../redux/actions/cart';
 import {hideVariantModal} from '../../redux/reducers/cart';
 import {RootState} from '../../redux/store';
-import VariantPicker from '../VariantPicker';
+import ProductVariantPicker from '../product/VariantPicker';
 
 export default function ChooseVariantModal() {
 	const dispatch = useAppDispatch();
@@ -46,7 +46,7 @@ export default function ChooseVariantModal() {
 			</Modal.Header>
 			<Modal.Body>
 				<h5 className='mb-3'>Please select a variant:</h5>
-				<VariantPicker variants={variants!} error={error} setError={setError} onPick={setFilteredVariants} />
+				<ProductVariantPicker variants={variants!} error={error} setError={setError} onPick={setFilteredVariants} />
 				{variantPicked && <div className='modal-price'>
 					<p className={clsx('prices', price.price_old && 'with-old')}>
 						{!variantPicked && <span className='from me-2'>From: </span>}

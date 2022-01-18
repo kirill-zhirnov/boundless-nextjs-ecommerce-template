@@ -1,0 +1,39 @@
+.product-gallery {
+	display: flex;
+
+	&__thumbs {
+		flex-shrink: 0;
+	}
+
+	&__thumb {
+		margin: 0 0 10px;
+
+		&.active {
+			.product-gallery__thumb-link {
+				border-color: $btn-action-border;
+				opacity: 1;
+			}
+		}
+	}
+
+	&__thumb-link {
+		border: 2px solid transparent;
+		cursor: pointer;
+		display: flex;
+		opacity: 0.3;
+		padding: 4px;
+		transition: 0.3s ease 0s;
+
+		img {
+			display: block;
+			height: auto;
+			max-width: 100%;
+		}
+	}
+
+	&__big-img {
+		flex-grow: 1;
+		margin: 0 40px;
+		text-align: center;
+	}
+}

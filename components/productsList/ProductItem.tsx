@@ -78,7 +78,10 @@ function ProductImage({product, productUrl}: {product: IProduct, productUrl: str
 					? <ProductListImage image={img} alt={img.alt || product.title} />
 					: <NoImage ratio={productImgRatio || TThumbRatio['1-1']} />
 				}
-				<ProductLabels labels={product.labels!} />
+				<ProductLabels labels={product.labels!}
+											 className={'product__labels_small product__labels_column'}
+
+				/>
 			</a>
 		</Link>
 	);

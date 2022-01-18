@@ -6,13 +6,14 @@ import {faFire} from '@fortawesome/free-solid-svg-icons/faFire';
 import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
 import {faTag} from '@fortawesome/free-solid-svg-icons/faTag';
 import {faHeart} from '@fortawesome/free-solid-svg-icons/faHeart';
+import clsx from 'clsx';
 
-export default function ProductLabels({labels}: {labels: ILabel[]}) {
+export default function ProductLabels({labels, className}: {labels: ILabel[], className?: string}) {
 	if (!labels.length)
 		return null;
 
 	return (
-		<ul className={'product__labels list-unstyled'}>
+		<ul className={clsx('product__labels list-unstyled', className)}>
 			{labels.map(({label_id, title, color, text_color, icon}) =>
 				<li key={label_id}
 						className={'product__label'}
