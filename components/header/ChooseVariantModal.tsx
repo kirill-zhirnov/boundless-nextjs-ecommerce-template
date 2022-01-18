@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import {useEffect, useState} from 'react';
 import Modal from 'react-bootstrap/Modal';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux';
-import {getLowestPrice} from '../../lib/services/price';
+import {getLowestPrice} from '../../lib/price';
 import {addItem2Cart} from '../../redux/actions/cart';
 import {hideVariantModal} from '../../redux/reducers/cart';
 import {RootState} from '../../redux/store';

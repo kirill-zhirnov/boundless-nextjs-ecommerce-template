@@ -11,7 +11,7 @@ import ProductPriceAndBuy from '../../components/product/PriceAndBuy';
 import qs, {ParsedQs} from 'qs';
 import ProductMeta from '../../components/product/ProductMeta';
 import ProductCharacteristics from '../../components/product/ProductCharacteristics';
-import {getProductMetaData} from '../../lib/services/meta';
+import {getProductMetaData} from '../../lib/meta';
 import ProductLabels from '../../components/product/Labels';
 import ProductVariantAndBuy from '../../components/product/VariantAndBuy';
 

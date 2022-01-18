@@ -1,5 +1,5 @@
 import {IProductVariant} from 'boundless-api-client';
-import {calcBenefit} from '../calculator';
+import {calcBenefit} from './calculator';
 import currency from 'currency.js';
 
 export const getLowestPrice = (variants: IProductVariant[]): IPrice => {

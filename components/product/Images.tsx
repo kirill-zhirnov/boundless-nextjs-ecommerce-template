@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {IProductImage} from 'boundless-api-client/types/image';
 import clsx from 'clsx';
 import ProductImage from './ProductImage';
-import {getMetaImgUrl, productImgRatio} from '../../lib/services/imgs';
+import {getMetaImgUrl, productImgRatio} from '../../lib/imgs';
 import ImagesSlider from './ImagesSlider';
 import NoImage from '../NoImage';
 import {IProductItem} from 'boundless-api-client';

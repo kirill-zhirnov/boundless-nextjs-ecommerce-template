@@ -12,7 +12,7 @@ import TextCharacteristic from './filterForm/TextCharacteristic';
 import BrandSelect from './filterForm/BrandSelect';
 import Stock from './filterForm/Stock';
 import _isEqualWith from 'lodash/isEqualWith';
-import {filterKeys, filterProductsQuery} from '../lib/services/category';
+import {filterKeys, filterProductsQuery} from '../lib/category';
 
 /**
  * @param filterFields - might be passed manually, e.g. pass:
