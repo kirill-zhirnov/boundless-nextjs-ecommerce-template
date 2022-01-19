@@ -1,19 +1,21 @@
 import {IProductPrice} from 'boundless-api-client/types/catalog/product';
 import clsx from 'clsx';
 import {formatMoney} from '../../lib/formatter';
+import {getPriceForTpl} from '../../lib/product';
 
-export default function ProductPrice({price, className = 'products__price'}: {price: IPricePartial, className?: string}) {
-	const {old, old_max, old_min, max, min, value} = price;
-	if (!max && !min && !value) return <></>;
-	const hasOld = !!old || !!old_min || !!old_max;
+export default function ProductPrice({price, className = 'products__price'}: {price: IProductPrice, className?: string}) {
+	const tplPrice = getPriceForTpl(price);
+
+	if (tplPrice.price === null)
+		return null;
 
 	return (
 		<div className={className}>
-			{!!min && <span className={'from'}>From:</span>}
-			{hasOld && <s className={'old'}>{formatMoney(old_min || old)}</s>}
-			<span className={clsx('current', {'has-old': hasOld})}>{formatMoney(min || value)}</span>
+			{tplPrice.isFrom && <span className={'from'}>From:</span>}
+			{tplPrice.oldPrice && <s className={'old'}>{formatMoney(tplPrice.oldPrice)}</s>}
+			<span className={clsx('current', {'has-old': tplPrice.oldPrice})}>
+				{formatMoney(tplPrice.price)}
+			</span>
 		</div>
 	);
 }
-
-type IPricePartial = Pick<IProductPrice, 'old' | 'min' | 'old_max' | 'old_min' | 'max' | 'value'>

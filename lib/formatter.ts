@@ -1,6 +1,7 @@
-import accounting from 'accounting';
+import currency from 'currency.js';
 
 export function formatMoney(amount: number|string|null): string {
 	if (!amount) return '';
-	return accounting.formatMoney(amount);
+
+	return new currency(amount).format();
 }

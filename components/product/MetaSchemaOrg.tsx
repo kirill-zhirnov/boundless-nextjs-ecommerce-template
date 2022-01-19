@@ -1,7 +1,7 @@
 import {ICategoryFlatItem, IProductItem} from 'boundless-api-client';
 import {getProductItemUrl} from '../../lib/urls';
 
-export default function ProductMeta({product, parents}: IProductMetaProps) {
+export default function MetaSchemaOrg({product, parents}: IProductMetaProps) {
 	return (
 		<>
 			<meta itemProp='productID' content={String(product?.product_id)} />
@@ -12,7 +12,7 @@ export default function ProductMeta({product, parents}: IProductMetaProps) {
 			{product.has_variants
 				? product.extendedVariants?.list.map(variant => (
 					<div itemProp='offers' itemScope itemType='http://schema.org/Offer' key={variant.variant_id}>
-						<meta itemProp='price' content={variant.price} />
+						{variant.price && <meta itemProp='price' content={String(variant.price)} />}
 						<meta itemProp='priceCurrency' content='USD' />
 						{variant.sku && <meta itemProp='sku' content={variant.sku} />}
 						{variant.title && <meta itemProp='name' content={variant.title} />}

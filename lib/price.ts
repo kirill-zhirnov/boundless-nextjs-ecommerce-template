@@ -22,14 +22,6 @@ export const getLowestPrice = (variants: IProductVariant[]): IPrice => {
 	};
 };
 
-export const getProductPrice = (price: number, price_old: number|null): IPrice => {
-	return {
-		price: currency(price).format(),
-		price_old: price_old && currency(price_old).format() ,
-		benefit: calcBenefit(price, price_old)
-	};
-};
-
 export interface IPrice {
 	price: string|number;
 	price_old: string|number|null;

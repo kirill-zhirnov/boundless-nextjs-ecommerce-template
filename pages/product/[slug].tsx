@@ -1,25 +1,21 @@
 import {useEffect, useMemo, useState} from 'react';
-import {ICategoryFlatItem, IProductItem, IProductVariant} from 'boundless-api-client';
+import {ICategoryFlatItem, IProductItem} from 'boundless-api-client';
 import {GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next';
 import MainLayout from '../../layouts/Main';
 import {apiClient} from '../../lib/api';
 import {useRouter} from 'next/router';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import ProductImages from '../../components/product/Images';
-import ProductVariantPicker from '../../components/product/VariantPicker';
-import ProductPriceAndBuy from '../../components/product/PriceAndBuy';
 import qs, {ParsedQs} from 'qs';
-import ProductMeta from '../../components/product/ProductMeta';
-import ProductCharacteristics from '../../components/product/ProductCharacteristics';
+import MetaSchemaOrg from '../../components/product/MetaSchemaOrg';
 import {getProductMetaData} from '../../lib/meta';
 import ProductLabels from '../../components/product/Labels';
 import ProductVariantAndBuy from '../../components/product/VariantAndBuy';
+import ProductCharacteristics from '../../components/product/Characteristics';
 
 export default function ProductPage({data}: InferGetStaticPropsType<typeof getStaticProps>) {
 	const {product, categoryParents} = data;
 	const [resolvedParents, setResolvedParents] = useState(categoryParents);
-	const [selectedVariants, setSelectedVariants] = useState<IProductVariant[]>(product.extendedVariants?.list || []);
-	const [error, setError] = useState(false);
 
 	const router = useRouter();
 	const query = useMemo<ParsedQs>(() => qs.parse(router.asPath.split('?')[1] || ''), [router.asPath]);
@@ -53,16 +49,16 @@ export default function ProductPage({data}: InferGetStaticPropsType<typeof getSt
 							</div>
 							<div className='col-md-5'>
 								<ProductVariantAndBuy product={product} />
-								{/*<ProductPriceAndBuy product={product} selectedVariants={selectedVariants} setError={setError} />*/}
-								{/*<ProductCharacteristics characteristics={product?.nonVariantCharacteristics!} />*/}
-								{/*<h3>Shipping</h3>*/}
-								{/*We ship ASAP!*/}
+								<hr />
+								<ProductCharacteristics characteristics={product.nonVariantCharacteristics!} />
+								<h3>Shipping</h3>
+								We ship ASAP!
 							</div>
 						</div>
 						{product.text.description && <article itemProp='description'
 																									className={'product-description my-4'}
 																									dangerouslySetInnerHTML={{__html: product?.text.description}} />}
-						<ProductMeta product={product} parents={resolvedParents} />
+						<MetaSchemaOrg product={product} parents={resolvedParents} />
 					</div>
 				</div>
 			</MainLayout>

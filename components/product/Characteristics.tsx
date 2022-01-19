@@ -1,8 +1,8 @@
 import {INonVariantCaracteristic} from 'boundless-api-client';
-import CaracteristicItem from './CaracteristicItem';
+import CharacteristicItem from './characteristics/CharacteristicItem';
 
 export default function ProductCharacteristics({characteristics}: IProductCharacteristicsProps) {
-	if (!characteristics.length) return <></>;
+	if (!characteristics.length) return null;
 
 	return (
 		<div className='product-characteristics'>
@@ -10,12 +10,12 @@ export default function ProductCharacteristics({characteristics}: IProductCharac
 				<div className='product-characteristic' key={characteristic.id}>
 					{characteristic.is_folder
 						? <>
-							<h6 className='text-center'>{characteristic.title}</h6>
+							<h6>{characteristic.title}</h6>
 							{characteristic.children?.map(child => (
-								<CaracteristicItem characteristic={child} key={child.id} />
+								<CharacteristicItem characteristic={child} key={child.id} />
 							))}
 						</>
-						: <CaracteristicItem characteristic={characteristic} />}
+						: <CharacteristicItem characteristic={characteristic} />}
 				</div>
 			))}
 		</div>

@@ -1,6 +1,6 @@
 import {INonVariantCaracteristic} from 'boundless-api-client';
 
-export default function CaracteristicItem({characteristic}: {characteristic: INonVariantCaracteristic}) {
+export default function CharacteristicItem({characteristic}: {characteristic: INonVariantCaracteristic}) {
 	return (
 		<>
 			<dl className='d-flex gap-2 my-2 align-items-start'>

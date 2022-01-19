@@ -5,10 +5,11 @@ import {IVariantCombination} from 'boundless-api-client/src/types/catalog/varian
 import _isEqual from 'lodash/isEqual';
 
 export default function ProductVariantPicker({extendedVariants, onChange}: IVariantPickerProps) {
-	const {characteristics, list, combinations} = extendedVariants;
+	const {characteristics, list, combinations, idCombinations} = extendedVariants;
 	const [value, setValue] = useState<{[characteristicId: number]: number}>({});
 
 	const onSelectCase = (characteristicId: number, caseId: number|null) => {
+		console.log('characteristicId:', characteristicId, caseId);
 		const newValue = {...value};
 		if (caseId === null) {
 			delete newValue[characteristicId];
@@ -36,17 +37,10 @@ export default function ProductVariantPicker({extendedVariants, onChange}: IVari
 																		 key={characteristic.id}
 																		 onSelectCase={onSelectCase}
 																		 value={value}
-					// values={values}
-					// idCombinations={idCombinations}
-					// onSelect={variantSelected}
+																		 idCombinations={idCombinations}
+																		 variants={list}
 				/>
-				// d-flex gap-2 mb-3 align-items-center
-				// <div className='variant-picker__characteristic' >
-				// </div>
 			))}
-			{/*{error && <div className='alert alert-danger' role='alert'>*/}
-			{/*	Please pick a product variant*/}
-			{/*</div>}*/}
 		</div>
 	);
 }
@@ -59,9 +53,7 @@ interface IVariantPickerProps {
 const findVariantIdByCombinations = (value: {[key: number]: number}, combinations: IVariantCombination): null|string => {
 	const requiredCombinations = Object.entries(value).map(([characteristicId, caseId]) => `${characteristicId}-${caseId}`);
 
-	const result = Object.entries(combinations).find(([variantId, variantCombination]) => {
-		return _isEqual(requiredCombinations, variantCombination);
-	});
+	const result = Object.entries(combinations).find(([variantId, variantCombination]) => _isEqual(requiredCombinations, variantCombination));
 
 	return result ? result[0] : null;
 };

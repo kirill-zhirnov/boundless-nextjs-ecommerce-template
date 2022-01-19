@@ -1,0 +1,134 @@
+.variant-picker {
+	margin: 0 0 1rem;
+
+	&__characteristic {
+		align-items: center;
+		display: flex;
+		flex-wrap: wrap;
+		margin: 0 0 0.75rem;
+
+		@include media-breakpoint-up(sm) {
+			flex-wrap: nowrap;
+		}
+
+		&:nth-child(even) {
+			background: $front-bg-color;
+		}
+	}
+
+	&__title {
+		margin: 5px 25px 5px 5px;
+		white-space: nowrap;
+	}
+
+	&__cases {
+		display: flex;
+		flex-wrap: wrap;
+	}
+
+	&__case-item {
+		margin: 5px;
+
+		.btn {
+			&.out-of-stock {
+				cursor: not-allowed;
+			}
+		}
+	}
+}
+
+.variant-and-buy {
+	&__error {
+		color: $front-error-color;
+		margin: 0 0 1rem;
+	}
+
+	&__variants {
+		border-bottom: 1px solid $front-hr-color;
+		margin: 0 0 1rem;
+
+		&.has-error {
+			.variant-picker {
+				background: #f2dede;
+				border: 1px solid #ebccd1;
+				padding: 4px;
+				border-radius: 4px;
+			}
+		}
+	}
+}
+
+.price-and-buy {
+	&__price {
+		margin: 0 -5px 1rem;
+	}
+
+	&__from {
+		color: $text-muted;
+		display: inline-block;
+		font-size: 0.9rem;
+		margin: 0 5px;
+	}
+
+	&__old {
+		display: inline-block;
+		color: $text-muted;
+		margin: 0 5px;
+		text-decoration: line-through;
+		font-size: 1.5rem;
+	}
+
+	&__current {
+		display: inline-block;
+		margin: 0 5px;
+		font-size: 1.8rem;
+
+		&.has-old {
+			color: $front-highlighted-price-color;
+		}
+	}
+
+	&__benefit-label {
+		margin: 0 5px 0 0;
+	}
+
+	&__benefit-value {
+		color: $front-highlighted-price-color;
+	}
+
+	&__2-cart {
+		margin: -5px -10px 1rem -10px;
+
+		display: flex;
+		align-items: flex-start;
+		flex-wrap: wrap;
+	}
+
+	&__btns {
+		.btn {
+			margin: 5px 10px;
+		}
+	}
+
+	&__qty {
+		width: 130px;
+		flex-shrink: 0;
+		margin: 5px 10px;
+
+		.form-control {
+			text-align: center;
+		}
+	}
+
+	&__stock {
+		&.in {
+			color: $green;
+		}
+
+		&.out {
+			font-size: 1.5rem;
+			font-weight: $front-font-weight-bold;
+			color: $text-muted;
+		}
+	}
+}

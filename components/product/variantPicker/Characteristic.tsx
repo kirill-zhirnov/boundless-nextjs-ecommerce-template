@@ -1,52 +1,13 @@
 import {IVariantCharacteristic, IVariantIdCombinations} from 'boundless-api-client';
-import {ChangeEvent, useEffect, useRef} from 'react';
+import {ChangeEvent, useEffect, useMemo, useRef, MouseEvent} from 'react';
+import {IProductVariant} from 'boundless-api-client/src/types/catalog/variant';
+import clsx from 'clsx';
 
 // values, onSelect, idCombinations
-export default function VariantPickerCharacteristic({characteristic, onSelectCase, value}: IVariantCharProps) {
-	/*
-	const value = values[characteristic.id];
-	const submitted = useRef(false);
-
-	const checkAvailable = (caseId: number) => {
-		const _values = {...values};
-		delete _values[characteristic.id];
-		if (!Object.keys(_values).length) return true;
-
-		for (const combination of Object.values(idCombinations)) {
-			let out = true;
-			for (const [key, value] of Object.entries(_values)) {
-				out = out && combination[key] === value;
-			}
-			if (out && combination[characteristic.id] === caseId) return true;
-		}
-
-		return false;
-	};
-
-	const checkRowAvailability = () => {
-		const available = characteristic.cases.filter(caseItem => checkAvailable(caseItem.id));
-
-		if (available.length === 1) {
-			onSubmit(available[0].id);
-		}
-	};
-
-	const onSubmit = (id: number) => {
-		submitted.current = true;
-		onSelect(characteristic.id, id);
-	};
-
-	useEffect(() => {
-		if (!submitted.current) {
-			checkRowAvailability();
-		} else {
-			submitted.current = false;
-		}
-	}, [values, characteristic]); //eslint-disable-line
-*/
-
-	const onInputChange = (caseId: number, e: ChangeEvent<HTMLInputElement>) => {
-		onSelectCase(characteristic.id, e.currentTarget.checked ? caseId : null);
+export default function VariantPickerCharacteristic({characteristic, onSelectCase, value, idCombinations, variants}: IVariantCharProps) {
+	const onLabelClicked = (caseId: number, e: MouseEvent<HTMLLabelElement>) => {
+		e.preventDefault();
+		onSelectCase(characteristic.id, value[characteristic.id] === caseId ? null : caseId);
 	};
 
 	return (
@@ -55,20 +16,27 @@ export default function VariantPickerCharacteristic({characteristic, onSelectCas
 			<div className='variant-picker__cases'>
 				{characteristic.cases.map(caseItem => {
 					const id = `${characteristic.id}-case-${caseItem.id}`;
+					const availableVariants = findAvailableVariants(variants, idCombinations, {...value, ...{[characteristic.id]: caseItem.id}});
+					const inStockVariants = availableVariants.filter(({in_stock}) => in_stock);
 
 					return (
-						<div key={caseItem.id}>
+						<div key={caseItem.id}
+								 className={'variant-picker__case-item'}
+						>
 							<input autoComplete={'off'}
 										 className={'btn-check'}
-								// disabled={!checkAvailable(caseItem.id)}
+										 disabled={!availableVariants.length}
 										 name={`characteristic-${characteristic.id}`}
-										 onChange={onInputChange.bind(null, caseItem.id)}
+										 // onChange={onInputChange.bind(null, caseItem.id)}
 										 type={'radio'}
 										 checked={value[characteristic.id] === caseItem.id}
 										 value={caseItem.id}
 										 id={id}
 							/>
-							<label className='btn btn-outline-secondary' htmlFor={id}>
+							<label className={clsx('btn btn-outline-secondary', {'out-of-stock': !inStockVariants.length})}
+										 htmlFor={id}
+										 onClick={onLabelClicked.bind(null, caseItem.id)}
+							>
 								{caseItem.title}
 							</label>
 						</div>
@@ -81,7 +49,30 @@ export default function VariantPickerCharacteristic({characteristic, onSelectCas
 
 interface IVariantCharProps {
 	characteristic: IVariantCharacteristic;
-	value: {[key: number]: number};
+	value: {[characteristicId: number|string]: number};
 	onSelectCase: (characteristicId: number, caseId: number|null) => void;
-	// idCombinations: IVariantIdCombinations;
+	idCombinations: IVariantIdCombinations;
+	variants: IProductVariant[]
 }
+
+const findAvailableVariants = (variants: IProductVariant[], idCombinations: IVariantIdCombinations, value: {[characteristicId: number|string]: number}): IProductVariant[] => {
+	const variantIds: number[] = [];
+
+	for (const [variantId, combination] of Object.entries(idCombinations)) {
+		if (isValueSuitsCombination(combination, value)) {
+			variantIds.push(parseInt(variantId));
+		}
+	}
+
+	return variants.filter(({variant_id}) => variantIds.includes(variant_id));
+};
+
+const isValueSuitsCombination = (combination: {[characteristicId: number|string]: number}, value: {[characteristicId: number|string]: number}): boolean => {
+	for (const [characteristicId, caseId] of Object.entries(value)) {
+		if (!(characteristicId in combination) || combination[characteristicId] != caseId) {
+			return false;
+		}
+	}
+
+	return true;
+};
