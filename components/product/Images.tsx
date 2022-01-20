@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import {IProductImage} from 'boundless-api-client/types/image';
 import clsx from 'clsx';
 import ProductImage from './ProductImage';
 import {getMetaImgUrl, productImgRatio} from '../../lib/imgs';

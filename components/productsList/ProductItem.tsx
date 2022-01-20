@@ -50,7 +50,7 @@ export default function ProductItem({product, query, categoryId}: IProductItemPr
 
 function Product2Cart({product}: {product: IProduct}) {
 	const dispatch = useAppDispatch();
-	const onAddToCart = () => dispatch(addItem2Cart(product.item_id!, 1));
+	const onAddToCart = () => dispatch(addItem2Cart(product.item_id, 1));
 
 	return (
 		<div className={'products__to-cart'}>

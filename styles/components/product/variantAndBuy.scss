@@ -51,8 +51,8 @@
 			.variant-picker {
 				background: #f2dede;
 				border: 1px solid #ebccd1;
-				padding: 4px;
 				border-radius: 4px;
+				padding: 4px;
 			}
 		}
 	}
@@ -71,17 +71,17 @@
 	}
 
 	&__old {
-		display: inline-block;
 		color: $text-muted;
+		display: inline-block;
+		font-size: 1.5rem;
 		margin: 0 5px;
 		text-decoration: line-through;
-		font-size: 1.5rem;
 	}
 
 	&__current {
 		display: inline-block;
-		margin: 0 5px;
 		font-size: 1.8rem;
+		margin: 0 5px;
 
 		&.has-old {
 			color: $front-highlighted-price-color;
@@ -97,11 +97,11 @@
 	}
 
 	&__2-cart {
-		margin: -5px -10px 1rem -10px;
+		align-items: flex-start;
 
 		display: flex;
-		align-items: flex-start;
 		flex-wrap: wrap;
+		margin: -5px -10px 1rem;
 	}
 
 	&__btns {
@@ -111,9 +111,9 @@
 	}
 
 	&__qty {
-		width: 130px;
 		flex-shrink: 0;
 		margin: 5px 10px;
+		width: 130px;
 
 		.form-control {
 			text-align: center;
@@ -126,9 +126,9 @@
 		}
 
 		&.out {
+			color: $text-muted;
 			font-size: 1.5rem;
 			font-weight: $front-font-weight-bold;
-			color: $text-muted;
 		}
 	}
 }

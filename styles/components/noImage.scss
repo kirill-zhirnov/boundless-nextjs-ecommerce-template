@@ -46,4 +46,10 @@
 	&.r-9-16 {
 		padding-bottom: calc(16/9 * 100%);
 	}
+
+	&.bg-xs {
+		.no-image__bg {
+			background-size: 30px;
+		}
+	}
 }

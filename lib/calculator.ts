@@ -37,9 +37,3 @@ interface ICalcTotalItem {
 	qty: number;
 	price: string|number;
 }
-
-export const calcBenefit = (price: number|string, price_old: number|string|null) => {
-	if (!price_old) return null;
-
-	return currency(price_old).subtract(price).format();
-};

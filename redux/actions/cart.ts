@@ -59,10 +59,10 @@ export const addItem2Cart = (itemId: number, qty: number = 1, callToOrder: boole
 
 		dispatch(setCartSubmitting(true));
 		const promise = apiClient.orders.addItemToCart(cartId, itemId, qty).then(
-			({variants, product, actionRequired, cartTotal, added}) => {
+			({product, actionRequired, cartTotal, added}) => {
 				dispatch(setCartSubmitting(false));
-				if (actionRequired === 'chooseVariant' && variants && product) {
-					dispatch(showVariantModal({product, variants}));
+				if (actionRequired === 'chooseVariant' && product) {
+					dispatch(showVariantModal({product}));
 				} else if (cartTotal) {
 					dispatch(setCartTotal(cartTotal));
 					if (callToOrder && added) dispatch(showCall2Order(added));

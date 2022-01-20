@@ -4,9 +4,10 @@ import ProductPriceAndBuy from './PriceAndBuy';
 import {useState} from 'react';
 import clsx from 'clsx';
 
-export default function ProductVariantAndBuy({product}: {product: IProductItem}) {
+export default function ProductVariantAndBuy({product, onAddedToCart}: IProductVariantAndBuyProps) {
 	const [selectedVariant, setSelectedVariant] = useState<null|IProductVariant>();
 	const [error, setError] = useState<null|string>();
+
 	const onCaseChange = (value: {}, variant?: IProductVariant) => {
 		setSelectedVariant(variant ? variant : null);
 		setError(null);
@@ -23,7 +24,13 @@ export default function ProductVariantAndBuy({product}: {product: IProductItem})
 			<ProductPriceAndBuy product={product}
 													selectedVariant={selectedVariant}
 													setError={setError}
+													onAddedToCart={onAddedToCart}
 			/>
 		</div>
 	);
+}
+
+interface IProductVariantAndBuyProps {
+	product: Pick<IProductItem, 'price' | 'has_variants' | 'in_stock' | 'item_id' | 'extendedVariants'>,
+	onAddedToCart?: (itemId: number, qty: number) => void;
 }

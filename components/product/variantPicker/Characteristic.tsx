@@ -1,5 +1,5 @@
 import {IVariantCharacteristic, IVariantIdCombinations} from 'boundless-api-client';
-import {ChangeEvent, useEffect, useMemo, useRef, MouseEvent} from 'react';
+import {MouseEvent} from 'react';
 import {IProductVariant} from 'boundless-api-client/src/types/catalog/variant';
 import clsx from 'clsx';
 
@@ -27,7 +27,7 @@ export default function VariantPickerCharacteristic({characteristic, onSelectCas
 										 className={'btn-check'}
 										 disabled={!availableVariants.length}
 										 name={`characteristic-${characteristic.id}`}
-										 // onChange={onInputChange.bind(null, caseItem.id)}
+										 onChange={() => {}}
 										 type={'radio'}
 										 checked={value[characteristic.id] === caseItem.id}
 										 value={caseItem.id}

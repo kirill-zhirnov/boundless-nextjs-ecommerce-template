@@ -11,7 +11,7 @@ import {faMinus} from '@fortawesome/free-solid-svg-icons/faMinus';
 import {faCartPlus} from '@fortawesome/free-solid-svg-icons/faCartPlus';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 
-export default function ProductPriceAndBuy({product, selectedVariant, setError}: IPriceAndBuyProps) {
+export default function ProductPriceAndBuy({product, selectedVariant, setError, onAddedToCart}: IPriceAndBuyProps) {
 	const dispatch = useAppDispatch();
 	const [qty, setQty] = useState<number>(1);
 
@@ -40,7 +40,12 @@ export default function ProductPriceAndBuy({product, selectedVariant, setError}:
 			return;
 		}
 
-		dispatch(addItem2Cart(selectedVariant ? selectedVariant.item_id : product.item_id, qty));
+		const itemId = selectedVariant ? selectedVariant.item_id : product.item_id;
+		dispatch(addItem2Cart(itemId, qty));
+
+		if (onAddedToCart) {
+			onAddedToCart(itemId, qty);
+		}
 	};
 
 	return (
@@ -79,6 +84,7 @@ interface IPriceAndBuyProps {
 	product: Pick<IProductItem, 'price' | 'has_variants' | 'in_stock' | 'item_id'>;
 	selectedVariant?: IProductVariant|null;
 	setError: (error: null|string) => void;
+	onAddedToCart?: (itemId: number, qty: number) => void;
 }
 
 const PriceAndBuyQty = ({qty, setQty}: {qty: number, setQty: (value: number) => void}) => {

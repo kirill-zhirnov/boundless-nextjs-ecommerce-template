@@ -128,8 +128,6 @@ const fetchData = async (slug: string, params: TQuery) => {
 		with_filter: 1
 	});
 
-	params['per-page'] = 12;
-
 	const {collection, filteredQuery: productsQuery} = await fetchCollection(category.category_id, params);
 
 	const out = {
@@ -143,7 +141,12 @@ const fetchData = async (slug: string, params: TQuery) => {
 
 const fetchCollection = async (categoryId: number, params: TQuery) => {
 	const filteredQuery = filterProductsQuery(params);
-	const collection = await apiClient.catalog.getProducts({category: [categoryId], sort: 'in_category,-in_stock,price', ...filteredQuery});
+	const collection = await apiClient.catalog.getProducts({
+		category: [categoryId],
+		sort: 'in_category,-in_stock,price',
+		...filteredQuery,
+		...{'per-page': 12}
+	});
 
 	return {
 		filteredQuery,

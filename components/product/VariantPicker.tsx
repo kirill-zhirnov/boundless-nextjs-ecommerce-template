@@ -9,7 +9,6 @@ export default function ProductVariantPicker({extendedVariants, onChange}: IVari
 	const [value, setValue] = useState<{[characteristicId: number]: number}>({});
 
 	const onSelectCase = (characteristicId: number, caseId: number|null) => {
-		console.log('characteristicId:', characteristicId, caseId);
 		const newValue = {...value};
 		if (caseId === null) {
 			delete newValue[characteristicId];
@@ -53,6 +52,7 @@ interface IVariantPickerProps {
 const findVariantIdByCombinations = (value: {[key: number]: number}, combinations: IVariantCombination): null|string => {
 	const requiredCombinations = Object.entries(value).map(([characteristicId, caseId]) => `${characteristicId}-${caseId}`);
 
+	//eslint-disable-next-line
 	const result = Object.entries(combinations).find(([variantId, variantCombination]) => _isEqual(requiredCombinations, variantCombination));
 
 	return result ? result[0] : null;

@@ -8,7 +8,9 @@ import {RootState} from '../../redux/store';
 import ProductImage from '../productsList/ProductImage';
 import NoImage from '../NoImage';
 import {TThumbRatio} from '../../@types/image';
-import ProductPrice from '../productsList/ProductPrice';
+import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {formatMoney} from '../../lib/formatter';
 
 export default function CallToOrder() {
 	const dispatch = useAppDispatch();
@@ -52,13 +54,15 @@ export default function CallToOrder() {
 				</div>
 				{item.prices.length > 0 &&
 				<div className='mb-3'>
-					<ProductPrice price={item?.prices[0]} className='d-inline' /> {` x ${qty} = ${item.prices[0].value ? calcTotalPrice(item.prices[0].value, qty!) : ''}`}
+					{`${formatMoney(item.prices[0].value)} x ${qty} = ${calcTotalPrice(item.prices[0].value!, qty!)}`}
 				</div>}
 			</>
 			}
 			<div className='text-end'>
 				<Link href='/cart'>
-					<a className='btn btn-action btn-anim'>Place an order</a>
+					<a className='btn btn-action btn-anim'>
+						<FontAwesomeIcon icon={faCheck}/> Place an order
+					</a>
 				</Link>
 			</div>
 		</div >
