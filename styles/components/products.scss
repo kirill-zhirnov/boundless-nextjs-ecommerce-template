@@ -17,14 +17,14 @@ $products-gutter: 10px;
 		position: relative;
 		transition: all ease-in-out 0.35s;
 
-		width: calc((100% - (4 * $products-gutter)) / 2);
+		width: calc((100% - (4 * #{$products-gutter})) / 2);
 
 		@include media-breakpoint-up(lg) {
-			width: calc((100% - (6 * $products-gutter)) / 3);
+			width: calc((100% - (6 * #{$products-gutter})) / 3);
 		}
 
 		@include media-breakpoint-up(xl) {
-			width: calc((100% - (8 * $products-gutter)) / 4);
+			width: calc((100% - (8 * #{$products-gutter})) / 4);
 		}
 
 		&:hover {

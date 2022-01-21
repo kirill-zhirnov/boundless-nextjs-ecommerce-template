@@ -14,7 +14,8 @@ $front-highlight-link-color: $theme-color;
 $front-highlighted-price-color: #dc3545;
 
 $zindex-call-to-order: 1031;
-$zindex-nprogress: 1032;
+$zindex-nprogress: 1033;
+$zindex-collapsed-background: 1032;
 
 $front-bg-color: #f8f8f8;
 
@@ -26,3 +27,8 @@ $front-products-border-color: #cfd3da;
 $front-error-color: #a94442;
 
 $front-hr-color: #eee;
+
+$aside-width: (
+	'xxs': 290px,
+	'xs': 430px
+);

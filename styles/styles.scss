@@ -1,10 +1,11 @@
-@use 'sass:math';
-
 @import '~bootstrap';
 
 $theme-color: #c490e4;
 
-@import 'components/defaultVariables';
+@import 'components/variables';
+
+//@import 'functions/stripUnits';
+//@import 'mixins/fluidType';s
 
 @import 'themes/sample/basic';
 @import 'themes/sample/page';
@@ -14,7 +15,7 @@ $theme-color: #c490e4;
 @import './components/buttons';
 @import './components/products';
 @import './components/product';
-//@import './components/category';
+@import './components/pageHeader';
 @import './components/nprogress';
 @import './components/breadcrumb';
 @import './components/cart';
@@ -22,3 +23,4 @@ $theme-color: #c490e4;
 @import './components/alert';
 @import './components/sort';
 @import './components/categoriesSidebar';
+@import './components/asideMenu';

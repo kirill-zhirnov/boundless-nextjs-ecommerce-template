@@ -46,35 +46,33 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 	const title = category?.text?.custom_header || category?.text?.title;
 
 	return (
-		<>
-			<MainLayout title={title} metaData={getCategoryMetaData(category)}>
-				<div className='container'>
-					<div className='row'>
-						<div className='col-md-3 col-sm-4'>
-							<CategorySidebar category={category} />
-							<FilterForm filterFields={category.filter!.fields}
-								queryParams={productsQuery}
-								categoryId={category.category_id}
-								onSearch={onCollectionChange} />
-						</div>
-						<main className='col-md-9 col-sm-8 content-box'>
-							<h2 className='text-center mb-3'>{title}</h2>
-							<BreadCrumbs parents={category.parents!} />
-							{category.text?.description_top &&
-								<div className={'mb-3'} dangerouslySetInnerHTML={{__html: category.text.description_top}} />
-							}
-
-							{collection && <>
-								<SortButtons params={productsQuery} onSort={onCollectionChange} />
-								<ProductsList products={collection.products} query={productsQuery} categoryId={category.category_id} />
-								<Pagination pagination={collection.pagination} params={productsQuery} onChange={onCollectionChange} />
-							</>}
-							{category.text?.description_bottom && <div dangerouslySetInnerHTML={{__html: category.text.description_bottom}} />}
-						</main>
+		<MainLayout title={title} metaData={getCategoryMetaData(category)}>
+			<div className='container'>
+				<div className='row'>
+					<div className='col-md-3 col-sm-4'>
+						<CategorySidebar category={category} />
+						<FilterForm filterFields={category.filter!.fields}
+							queryParams={productsQuery}
+							categoryId={category.category_id}
+							onSearch={onCollectionChange} />
 					</div>
+					<main className='col-md-9 col-sm-8 content-box'>
+						<BreadCrumbs parents={category.parents!} />
+						<h1 className='page-header page-header_h1  page-header_m-h1'>{title}</h1>
+						{category.text?.description_top &&
+							<div className={'mb-3'} dangerouslySetInnerHTML={{__html: category.text.description_top}} />
+						}
+
+						{collection && <>
+							<SortButtons params={productsQuery} onSort={onCollectionChange} />
+							<ProductsList products={collection.products} query={productsQuery} categoryId={category.category_id} />
+							<Pagination pagination={collection.pagination} params={productsQuery} onChange={onCollectionChange} />
+						</>}
+						{category.text?.description_bottom && <div dangerouslySetInnerHTML={{__html: category.text.description_bottom}} />}
+					</main>
 				</div>
-			</MainLayout>
-		</>
+			</div>
+		</MainLayout>
 	);
 }
 

@@ -1,0 +1,14 @@
+@mixin fluid-type($property, $min-screen-width, $max-screen-width, $min-size, $max-size) {
+	#{$property}: $min-size;
+
+	$property-step: strip-units($max-size) - strip-units($min-size);
+	$screen-step: strip-units($max-screen-width) - strip-units($min-screen-width);
+
+	@media screen and (min-width: $min-screen-width) {
+		#{$property}: calc(#{$min-size} + #{$property-step} * ((100vw - #{$min-screen-width}) / #{$screen-step}));
+	}
+
+	@media screen and (min-width: $max-screen-width) {
+		#{$property}: $max-size;
+	}
+}

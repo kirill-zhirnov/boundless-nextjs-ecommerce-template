@@ -36,33 +36,31 @@ export default function ProductPage({data}: InferGetStaticPropsType<typeof getSt
 	}, [category, product]);
 
 	return (
-		<>
-			<MainLayout title={product.text.custom_title || product.text.title} metaData={getProductMetaData(product!)}>
-				<div className={'container'}>
-					{resolvedParents && <BreadCrumbs parents={resolvedParents} activeParams={restQuery} />}
-					<div className='product-page' itemScope itemType='http://schema.org/Product'>
-						<div className='row'>
-							<div className='col-md-7'>
-								<h1 className='mb-4' itemProp='name'>{product.text.title}</h1>
-								<ProductLabels labels={product.labels} className={'mb-3'}/>
-								<ProductImages product={product} />
-							</div>
-							<div className='col-md-5'>
-								<ProductVariantAndBuy product={product} />
-								<hr />
-								<ProductCharacteristics characteristics={product.nonVariantCharacteristics!} />
-								<h3>Shipping</h3>
-								We ship ASAP!
-							</div>
+		<MainLayout title={product.text.custom_title || product.text.title} metaData={getProductMetaData(product!)}>
+			<div className={'container'}>
+				{resolvedParents && <BreadCrumbs parents={resolvedParents} activeParams={restQuery} />}
+				<div className='product-page' itemScope itemType='http://schema.org/Product'>
+					<div className='row'>
+						<div className='col-md-7'>
+							<h1 className='mb-4' itemProp='name'>{product.text.title}</h1>
+							<ProductLabels labels={product.labels} className={'mb-3'}/>
+							<ProductImages product={product} />
 						</div>
-						{product.text.description && <article itemProp='description'
-																									className={'product-description my-4'}
-																									dangerouslySetInnerHTML={{__html: product?.text.description}} />}
-						<MetaSchemaOrg product={product} parents={resolvedParents} />
+						<div className='col-md-5'>
+							<ProductVariantAndBuy product={product} />
+							<hr />
+							<ProductCharacteristics characteristics={product.nonVariantCharacteristics!} />
+							<h3>Shipping</h3>
+							We ship ASAP!
+						</div>
 					</div>
+					{product.text.description && <article itemProp='description'
+																								className={'product-description my-4'}
+																								dangerouslySetInnerHTML={{__html: product?.text.description}} />}
+					<MetaSchemaOrg product={product} parents={resolvedParents} />
 				</div>
-			</MainLayout>
-		</>
+			</div>
+		</MainLayout>
 	);
 }
 

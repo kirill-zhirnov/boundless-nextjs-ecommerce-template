@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import {ReactNode, useEffect} from 'react';
 import Head from 'next/head';
 import Header from '../components/Header';
@@ -5,9 +6,13 @@ import Footer from '../components/Footer';
 import LoadingLine from '../components/LoadingLine';
 import AlertWidget from '../components/Alert';
 import {useRouter} from 'next/router';
-import {useAppDispatch} from '../hooks/redux';
+import {useAppDispatch, useAppSelector} from '../hooks/redux';
 import {endRouting, startRouting} from '../redux/reducers/app';
 import {hideCall2Order} from '../redux/reducers/cart';
+import {RootState} from '../redux/store';
+import clsx from 'clsx';
+const AsideMenu = dynamic(() => import('../components/AsideMenu'), {ssr: false});
+import AsideBackdrop from '../components/asideMenu/Backdrop';
 
 const shopBaseUrl = process.env.BOUNDLESS_BASE_URL || '';
 
@@ -15,6 +20,7 @@ export default function MainLayout({children, title, metaData}: IMainLayoutProps
 	const {canonicalUrl, imgUrl, description} = metaData || {};
 	const router = useRouter();
 	const dispatch = useAppDispatch();
+	const asideIsOpened = useAppSelector((state: RootState) => state.asideMenu.isOpened);
 
 	useEffect(() => {
 		const handleStart = () => {
@@ -60,13 +66,15 @@ export default function MainLayout({children, title, metaData}: IMainLayoutProps
 			</Head>
 			<LoadingLine />
 			<AlertWidget />
-			<div className='page'>
+			<div className={clsx('page-layout page-layout_main', {'page-layout_aside-opened': asideIsOpened})}>
 				<Header />
-				<main className='page__main'>
+				<main>
 					{children}
 				</main>
 				<Footer />
+				<AsideBackdrop />
 			</div>
+			<AsideMenu />
 		</>
 	);
 }

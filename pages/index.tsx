@@ -7,22 +7,20 @@ import MainLayout from '../layouts/Main';
 import {apiClient} from '../lib/api';
 
 export default function IndexPage({categoryTree, products}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-
 	return (
-		<>
-			<MainLayout>
-				<div className='container'>
-					<div className='row'>
-						<nav className='col-md-3 col-sm-4'>
-							{categoryTree && <CategoryHomeMenu categoryTree={categoryTree} />}
-						</nav>
-						<main className='col-md-9 col-sm-8 content-box'>
-							<ProductsList products={products} query={{}}/>
-						</main>
-					</div>
+		<MainLayout>
+			<div className='container'>
+				<div className='row'>
+					<nav className='col-md-3 col-sm-4'>
+						{categoryTree && <CategoryHomeMenu categoryTree={categoryTree} />}
+					</nav>
+					<main className='col-md-9 col-sm-8 content-box'>
+						<h1 className='page-header page-header_h1  page-header_m-h1'>Boundless store</h1>
+						<ProductsList products={products} query={{}}/>
+					</main>
 				</div>
-			</MainLayout>
-		</>
+			</div>
+		</MainLayout>
 	);
 }
 

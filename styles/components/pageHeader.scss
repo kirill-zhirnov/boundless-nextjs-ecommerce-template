@@ -1,5 +1,26 @@
 .page-header {
-	&_h1 {
+	position: relative;
+	text-align: center;
 
+	&_h1 {
+		@include font-size(2rem);
+		font-weight: $front-font-weight-bold;
+	}
+
+	&_m-h1 {
+		margin-bottom: 4rem;
+		margin-top: 2rem;
+	}
+
+	&::after {
+		background: $theme-color;
+		bottom: -25px;
+		content: '';
+		display: block;
+		height: 4px;
+		left: 50%;
+		margin-left: -30px;
+		position: absolute;
+		width: 60px;
 	}
 }
