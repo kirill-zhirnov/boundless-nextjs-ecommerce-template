@@ -54,6 +54,7 @@ export default function CategorySidebar({category}: {category: ICategoryItem}) {
 			<ul className='category-sidebar__list list-unstyled' itemScope itemType='http://schema.org/ItemList'>
 				{categoryMenu.map((item, i) => {
 					const categoryUrl = getCategoryUrl(item);
+					const image = item.image ? getCategoryImg(item.image) : null;
 
 					return (
 						<li
@@ -61,10 +62,14 @@ export default function CategorySidebar({category}: {category: ICategoryItem}) {
 							key={item.category_id}
 						>
 							<div itemProp='itemListElement' itemScope itemType='http://schema.org/ListItem'>
-								{item.image?.path &&
+								{image &&
 								<Link href={categoryUrl}>
 									<a className={'img-link'}>
-										<img src={getCategoryImg(item.image?.path)} alt={item.title} />
+										<img src={image.src}
+												 alt={item.title}
+												 width={image.width}
+												 height={image.height}
+										/>
 									</a>
 								</Link>}
 								<Link href={categoryUrl}>

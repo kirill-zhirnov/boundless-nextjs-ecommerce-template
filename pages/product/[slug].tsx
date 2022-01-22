@@ -12,10 +12,16 @@ import {getProductMetaData} from '../../lib/meta';
 import ProductLabels from '../../components/product/Labels';
 import ProductVariantAndBuy from '../../components/product/VariantAndBuy';
 import ProductCharacteristics from '../../components/product/Characteristics';
+import {makeAllMenus} from '../../lib/menu';
+import {IMenuItem, setFooterMenu, setMainMenu} from '../../redux/reducers/menus';
+import {useAppDispatch} from '../../hooks/redux';
 
-export default function ProductPage({data}: InferGetStaticPropsType<typeof getStaticProps>) {
-	const {product, categoryParents} = data;
+export default function ProductPage({data: {product, categoryParents, mainMenu, footerMenu}}: InferGetStaticPropsType<typeof getStaticProps>) {
 	const [resolvedParents, setResolvedParents] = useState(categoryParents);
+
+	const dispatch = useAppDispatch();
+	dispatch(setMainMenu(mainMenu));
+	dispatch(setFooterMenu(footerMenu));
 
 	const router = useRouter();
 	const query = useMemo<ParsedQs>(() => qs.parse(router.asPath.split('?')[1] || ''), [router.asPath]);
@@ -125,9 +131,13 @@ const fetchData = async (slug: string) => {
 		categoryParents = await apiClient.catalog.getCategoryParents(categoryId);
 	}
 
+	const categoryTree = await apiClient.catalog.getCategoryTree({menu: 'category'});
+	const menus = makeAllMenus({categoryTree});
+
 	return {
 		product,
-		categoryParents
+		categoryParents,
+		...menus
 	};
 };
 
@@ -139,4 +149,6 @@ interface IProductPageProps {
 interface IProductPageData {
 	product: IProductItem;
 	categoryParents: ICategoryFlatItem[] | null;
+	mainMenu: IMenuItem[];
+	footerMenu: IMenuItem[];
 }

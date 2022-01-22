@@ -19,14 +19,22 @@ import qs from 'qs';
 import {getCategoryItemUrl} from '../../lib/urls';
 import SortButtons from '../../components/SortButtons';
 import {getCategoryMetaData} from '../../lib/meta';
+import {makeAllMenus} from '../../lib/menu';
+import {IMenuItem, setFooterMenu, setMainMenu} from '../../redux/reducers/menus';
+import {useAppDispatch} from '../../hooks/redux';
 
-export default function CategoryPage({errorCode, data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function CategoryPage({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	const {category, mainMenu, footerMenu} = data;
 	const router = useRouter();
-	const [productsQuery, setProductsQuery] = useState(data?.productsQuery || {});
-	const [collection, setCollection] = useState(data?.collection || null);
+	const [productsQuery, setProductsQuery] = useState(data.productsQuery);
+	const [collection, setCollection] = useState(data.collection);
+
+	const dispatch = useAppDispatch();
+	dispatch(setMainMenu(mainMenu));
+	dispatch(setFooterMenu(footerMenu));
 
 	const onCollectionChange = async (newParams: TQuery) => {
-		const {collection, filteredQuery} = await fetchCollection(category!.category_id, newParams);
+		const {collection, filteredQuery} = await fetchCollection(category.category_id, newParams);
 		setCollection(collection);
 		setProductsQuery(filteredQuery);
 
@@ -34,16 +42,11 @@ export default function CategoryPage({errorCode, data}: InferGetServerSidePropsT
 	};
 
 	useEffect(() => {
-		if (data) {
-			setCollection(data.collection);
-			setProductsQuery(data.productsQuery);
-		}
+		setCollection(data.collection);
+		setProductsQuery(data.productsQuery);
 	}, [data]);
 
-	if (!data && errorCode) return <ErrorComponent statusCode={errorCode} />;
-
-	const {category} = data!;
-	const title = category?.text?.custom_header || category?.text?.title;
+	const title = category.text?.custom_header || category.text?.title;
 
 	return (
 		<MainLayout title={title} metaData={getCategoryMetaData(category)}>
@@ -88,12 +91,8 @@ export const getServerSideProps: GetServerSideProps<ICategoryPageProps> = async 
 		data = await fetchData(slug as string, query);
 	} catch (error: any) {
 		if (error.response?.status === 404) {
-			res.statusCode = 404;
 			return {
-				props: {
-					data,
-					errorCode: 404
-				}
+				notFound: true
 			};
 		} else {
 			throw error;
@@ -127,11 +126,14 @@ const fetchData = async (slug: string, params: TQuery) => {
 	});
 
 	const {collection, filteredQuery: productsQuery} = await fetchCollection(category.category_id, params);
+	const categoryTree = await apiClient.catalog.getCategoryTree({menu: 'category'});
+	const menus = makeAllMenus({categoryTree, activeCategoryId: category.category_id});
 
 	const out = {
 		category,
 		collection,
 		productsQuery,
+		...menus
 	};
 
 	return out;
@@ -158,8 +160,7 @@ const changeUrl = (router: NextRouter, query: TQuery) => {
 };
 
 interface ICategoryPageProps {
-	data: ICategoryPageData | null;
-	errorCode?: number;
+	data: ICategoryPageData;
 }
 
 interface ICategoryPageData {
@@ -168,5 +169,7 @@ interface ICategoryPageData {
 		products: IProduct[];
 		pagination: IPagination;
 	},
-	productsQuery: {[key: string]: any}
+	productsQuery: {[key: string]: any},
+	mainMenu: IMenuItem[];
+	footerMenu: IMenuItem[];
 }

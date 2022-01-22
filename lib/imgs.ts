@@ -75,11 +75,21 @@ export function getMetaImgUrl(image: IImagePartial): string {
 	return thumb.getSrc();
 }
 
-export function getCategoryImg(imgLocalPath: string, maxSize: number = 21): string {
-	return apiClient.makeThumb({
+export function getCategoryImg(image: IImagePartial, maxSize: number = 21): IImageData {
+	const {width, height, path: imgLocalPath} = image;
+
+	const thumb = apiClient.makeThumb({
 		imgLocalPath,
 		maxSize
-	}).getSrc();
+	});
+
+	if (width && height) {
+		thumb.setOriginalSize(width, height);
+
+		return thumb.getAttrs();
+	}
+
+	return {src: thumb.getSrc()};
 }
 
 export function getCartImg(imgLocalPath: string, maxSize: number = 60): string {

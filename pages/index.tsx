@@ -5,8 +5,15 @@ import CategoryHomeMenu from '../components/category/HomeMenu';
 import ProductsList from '../components/ProductsList';
 import MainLayout from '../layouts/Main';
 import {apiClient} from '../lib/api';
+import {makeAllMenus} from '../lib/menu';
+import {useAppDispatch} from '../hooks/redux';
+import {IMenuItem, setFooterMenu, setMainMenu} from '../redux/reducers/menus';
 
-export default function IndexPage({categoryTree, products}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function IndexPage({categoryTree, products, mainMenu, footerMenu}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+	const dispatch = useAppDispatch();
+	dispatch(setMainMenu(mainMenu));
+	dispatch(setFooterMenu(footerMenu));
+
 	return (
 		<MainLayout>
 			<div className='container'>
@@ -28,15 +35,20 @@ export const getServerSideProps: GetServerSideProps<IIndexPageProps> = async () 
 	const categoryTree = await apiClient.catalog.getCategoryTree({menu: 'category'});
 	const {products} = await apiClient.catalog.getProducts({'per-page': 8});
 
+	const menus = makeAllMenus({categoryTree});
+
 	return {
 		props: {
 			categoryTree,
-			products
+			products,
+			...menus
 		}
 	};
 };
 
 interface IIndexPageProps {
-	categoryTree: ICategory[]|null;
+	categoryTree: ICategory[];
 	products: IProduct[];
+	mainMenu: IMenuItem[];
+	footerMenu: IMenuItem[];
 }
