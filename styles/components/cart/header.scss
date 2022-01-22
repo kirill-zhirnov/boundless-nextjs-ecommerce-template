@@ -1,0 +1,42 @@
+.cart-header {
+	display: inline-block;
+	padding: 11px 16px 0 0;
+	position: relative;
+	text-decoration: none;
+
+	&__icon {
+		background: url('../../../assets/shopping-cart.svg') no-repeat;
+		display: block;
+		height: 24px;
+		margin: 0 auto;
+		width: 24px;
+	}
+
+	&__qty {
+		background: $front-cart-header-qty-bg;
+		border-radius: 13px;
+		color: $front-cart-header-qty-color;
+		display: block;
+		font-weight: $front-font-weight-bold;
+		height: 21px;
+		left: 50%;
+		padding: 0 6px;
+		position: absolute;
+		top: 0;
+		transition: background-color 0.35s ease-in-out;
+	}
+
+	&__total {
+		color: $front-cart-header-qty-color;
+		font-weight: $front-font-weight-bold;
+		margin: 5px 0 0;
+		padding: 0;
+		text-align: center;
+	}
+
+	&:hover {
+		.cart-header__qty {
+			background-color: darken($front-cart-header-qty-bg, 10%);
+		}
+	}
+}

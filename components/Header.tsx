@@ -1,7 +1,7 @@
 import {MouseEvent} from 'react';
 import Link from 'next/link';
 import CallToOrder from './header/CallToOrder';
-import HeaderCart from './header/Cart';
+import HeaderCart from './cart/HeaderCart';
 import ChooseVariantModal from './header/ChooseVariantModal';
 import logoImg from '../assets/logo.svg';
 import {faBars} from '@fortawesome/free-solid-svg-icons/faBars';
@@ -20,7 +20,7 @@ export default function Header() {
 	return (
 		<header className='page__header'>
 			<div className='container text-center position-relative'>
-				<div className='d-flex justify-content-between py-2'>
+				<div className='d-flex justify-content-between py-2 align-items-center'>
 					<div className='page__header-logo'>
 						<Link href='/'>
 							<a>

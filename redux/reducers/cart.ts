@@ -2,37 +2,37 @@ import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {ICartProduct, ICartTotal, IVwItem} from 'boundless-api-client';
 
 export interface CartState {
-	cartId: string|null;
-	loading: boolean;
-	total: ICartTotal|null;
+	cartId: string | null;
+	total: ICartTotal | null;
 	showVariantModal: boolean;
 	variantModalData: IVariantModalData;
 	showCall2Order: boolean;
 	call2OrderData: ICall2OrderData;
 	submitting: boolean;
+	cartInited: TCartInited;
+}
+
+export enum TCartInited {
+	'no',
+	'processing',
+	'yes'
 }
 
 const initialState: CartState = {
 	cartId: null,
-	loading: false,
 	total: null,
 	showVariantModal: false,
 	variantModalData: {},
 	showCall2Order: false,
 	call2OrderData: {},
 	submitting: false,
+	cartInited: TCartInited.no
 };
 
 export const cartSlice = createSlice({
 	name: 'cart',
 	initialState,
 	reducers: {
-		setCartId: (state, action: PayloadAction<string>) => {
-			state.cartId = action.payload;
-		},
-		setCartLoading: (state, action: PayloadAction<boolean>) => {
-			state.loading = action.payload;
-		},
 		setCartTotal: (state, action: PayloadAction<ICartTotal>) => {
 			state.total = action.payload;
 		},
@@ -55,16 +55,34 @@ export const cartSlice = createSlice({
 		setCartSubmitting: (state, action: PayloadAction<boolean>) => {
 			state.submitting = action.payload;
 		},
+		setInitStatus: (state, action: PayloadAction<TCartInited>) => {
+			state.cartInited = action.payload;
+		},
+		setCartInited: (state, action: PayloadAction<{id: string, total: ICartTotal}>) => {
+			state.cartId = action.payload.id;
+			state.total = action.payload.total;
+			state.cartInited = TCartInited.yes;
+		}
 	},
 });
 
-export const {setCartId, setCartLoading, setCartTotal, showVariantModal, hideVariantModal, showCall2Order, hideCall2Order, setCartSubmitting} = cartSlice.actions;
+export const {
+	setCartTotal,
+	showVariantModal,
+	hideVariantModal,
+	showCall2Order,
+	hideCall2Order,
+	setCartSubmitting,
+	setInitStatus,
+	setCartInited
+} = cartSlice.actions;
 
 export default cartSlice.reducer;
 
 export interface IVariantModalData {
 	product?: ICartProduct;
 }
+
 export interface ICall2OrderData {
 	qty?: number;
 	item?: IVwItem;

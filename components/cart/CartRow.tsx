@@ -3,6 +3,8 @@ import Link from 'next/link';
 import {formatMoney} from '../../lib/formatter';
 import {getCartImg} from '../../lib/imgs';
 import {getProductUrl} from '../../lib/urls';
+import NoImage from '../NoImage';
+import {TThumbRatio} from '../../@types/image';
 
 export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 	return (
@@ -17,7 +19,7 @@ export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 								/>
 							</a>
 						</Link>
-						: <div className='no-image me-2' />}
+						: <div className={'me-2'}><NoImage ratio={TThumbRatio['1-1']} className={'bg-xs'}/></div>}
 					<div className='py-1'>
 						<div>
 							<Link href={getProductUrl(item.vwItem.product)}>

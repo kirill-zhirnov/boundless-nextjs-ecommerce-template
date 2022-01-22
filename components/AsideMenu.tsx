@@ -4,6 +4,7 @@ import {RootState} from '../redux/store';
 import {disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks} from 'body-scroll-lock';
 import {useEffect, useRef} from 'react';
 import {setIsOpened} from '../redux/reducers/asideMenu';
+import HeaderCart from './cart/HeaderCart';
 
 export default function AsideMenu() {
 	const rootEl = useRef(null);
@@ -28,16 +29,20 @@ export default function AsideMenu() {
 	};
 
 	useEffect(() => {
-		if (rootEl.current) {
-			if (isOpened) {
+		if (isOpened) {
+			if (rootEl.current) {
 				disableBodyScroll(rootEl.current);
-				window.addEventListener('resize', closeIfOpened);
-				window.addEventListener('keydown', onEscPressed);
-			} else {
-				enableBodyScroll(rootEl.current);
-				window.removeEventListener('resize', closeIfOpened);
-				window.removeEventListener('keydown', onEscPressed);
 			}
+
+			window.addEventListener('resize', closeIfOpened);
+			window.addEventListener('keydown', onEscPressed);
+		} else {
+			if (rootEl.current) {
+				enableBodyScroll(rootEl.current);
+			}
+
+			window.removeEventListener('resize', closeIfOpened);
+			window.removeEventListener('keydown', onEscPressed);
 		}
 
 		return () => {
@@ -45,12 +50,15 @@ export default function AsideMenu() {
 			window.removeEventListener('resize', closeIfOpened);
 			window.removeEventListener('keydown', onEscPressed);
 		};
-	}, [isOpened, rootEl.current]);
+	}, [isOpened]);//eslint-disable-line
 
 	return (
 		<aside className={clsx('aside-menu', {'aside-menu_visible': isOpened})}
 					 ref={rootEl}
 		>
+			<div>
+				<HeaderCart className={'cart-header_horizontal'} />
+			</div>
 			<p>coming soon :)</p>
 		</aside>
 	);

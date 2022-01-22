@@ -1,18 +1,17 @@
 import {ICartItem} from 'boundless-api-client';
 import {useEffect, useState} from 'react';
 import CartItems from '../components/cart/CartItems';
-import {useAppDispatch, useAppSelector} from '../hooks/redux';
+import {useAppDispatch} from '../hooks/redux';
 import MainLayout from '../layouts/Main';
 import {apiClient} from '../lib/api';
-import {setCartTotal} from '../redux/reducers/cart';
+import {setCartTotal, TCartInited} from '../redux/reducers/cart';
 import {addPromise} from '../redux/reducers/xhr';
-import {RootState} from '../redux/store';
 import CartRowLoader from '../components/cart/CartRowLoader';
+import {useCart} from '../hooks/cart';
 
 export default function CartPage() {
 	const dispatch = useAppDispatch();
-	const cartId = useAppSelector((state: RootState) => state.cart.cartId);
-	const cartLoading = useAppSelector((state: RootState) => state.cart.loading);
+	const {id: cartId, cartInited} = useCart();
 	const [items, setItems] = useState<ICartItem[]>([]);
 	const [loading, setLoading] = useState(false);
 
@@ -20,15 +19,11 @@ export default function CartPage() {
 		setLoading(true);
 		const promise = apiClient.orders.getCartItems(cartId)
 			.then(({cart, items}) => {
-				if (cart && items) {
-					setItems(items);
-					dispatch(setCartTotal(cart.total));
-				}
+				setItems(items);
+				dispatch(setCartTotal(cart.total));
 			})
 			.catch((err) => console.error(err))
-			.finally(() => {
-				setLoading(false);
-			});
+			.finally(() => setLoading(false));
 
 		dispatch(addPromise(promise));
 	};
@@ -38,35 +33,33 @@ export default function CartPage() {
 	}, [cartId]); //eslint-disable-line
 
 	return (
-		<>
-			<MainLayout>
-				<div className='container'>
-					<main className='cart-page row'>
-						<div className='col-lg-8 offset-lg-2'>
-							<h1 className='text-center mb-3 mb-md-5'>Shopping cart</h1>
-							<div className='cart-page__content content-box p-3'>
-								{loading || cartLoading
-									? <Loader />
-									: <>
-										{items?.length === 0 &&
-											<div>
-												<p className='text-center my-4'>
-													Your shopping cart is empty.
-												</p>
-												<p className='text-center'>
-													<a href='/' className='btn btn-success'>
-														Go shopping!
-													</a>
-												</p>
-											</div>}
-										{items.length > 0 && <CartItems items={items} />}
-									</>}
-							</div>
+		<MainLayout>
+			<div className='container'>
+				<main className='cart-page row'>
+					<div className='col-lg-8 offset-lg-2'>
+						<h1 className='page-header page-header_h1  page-header_m-h1'>Shopping cart</h1>
+						<div className='cart-page__content content-box p-3'>
+							{(loading || cartInited === TCartInited.processing)
+								? <Loader />
+								: <>
+									{items?.length === 0 &&
+										<div>
+											<p className='text-center my-4'>
+												Your shopping cart is empty.
+											</p>
+											<p className='text-center'>
+												<a href='/' className='btn btn-success'>
+													Go shopping!
+												</a>
+											</p>
+										</div>}
+									{items.length > 0 && <CartItems items={items} />}
+								</>}
 						</div>
-					</main>
-				</div>
-			</MainLayout>
-		</>
+					</div>
+				</main>
+			</div>
+		</MainLayout>
 	);
 }
 

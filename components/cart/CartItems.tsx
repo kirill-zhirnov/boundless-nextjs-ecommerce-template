@@ -8,6 +8,8 @@ import {RootState} from '../../redux/store';
 import debounce from 'lodash/debounce';
 import CartRow from './CartRow';
 import {setCartTotal} from '../../redux/reducers/cart';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faShoppingCart} from '@fortawesome/free-solid-svg-icons/faShoppingCart';
 
 export default function CartItems({items}: ICartItemsProps) {
 	const dispatch = useAppDispatch();
@@ -123,10 +125,10 @@ export default function CartItems({items}: ICartItemsProps) {
 			</div>
 			<div className='text-end mt-4 mb-2'>
 				<button
-					className='btn btn-primary'
+					className='btn btn-action btn-lg btn-anim'
 					disabled={submitting}
 				>
-					Proceed to checkout
+					Proceed to checkout <FontAwesomeIcon icon={faShoppingCart} />
 				</button>
 			</div>
 		</>

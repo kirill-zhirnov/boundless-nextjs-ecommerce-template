@@ -3,7 +3,6 @@ import MainLayout from '../../layouts/Main';
 import {apiClient} from '../../lib/api';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
 import {ICategoryItem} from 'boundless-api-client/types/catalog/category';
-import ErrorComponent from 'next/error';
 import {IProduct} from 'boundless-api-client/types/catalog/product';
 import ProductsList from '../../components/ProductsList';
 import {IPagination} from 'boundless-api-client/types/common';
@@ -79,7 +78,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 	);
 }
 
-export const getServerSideProps: GetServerSideProps<ICategoryPageProps> = async ({req, params, res}) => {
+export const getServerSideProps: GetServerSideProps<ICategoryPageProps> = async ({req, params}) => {
 	const url = new URL(`http://host${req.url!}`);
 	const queryString = url.search.replace(/^\?/, '');
 	const query = qs.parse(queryString);

@@ -32,3 +32,6 @@ $aside-width: (
 	'xxs': 290px,
 	'xs': 430px
 );
+
+$front-cart-header-qty-bg: $theme-color;
+$front-cart-header-qty-color: color-contrast($theme-color);
