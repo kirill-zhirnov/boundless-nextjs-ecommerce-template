@@ -1,0 +1,27 @@
+name: Linters
+#on: push
+
+on:
+  push:
+    branches-ignore: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  super-lint:
+    name: Lint code base
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Super-Linter
+        uses: github/super-linter@v4.8.5
+        env:
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#         validate only typescript:
+          VALIDATE_TYPESCRIPT_ES: true
+          VALIDATE_CSS: true
+          CSS_FILE_NAME: .stylelintrc.json
+          LINTER_RULES_PATH: /
