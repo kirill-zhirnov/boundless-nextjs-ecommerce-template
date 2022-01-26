@@ -1,34 +1,19 @@
+import {useState} from 'react';
 import {IProductItem, IProductVariant} from 'boundless-api-client';
 import ProductVariantPicker from './VariantPicker';
 import ProductPriceAndBuy from './PriceAndBuy';
-import {useEffect, useState} from 'react';
 import clsx from 'clsx';
+import useAnimation from '../../hooks/animate';
 
 export default function ProductVariantAndBuy({product, onAddedToCart}: IProductVariantAndBuyProps) {
 	const [selectedVariant, setSelectedVariant] = useState<null | IProductVariant>();
 	const [error, setError] = useState<null | string>(null);
-	const [animateError, setAnimateError] = useState(false);
+	const {animate: animateError, triggerAnimate} = useAnimation();
 
 	const triggerError = (error: string | null) => {
 		setError(error);
-		if (error) setAnimateError(true);
+		if (error) triggerAnimate();
 	};
-
-	useEffect(() => {
-		let timeout: ReturnType<typeof setTimeout> | null = null;
-		if (animateError) {
-			timeout = setTimeout(() => {
-				if (timeout) setAnimateError(false);
-			}, 1000);
-		}
-
-		return () => {
-			if (timeout) {
-				clearTimeout(timeout);
-				timeout = null;
-			}
-		};
-	}, [animateError]);
 
 	const onCaseChange = (value: {}, variant?: IProductVariant) => {
 		setSelectedVariant(variant ? variant : null);
