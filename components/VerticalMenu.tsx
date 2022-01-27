@@ -21,7 +21,7 @@ export default function VerticalMenu({menuList}: {menuList: IMenuItem[]}) {
 								<ListElement item={item} position={i} />
 							</div>
 							{item.children && item.children.length > 0 &&
-								<ul className='list-unstyled'>
+								<ul className='vertical-menu__child-list list-unstyled'>
 									{item.children.map((childItem, j) =>
 										<li key={childItem.title + j} className={clsx({active: childItem.isActive})}>
 											<ListElement item={childItem} />

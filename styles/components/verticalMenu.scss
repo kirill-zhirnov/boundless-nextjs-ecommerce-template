@@ -15,16 +15,16 @@ $vertical-menu-small-padding: 10px;
 
 		> div > a {
 			color: $front-v-menu-color;
-			font-weight: 700;
 			font-size: 15px;
+			font-weight: 700;
 			text-decoration: none;
 		}
+	}
 
-		> ul {
-			padding: $vertical-menu-big-padding 0 0 10px;
-		}
+	&__child-list {
+		padding: $vertical-menu-big-padding 0 0 10px;
 
-		> ul > li {
+		> li {
 			padding: 0 0 $vertical-menu-small-padding 0;
 			white-space: nowrap;
 
@@ -32,31 +32,33 @@ $vertical-menu-small-padding: 10px;
 				padding-bottom: 0;
 			}
 
-			&:before {
-				content: "";
-				display: inline-block;
-				width: 0;
-				height: 0;
-				vertical-align: top;
+			&::before {
+				border-bottom: 4px solid transparent;
 				border-left: 4px solid #adaeae;
 				border-top: 4px solid transparent;
-				border-bottom: 4px solid transparent;
+				content: '';
+				display: inline-block;
+				height: 0;
 				margin-top: 8px;
+				vertical-align: top;
+				width: 0;
 			}
 
 			&.active::before {
 				display: none;
 			}
-		}
 
-		> ul > li > a,
-		> ul > li > b {
-			color: $front-v-menu-color;
-			margin-left: 10px;
-			text-decoration: none;
-			white-space: normal;
-			& + a {
-				margin-left: 0;
+			> a,
+			> b {
+				color: $front-v-menu-color;
+				margin-left: 10px;
+				text-decoration: none;
+				white-space: normal;
+
+				+ a,
+				+ b {
+					margin-left: 0;
+				}
 			}
 		}
 	}
