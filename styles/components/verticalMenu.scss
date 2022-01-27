@@ -1,0 +1,63 @@
+$vertical-menu-big-padding: 15px;
+$vertical-menu-small-padding: 10px;
+
+.vertical-menu {
+	background-color: $front-v-menu-bg;
+	padding: 25px;
+
+	&__list > li {
+		padding: 0 0 $vertical-menu-big-padding 0;
+		position: relative;
+
+		&:last-child {
+			padding-bottom: 0;
+		}
+
+		> div > a {
+			color: $front-v-menu-color;
+			font-weight: 700;
+			font-size: 15px;
+			text-decoration: none;
+		}
+
+		> ul {
+			padding: $vertical-menu-big-padding 0 0 10px;
+		}
+
+		> ul > li {
+			padding: 0 0 $vertical-menu-small-padding 0;
+			white-space: nowrap;
+
+			&:last-child {
+				padding-bottom: 0;
+			}
+
+			&:before {
+				content: "";
+				display: inline-block;
+				width: 0;
+				height: 0;
+				vertical-align: top;
+				border-left: 4px solid #adaeae;
+				border-top: 4px solid transparent;
+				border-bottom: 4px solid transparent;
+				margin-top: 8px;
+			}
+
+			&.active::before {
+				display: none;
+			}
+		}
+
+		> ul > li > a,
+		> ul > li > b {
+			color: $front-v-menu-color;
+			margin-left: 10px;
+			text-decoration: none;
+			white-space: normal;
+			& + a {
+				margin-left: 0;
+			}
+		}
+	}
+}
