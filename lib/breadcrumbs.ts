@@ -3,18 +3,17 @@ import {TQuery} from '../@types/common';
 import {IBreadCrumbItem} from '../@types/components';
 import {getCategoryUrl} from './urls';
 
-export const makeBreadCrumbsFromCats = (categories: ICategoryFlatItem[], activeParams?: TQuery): IBreadCrumbItem[] => {
-	if (!categories || !categories.length) return [];
-
-	return [...categories].reverse().map((parent, i) => {
-		const title = (parent.title || parent.joined_title) as string;
-		const isLast = categories.length === i + 1;
-		const url = isLast ? getCategoryUrl(parent, activeParams) : getCategoryUrl(parent);
+export const makeBreadCrumbsFromCats = (categories: ICategoryFlatItem[], onItem: TOnCategoryItem): IBreadCrumbItem[] => {
+	return [...categories].reverse().map(category => {
+		const {isActive, queryParams} = onItem(category);
+		const url = getCategoryUrl(category, queryParams || {});
 
 		return ({
-			title,
+			title: category.title,
 			url,
-			isActive: isLast && !activeParams
+			isActive: Boolean(isActive)
 		});
 	});
 };
+
+type TOnCategoryItem = (category: ICategoryFlatItem) => ({queryParams?: TQuery, isActive?: boolean});

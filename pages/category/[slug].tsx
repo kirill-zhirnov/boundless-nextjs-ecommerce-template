@@ -1,8 +1,8 @@
-import {useEffect, useMemo, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import MainLayout from '../../layouts/Main';
 import {apiClient} from '../../lib/api';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
-import {ICategoryItem} from 'boundless-api-client/types/catalog/category';
+import {ICategoryFlatItem, ICategoryItem} from 'boundless-api-client/types/catalog/category';
 import {IProduct} from 'boundless-api-client/types/catalog/product';
 import ProductsList from '../../components/ProductsList';
 import {IPagination} from 'boundless-api-client/types/common';
@@ -46,7 +46,14 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 		setProductsQuery(data.productsQuery);
 	}, [data]);
 
-	const breadcrumbItems = useMemo(() => makeBreadCrumbsFromCats(category.parents!), [category.parents]);
+	const onItem = useCallback((cat: ICategoryFlatItem) => {
+		const isActive = cat.category_id === category.category_id;
+		return {isActive};
+	}, [category.category_id]);
+
+	const breadcrumbItems = useMemo(() =>
+		makeBreadCrumbsFromCats(category.parents!, onItem)
+		, [category.parents, onItem]);
 
 	const title = category.text?.custom_header || category.text?.title;
 
