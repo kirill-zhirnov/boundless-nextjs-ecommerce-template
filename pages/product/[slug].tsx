@@ -1,4 +1,4 @@
-import {useCallback, useEffect, useMemo, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {ICategoryFlatItem, IProductItem} from 'boundless-api-client';
 import {GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next';
 import MainLayout from '../../layouts/Main';
@@ -42,19 +42,20 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 		}
 	}, [category, product]);
 
-	const onItem = useCallback((cat: ICategoryFlatItem) => {
-		if (resolvedParents?.length && cat.category_id === resolvedParents[0].category_id) {
-			return {
-				queryParams: restQuery
-			};
-		}
 
-		return {};
-	}, [query, resolvedParents]); //eslint-disable-line
+	const breadcrumbItems = useMemo(() => {
+		const onItem = (cat: ICategoryFlatItem) => {
+			if (resolvedParents?.length && cat.category_id === resolvedParents[0].category_id) {
+				return {
+					queryParams: restQuery
+				};
+			}
 
-	const breadcrumbItems = useMemo(
-		() => makeBreadCrumbsFromCats(resolvedParents || [], onItem)
-		, [resolvedParents, onItem]);
+			return {};
+		};
+
+		return makeBreadCrumbsFromCats(resolvedParents || [], onItem);
+	}, [resolvedParents, query]); //eslint-disable-line
 
 	return (
 		<MainLayout title={product.text.custom_title || product.text.title} metaData={getProductMetaData(product!)}>

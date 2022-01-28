@@ -3,9 +3,13 @@ import {TQuery} from '../@types/common';
 import {IBreadCrumbItem} from '../@types/components';
 import {getCategoryUrl} from './urls';
 
-export const makeBreadCrumbsFromCats = (categories: ICategoryFlatItem[], onItem: TOnCategoryItem): IBreadCrumbItem[] => {
+export const makeBreadCrumbsFromCats = (
+	categories: ICategoryFlatItem[],
+	onItem?: (category: ICategoryFlatItem) => IOnItemResponse
+): IBreadCrumbItem[] => {
+
 	return [...categories].reverse().map(category => {
-		const {isActive, queryParams} = onItem(category);
+		const {isActive, queryParams} = onItem ? onItem(category) : {} as IOnItemResponse;
 		const url = getCategoryUrl(category, queryParams || {});
 
 		return ({
@@ -16,4 +20,6 @@ export const makeBreadCrumbsFromCats = (categories: ICategoryFlatItem[], onItem:
 	});
 };
 
-type TOnCategoryItem = (category: ICategoryFlatItem) => ({queryParams?: TQuery, isActive?: boolean});
+interface IOnItemResponse {
+	queryParams?: TQuery, isActive?: boolean
+}
