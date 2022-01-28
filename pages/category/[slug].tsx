@@ -46,15 +46,8 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 		setProductsQuery(data.productsQuery);
 	}, [data]);
 
-
-	const breadcrumbItems = useMemo(() => {
-		const onItem = (cat: ICategoryFlatItem) => {
-			const isActive = cat.category_id === category.category_id;
-			return {isActive};
-		};
-
-		return makeBreadCrumbsFromCats(category.parents!, onItem);
-	}
+	const breadcrumbItems = useMemo(() =>
+			makeBreadCrumbsFromCats(category.parents!, ({category_id}) => ({isActive: category_id === category.category_id}))
 		, [category.parents, category.category_id]);
 
 	const title = category.text?.custom_header || category.text?.title;

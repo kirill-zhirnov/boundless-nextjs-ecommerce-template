@@ -44,17 +44,15 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 
 
 	const breadcrumbItems = useMemo(() => {
-		const onItem = (cat: ICategoryFlatItem) => {
-			if (resolvedParents?.length && cat.category_id === resolvedParents[0].category_id) {
+		return makeBreadCrumbsFromCats(resolvedParents || [], ({category_id}) => {
+			if (resolvedParents?.length && category_id === resolvedParents[0].category_id) {
 				return {
 					queryParams: restQuery
 				};
 			}
 
 			return {};
-		};
-
-		return makeBreadCrumbsFromCats(resolvedParents || [], onItem);
+		});
 	}, [resolvedParents, query]); //eslint-disable-line
 
 	return (
