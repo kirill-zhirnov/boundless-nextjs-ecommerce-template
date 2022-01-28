@@ -291,4 +291,5 @@ export interface IFilterFieldProps {
 	field: IFilterFieldRange;
 	values: TQuery;
 	onChange: (key: string, value: any, characteristicId?: number) => void;
+	displayLimit?: number;
 }
