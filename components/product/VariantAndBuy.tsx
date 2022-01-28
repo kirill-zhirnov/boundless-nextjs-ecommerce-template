@@ -3,16 +3,16 @@ import {IProductItem, IProductVariant} from 'boundless-api-client';
 import ProductVariantPicker from './VariantPicker';
 import ProductPriceAndBuy from './PriceAndBuy';
 import clsx from 'clsx';
-import useAnimation from '../../hooks/animate';
+import {CSSTransition} from 'react-transition-group';
 
 export default function ProductVariantAndBuy({product, onAddedToCart}: IProductVariantAndBuyProps) {
 	const [selectedVariant, setSelectedVariant] = useState<null | IProductVariant>();
 	const [error, setError] = useState<null | string>(null);
-	const {animate: animateError, triggerAnimate} = useAnimation();
+	const [showAnimation, setShowAnimation] = useState(false);
 
 	const triggerError = (error: string | null) => {
+		setShowAnimation(Boolean(error));
 		setError(error);
-		if (error) triggerAnimate();
 	};
 
 	const onCaseChange = (value: {}, variant?: IProductVariant) => {
@@ -22,14 +22,23 @@ export default function ProductVariantAndBuy({product, onAddedToCart}: IProductV
 
 	return (
 		<div className={'variant-and-buy'}>
-			{product.has_variants && <div className={clsx('variant-and-buy__variants', {'has-error': error})}>
-				<ProductVariantPicker
-					extendedVariants={product.extendedVariants!}
-					onChange={onCaseChange}
-					animateError={animateError}
-				/>
-				{error && <div className={'variant-and-buy__error'}>{error}</div>}
-			</div>}
+			{product.has_variants &&
+				<div className={clsx('variant-and-buy__variants', {'has-error': error})}>
+					<CSSTransition
+						in={showAnimation}
+						timeout={1000}
+						onEntered={() => setShowAnimation(false)}
+						classNames={{
+							enterActive: 'animate__animated animate__shakeX',
+						}}
+					>
+						<ProductVariantPicker
+							extendedVariants={product.extendedVariants!}
+							onChange={onCaseChange}
+						/>
+					</CSSTransition>
+					{error && <div className={'variant-and-buy__error'}>{error}</div>}
+				</div>}
 			<ProductPriceAndBuy
 				product={product}
 				selectedVariant={selectedVariant}
