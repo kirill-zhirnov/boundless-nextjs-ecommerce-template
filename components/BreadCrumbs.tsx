@@ -1,11 +1,9 @@
-import {ICategoryFlatItem} from 'boundless-api-client/types/catalog/category';
 import clsx from 'clsx';
 import Link from 'next/link';
-import {TQuery} from '../@types/common';
-import {getCategoryUrl} from '../lib/urls';
+import {IBreadCrumbItem} from '../@types/components';
 
-export default function BreadCrumbs({parents, activeParams}: IBreadCrumbsProps) {
-	const _parents = [...parents];
+export default function BreadCrumbs({items}: {items: IBreadCrumbItem[]}) {
+	const isEmpty = items.length === 0;
 
 	const richItemAttrs = {
 		itemProp: 'itemListElement',
@@ -14,41 +12,32 @@ export default function BreadCrumbs({parents, activeParams}: IBreadCrumbsProps) 
 	};
 
 	return (
-		<nav className='breadcrumb-wrapper'>
-			<ol className='breadcrumb' itemProp='breadcrumb' itemScope itemType='http://schema.org/BreadcrumbList'>
+		<nav className={clsx('breadcrumb-wrapper', isEmpty && 'd-none')}>
+			{!isEmpty && <ol className='breadcrumb' itemProp='breadcrumb' itemScope itemType='http://schema.org/BreadcrumbList'>
 				<li className='breadcrumb-item' {...richItemAttrs}>
 					<Link href='/'>
 						<a itemProp='item'><span itemProp='name'>Home</span></a>
 					</Link>
 					<meta itemProp='position' content='1' />
 				</li>
-				{parents?.length > 0 && _parents.reverse().map((parent, i) => {
-					const isLast = parents.length === i + 1;
-					const isActive = isLast && !activeParams;
-					const title = parent.title || parent.joined_title;
-
-					return (
-						<li
-							className={clsx('breadcrumb-item', isActive && 'active')}
-							key={parent.category_id}
-							{...(isActive ? {} : richItemAttrs)}
-						>
-							{isActive
-								? title
-								: <Link href={getCategoryUrl(parent, activeParams)}>
+				{items.map((item, i) => (
+					<li
+						className={clsx('breadcrumb-item', item.isActive && 'active')}
+						key={i}
+						{...(item.url ? richItemAttrs : {})}
+					>
+						{item.url && !item.isActive
+							? <>
+								<Link href={item.url}>
 									<a itemProp='item'>
-										<span itemProp='name'>{title}</span>
+										<span itemProp='name'>{item.title}</span>
 									</a>
-								</Link>}
-							<meta itemProp='position' content={String(i + 2)} />
-						</li>);
-				})}
-			</ol>
+								</Link>
+								<meta itemProp='position' content={String(i + 2)} />
+							</>
+							: item.title}
+					</li>))}
+			</ol>}
 		</nav>
 	);
-}
-
-interface IBreadCrumbsProps {
-	parents: ICategoryFlatItem[];
-	activeParams?: TQuery;
 }

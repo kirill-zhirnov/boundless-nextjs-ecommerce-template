@@ -1,8 +1,8 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import MainLayout from '../../layouts/Main';
 import {apiClient} from '../../lib/api';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
-import {ICategoryItem} from 'boundless-api-client/types/catalog/category';
+import {ICategoryFlatItem, ICategoryItem} from 'boundless-api-client/types/catalog/category';
 import {IProduct} from 'boundless-api-client/types/catalog/product';
 import ProductsList from '../../components/ProductsList';
 import {IPagination} from 'boundless-api-client/types/common';
@@ -21,6 +21,7 @@ import {getCategoryMetaData} from '../../lib/meta';
 import {makeAllMenus} from '../../lib/menu';
 import {IMenuItem, setFooterMenu, setMainMenu} from '../../redux/reducers/menus';
 import {useAppDispatch} from '../../hooks/redux';
+import {makeBreadCrumbsFromCats} from '../../lib/breadcrumbs';
 
 export default function CategoryPage({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const {category, mainMenu, footerMenu} = data;
@@ -45,6 +46,10 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 		setProductsQuery(data.productsQuery);
 	}, [data]);
 
+	const breadcrumbItems = useMemo(() =>
+			makeBreadCrumbsFromCats(category.parents!, ({category_id}) => ({isActive: category_id === category.category_id}))
+		, [category.parents, category.category_id]);
+
 	const title = category.text?.custom_header || category.text?.title;
 
 	return (
@@ -59,7 +64,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 							onSearch={onCollectionChange} />
 					</div>
 					<main className='col-md-9 col-sm-8 content-box'>
-						<BreadCrumbs parents={category.parents!} />
+						<BreadCrumbs items={breadcrumbItems} />
 						<h1 className='page-header page-header_h1  page-header_m-h1'>{title}</h1>
 						{category.text?.description_top &&
 							<div className={'mb-3'} dangerouslySetInnerHTML={{__html: category.text.description_top}} />

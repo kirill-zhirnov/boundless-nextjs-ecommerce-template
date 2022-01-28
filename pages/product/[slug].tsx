@@ -15,6 +15,7 @@ import ProductCharacteristics from '../../components/product/Characteristics';
 import {makeAllMenus} from '../../lib/menu';
 import {IMenuItem, setFooterMenu, setMainMenu} from '../../redux/reducers/menus';
 import {useAppDispatch} from '../../hooks/redux';
+import {makeBreadCrumbsFromCats} from '../../lib/breadcrumbs';
 
 export default function ProductPage({data: {product, categoryParents, mainMenu, footerMenu}}: InferGetStaticPropsType<typeof getStaticProps>) {
 	const [resolvedParents, setResolvedParents] = useState(categoryParents);
@@ -41,15 +42,28 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 		}
 	}, [category, product]);
 
+
+	const breadcrumbItems = useMemo(() => {
+		return makeBreadCrumbsFromCats(resolvedParents || [], ({category_id}) => {
+			if (resolvedParents?.length && category_id === resolvedParents[0].category_id) {
+				return {
+					queryParams: restQuery
+				};
+			}
+
+			return {};
+		});
+	}, [resolvedParents, query]); //eslint-disable-line
+
 	return (
 		<MainLayout title={product.text.custom_title || product.text.title} metaData={getProductMetaData(product!)}>
 			<div className={'container'}>
-				{resolvedParents && <BreadCrumbs parents={resolvedParents} activeParams={restQuery} />}
+				<BreadCrumbs items={breadcrumbItems} />
 				<div className='product-page' itemScope itemType='http://schema.org/Product'>
 					<div className='row'>
 						<div className='col-md-7'>
 							<h1 className='mb-4' itemProp='name'>{product.text.title}</h1>
-							<ProductLabels labels={product.labels} className={'mb-3'}/>
+							<ProductLabels labels={product.labels} className={'mb-3'} />
 							<ProductImages product={product} />
 						</div>
 						<div className='col-md-5'>
@@ -61,8 +75,8 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 						</div>
 					</div>
 					{product.text.description && <article itemProp='description'
-																								className={'product-description my-4'}
-																								dangerouslySetInnerHTML={{__html: product?.text.description}} />}
+						className={'product-description my-4'}
+						dangerouslySetInnerHTML={{__html: product?.text.description}} />}
 					<MetaSchemaOrg product={product} parents={resolvedParents} />
 				</div>
 			</div>
