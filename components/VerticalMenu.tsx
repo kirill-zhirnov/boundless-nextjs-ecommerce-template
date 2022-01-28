@@ -37,39 +37,42 @@ export default function VerticalMenu({menuList}: {menuList: IMenuItem[]}) {
 
 function ListElement({item, position}: {item: IMenuItem, position?: number}) {
 	const image = item.img || null;
+	const isRootElem = position !== undefined;
+
+	const imageElem = image
+		? <img src={image.src}
+			className='me-2'
+			alt={item.title}
+			width={image.width}
+			height={image.height}
+		/>
+		: null;
 
 	return (
 		<>
 			{image && <>
 				{item.url && !item.isActive ?
 					<Link href={item.url}>
-						<a className={'img-link me-2'}>
-							<img src={image.src}
-								alt={item.title}
-								width={image.width}
-								height={image.height}
-							/>
+						<a className={clsx('vertical-menu__link img-link', isRootElem ? 'is-root' : 'is-child')}>
+							{imageElem}
 						</a>
 					</Link>
-					: <img src={image.src}
-						className='me-2'
-						alt={item.title}
-						width={image.width}
-						height={image.height}
-					/>}
+					: imageElem}
 			</>}
 			{item.url && !item.isActive
 				? <>
 					<Link href={item.url}>
-						<a className={'title'} itemProp='url'>
-							{position !== undefined
+						<a className={clsx('vertical-menu__link title', isRootElem ? 'is-root' : 'is-child')} itemProp='url'>
+							{isRootElem
 								? <span itemProp='name'>{item.title}</span>
 								: item.title}
 						</a>
 					</Link>
-					{position !== undefined && <meta itemProp='position' content={String(position + 1)} />}
+					{isRootElem && <meta itemProp='position' content={String(position + 1)} />}
 				</>
-				: item.isActive ? <b>{item.title}</b> : item.title}
+				: <span className={clsx('vertical-menu__text-title', isRootElem ? 'is-root' : 'is-child')}>
+					{item.title}
+				</span>}
 		</>
 	);
 }
