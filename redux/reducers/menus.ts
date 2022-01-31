@@ -24,13 +24,15 @@ export default menusSlice.reducer;
 export interface IMenuItem {
 	title: string,
 	url?: string,
-	img?: {
-		src: string,
-		width?: number,
-		height?: number
-	},
+	img?: IMenuItemImage,
 	isActive?: boolean,
 	children?: IMenuItem[]
+}
+
+export interface IMenuItemImage {
+	src: string,
+	width?: number,
+	height?: number
 }
 
 interface IMenusState {

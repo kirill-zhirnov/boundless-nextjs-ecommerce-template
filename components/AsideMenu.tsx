@@ -23,7 +23,7 @@ export default function AsideMenu() {
 
 		if (e.key !== undefined && e.key === 'Escape') {
 			closeIfOpened();
-		} else if (e.keyCode !== undefined && e.keyCode === 13) {
+		} else if (e.keyCode !== undefined && e.keyCode === 27) {
 			closeIfOpened();
 		}
 	};
