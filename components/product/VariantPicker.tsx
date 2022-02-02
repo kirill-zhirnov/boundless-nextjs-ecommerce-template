@@ -3,6 +3,7 @@ import {useState} from 'react';
 import VariantPickerCharacteristic from './variantPicker/Characteristic';
 import {IVariantCombination} from 'boundless-api-client/src/types/catalog/variant';
 import _isEqual from 'lodash/isEqual';
+import clsx from 'clsx';
 
 export default function ProductVariantPicker({extendedVariants, onChange}: IVariantPickerProps) {
 	const {characteristics, list, combinations, idCombinations} = extendedVariants;
@@ -30,7 +31,7 @@ export default function ProductVariantPicker({extendedVariants, onChange}: IVari
 	};
 
 	return (
-		<div className='variant-picker'>
+		<div className={clsx('variant-picker')}>
 			{characteristics.map(characteristic => (
 				<VariantPickerCharacteristic characteristic={characteristic}
 																		 key={characteristic.id}
@@ -46,7 +47,7 @@ export default function ProductVariantPicker({extendedVariants, onChange}: IVari
 
 interface IVariantPickerProps {
 	extendedVariants: IExtendedVariants;
-	onChange?: (value: {[characteristicId: number]: number}, variant?: IProductVariant) => void
+	onChange?: (value: {[characteristicId: number]: number}, variant?: IProductVariant) => void,
 }
 
 const findVariantIdByCombinations = (value: {[key: number]: number}, combinations: IVariantCombination): null|string => {

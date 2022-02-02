@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
 import {NextRouter, useRouter} from 'next/router';
 import {useAppDispatch} from '../../hooks/redux';
@@ -11,6 +11,7 @@ import {createGetStr} from 'boundless-api-client/utils';
 import {getCategoryMetaData} from '../../lib/meta';
 import {makeAllMenus} from '../../lib/menu';
 import {IMenuItem, setFooterMenu, setMainMenu} from '../../redux/reducers/menus';
+import {makeBreadCrumbsFromCats} from '../../lib/breadcrumbs';
 import {IProduct, ICategoryItem} from 'boundless-api-client';
 import {IPagination} from 'boundless-api-client/types/common';
 import {TQuery} from '../../@types/common';
@@ -46,6 +47,10 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 		setProductsQuery(data.productsQuery);
 	}, [data]);
 
+	const breadcrumbItems = useMemo(() =>
+			makeBreadCrumbsFromCats(category.parents!, ({category_id}) => ({isActive: category_id === category.category_id}))
+		, [category.parents, category.category_id]);
+
 	const title = category.text?.custom_header || category.text?.title;
 
 	return (
@@ -60,7 +65,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 							onSearch={onCollectionChange} />
 					</div>
 					<main className='col-md-9 col-sm-8 content-box'>
-						<BreadCrumbs parents={category.parents!} />
+						<BreadCrumbs items={breadcrumbItems} />
 						<h1 className='page-header page-header_h1  page-header_m-h1'>{title}</h1>
 						{category.text?.description_top &&
 							<div className={'mb-3'} dangerouslySetInnerHTML={{__html: category.text.description_top}} />
