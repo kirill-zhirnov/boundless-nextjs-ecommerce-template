@@ -61,17 +61,19 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 	}, 600), [categoryId]);
 
 	const onChange = (key: string, value: any, characteristicId?: number) => {
-		let newValues: TQuery = {};
-		if (key === 'props') {
-			const props = Object.assign({}, values.props, {[characteristicId!]: value});
-			newValues = {...values, ...{props: props}};
-		} else {
-			newValues = {...values, ...{[key]: value}};
-		}
+		setValues(prevValues => {
+			let newValues: TQuery = {};
+			if (key === 'props') {
+				const props = Object.assign({}, prevValues.props, {[characteristicId!]: value});
+				newValues = {...prevValues, ...{props: props}};
+			} else {
+				newValues = {...prevValues, ...{[key]: value}};
+			}
 
+			reCalcRanges(newValues);
+			return newValues;
+		});
 		setHasChanged(true);
-		setValues(newValues);
-		reCalcRanges(newValues);
 	};
 
 	const onSubmit = (e: SyntheticEvent) => {
