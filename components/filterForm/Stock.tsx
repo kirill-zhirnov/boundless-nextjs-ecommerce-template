@@ -10,7 +10,7 @@ export default function Stock({onChange, values}: IFilterFieldProps) {
 						type='checkbox'
 						value={'1'}
 						name={'in_stock'}
-						onChange={(e) => onChange('in_stock', e.target.checked ? '1' : '')}
+						onChange={(e) => onChange({in_stock: e.target.checked ? '1' : ''})}
 						checked={values.in_stock == '1'}
 					/>
 					In stock

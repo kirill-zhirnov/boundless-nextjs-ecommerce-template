@@ -3,11 +3,8 @@ import {ChangeEvent, useEffect, useState} from 'react';
 import {ICharacteristicCase} from 'boundless-api-client';
 import Collapse from 'react-bootstrap/Collapse';
 
-const DEFAULT_DISPLAY_LIMIT = 6;
-
 export default function MultipleSelectCharacteristic({field, onChange, values, displayLimit}: IFilterFieldProps) {
 	const characteristic = field.characteristic!;
-	const limit = displayLimit || DEFAULT_DISPLAY_LIMIT;
 	const [visibleCases, setVisibleCases] = useState<ICharacteristicCase[]>([]);
 	const [collapsedCases, setCollapsedCases] = useState<ICharacteristicCase[]>([]);
 	const [showMore, setShowMore] = useState(false);
@@ -18,10 +15,10 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 		const inStockCases = cases.filter(el => el.products_qty > 0);
 		const outOfStockCases = cases.filter(el => !el.products_qty);
 		const result = [...inStockCases, ...outOfStockCases];
-		setVisibleCases(result.slice(0, limit));
-		setCollapsedCases(result.slice(limit));
+		setVisibleCases(result.slice(0, displayLimit));
+		setCollapsedCases(result.slice(displayLimit));
 
-	}, [field.characteristic, limit]);
+	}, [field.characteristic, displayLimit]);
 
 	const onInput = (caseId: number, e: ChangeEvent<HTMLInputElement>) => {
 		const value = (characteristic.characteristic_id in values.props && Array.isArray(values.props[characteristic.characteristic_id]))
@@ -39,7 +36,7 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 			}
 		}
 
-		onChange('props', value, characteristic.characteristic_id);
+		onChange({props: {[characteristic.characteristic_id]: value}});
 	};
 
 	const isChecked = (caseId: number): boolean => {
@@ -49,6 +46,11 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 		}
 
 		return false;
+	};
+
+	const handleShowMore = (e: React.SyntheticEvent) => {
+		e.preventDefault();
+		setShowMore(prev => !prev);
 	};
 
 	return (
@@ -62,7 +64,7 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 			/>
 			{collapsedCases.length > 0 && <>
 				<Collapse in={showMore} key={characteristic.characteristic_id}>
-					<div> {/* Intentinal for smooth Collapse animation */}
+					<div> {/* Intentional for smooth Collapse animation */}
 						<div className='mt-1'>
 							<CharacteristicCases
 								caseItems={collapsedCases}
@@ -73,12 +75,15 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 						</div>
 					</div>
 				</Collapse>
-				<a
-					className='btn btn-link btn-sm'
-					onClick={() => setShowMore(prev => !prev)}
-				>
-					{showMore ? 'Show less' : 'Show more'}
-				</a>
+				<div className='mt-1'>
+					<a
+						className='small'
+						href='#'
+						onClick={handleShowMore}
+					>
+						<>{showMore ? 'Show less' : 'Show all'}</>
+					</a>
+				</div>
 			</>}
 		</div>
 	);

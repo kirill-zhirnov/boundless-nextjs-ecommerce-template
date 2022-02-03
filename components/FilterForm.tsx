@@ -14,6 +14,8 @@ import Stock from './filterForm/Stock';
 import _isEqualWith from 'lodash/isEqualWith';
 import {filterKeys, filterProductsQuery} from '../lib/category';
 
+const DEFAULT_DISPLAY_LIMIT = 3;
+
 /**
  * @param filterFields - might be passed manually, e.g. pass:
  * [{type: 'price'}] to have filters by price only. In other words you don't necessarily need to fetch filters from the server side.
@@ -28,7 +30,7 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 	const [ranges, setRanges] = useState<IFilterFieldRange[]>([]);
 	const [isFetching, setIsFetching] = useState<boolean>(false);
 	const [preSearchResult, setPreSearchResult] = useState<null | number>(null);
-	const [initedForCategory, setInitedForCategory] = useState<number|null>(null);
+	const [initedForCategory, setInitedForCategory] = useState<number | null>(null);
 
 	const getData = () => {
 		const sanitizedQuery = sanitizeIncomingQuery(queryParams);
@@ -60,19 +62,13 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 		}).catch(console.error);
 	}, 600), [categoryId]);
 
-	const onChange = (key: string, value: any, characteristicId?: number) => {
-		setValues(prevValues => {
-			let newValues: TQuery = {};
-			if (key === 'props') {
-				const props = Object.assign({}, prevValues.props, {[characteristicId!]: value});
-				newValues = {...prevValues, ...{props: props}};
-			} else {
-				newValues = {...prevValues, ...{[key]: value}};
-			}
+	const onChange = (value: {[key: string]: any}) => {
+		const newValues: TQuery = 'props' in value
+			? {...values, props: Object.assign({}, values.props, value.props)}
+			: {...values, ...value};
 
-			reCalcRanges(newValues);
-			return newValues;
-		});
+		setValues(newValues);
+		reCalcRanges(newValues);
 		setHasChanged(true);
 	};
 
@@ -120,6 +116,7 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 						return <BrandSelect field={filterField}
 							onChange={onChange}
 							values={values}
+							displayLimit={DEFAULT_DISPLAY_LIMIT}
 							key={i} />;
 
 					case TFilterFieldType.availability:
@@ -134,6 +131,7 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 								field={filterField}
 								onChange={onChange}
 								values={values}
+								displayLimit={DEFAULT_DISPLAY_LIMIT}
 								key={i} />;
 						} else {
 							return <TextCharacteristic
@@ -292,6 +290,6 @@ interface IFilterFormProps {
 export interface IFilterFieldProps {
 	field: IFilterFieldRange;
 	values: TQuery;
-	onChange: (key: string, value: any, characteristicId?: number) => void;
+	onChange: (value: {[key: string]: any}) => void;
 	displayLimit?: number;
 }

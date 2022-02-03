@@ -1,14 +1,12 @@
 import {IFilterFieldProps} from '../FilterForm';
-import {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {IProductManufacturer} from 'boundless-api-client';
 import {TQuery} from '../../@types/common';
 import Collapse from 'react-bootstrap/Collapse';
 
-const DEFAULT_DISPLAY_LIMIT = 6;
 
 export default function BrandSelect({field, onChange, values, displayLimit}: IFilterFieldProps) {
 	const {brand} = values;
-	const limit = displayLimit || DEFAULT_DISPLAY_LIMIT;
 	const [showMore, setShowMore] = useState(false);
 
 	const [visibleBrands, setVisibleBrands] = useState<TManufacturer[]>([]);
@@ -20,9 +18,9 @@ export default function BrandSelect({field, onChange, values, displayLimit}: IFi
 		const inStockBrands = manufacturers.filter(el => el.products_qty > 0);
 		const outOfStockBrands = manufacturers.filter(el => !el.products_qty);
 		const result = [...inStockBrands, ...outOfStockBrands];
-		setVisibleBrands(result.slice(0, limit));
-		setCollapsedBrands(result.slice(limit));
-	}, [field.manufacturers, limit]);
+		setVisibleBrands(result.slice(0, displayLimit));
+		setCollapsedBrands(result.slice(displayLimit));
+	}, [field.manufacturers, displayLimit]);
 
 
 	const onInput = (manufacturerId: number, e: ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +30,12 @@ export default function BrandSelect({field, onChange, values, displayLimit}: IFi
 			value.push(manufacturerId);
 		}
 
-		onChange('brand', value);
+		onChange({brand: value});
+	};
+
+	const handleShowMore = (e: React.SyntheticEvent) => {
+		e.preventDefault();
+		setShowMore(prev => !prev);
 	};
 
 	return (
@@ -55,12 +58,15 @@ export default function BrandSelect({field, onChange, values, displayLimit}: IFi
 						</div>
 					</div>
 				</Collapse>
-				<a
-					className='btn btn-link btn-sm'
-					onClick={() => setShowMore(prev => !prev)}
-				>
-					{showMore ? 'Show less' : 'Show more'}
-				</a>
+				<div className='mt-1'>
+					<a
+						className='small'
+						href='#'
+						onClick={handleShowMore}
+					>
+						<>{showMore ? 'Show less' : 'Show all'}</>
+					</a>
+				</div>
 			</>}
 		</div>
 	);
@@ -71,15 +77,16 @@ const BrandCases = ({manufacturers, onInput, values}: IBrandsProps) => {
 		<div className='d-flex gap-1 flex-wrap'>
 			{manufacturers.map(({manufacturer_id, title, products_qty}) =>
 				<div key={manufacturer_id}>
-					<label className='btn btn-outline-secondary btn-sm'>
-						<input className='btn-check'
-							type='checkbox'
-							value={manufacturer_id}
-							name={'brand[]'}
-							onChange={onInput.bind(null, manufacturer_id)}
-							checked={values.brand.includes(manufacturer_id)}
-							disabled={products_qty === 0}
-						/>
+					<input className='btn-check'
+						id={`brand_${manufacturer_id}`}
+						type='checkbox'
+						value={manufacturer_id}
+						name={'brand[]'}
+						onChange={onInput.bind(null, manufacturer_id)}
+						checked={values.brand.includes(manufacturer_id)}
+						disabled={products_qty === 0}
+					/>
+					<label className='btn btn-outline-secondary btn-sm' htmlFor={`brand_${manufacturer_id}`}>
 						{title} ({products_qty})
 					</label>
 				</div>

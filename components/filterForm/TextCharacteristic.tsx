@@ -6,7 +6,7 @@ export default function TextCharacteristic({field, onChange, values}: IFilterFie
 	const id = `filter_prop_${characteristic.characteristic_id}`;
 
 	const onInput = (e: ChangeEvent<HTMLInputElement>) => {
-		onChange('props', e.target.value, characteristic.characteristic_id);
+		onChange({props: {[characteristic.characteristic_id]: e.target.value}});
 	};
 
 	return (
