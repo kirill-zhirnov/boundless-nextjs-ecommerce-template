@@ -1,91 +1,141 @@
+import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
-import {useRef, useState} from 'react';
 import {IMenuItem} from '../redux/reducers/menus';
-import {usePopper} from 'react-popper';
-import {CSSTransition} from 'react-transition-group';
+import {createPopper, Instance} from '@popperjs/core';
 
-export default function HorizontalMenu({menuList}: {menuList: IMenuItem[]}) {
-	const [referenceElement, setReferenceElement] = useState<HTMLLIElement | null>(null);
-	const popperElements = useRef<HTMLUListElement[]>([...Array(menuList.length)]);
-	const hideTimeout = useRef<number | null>(null);
-	const [popperElement, setPopperElement] = useState<HTMLUListElement | null>(null);
-	const [visible, setVisible] = useState<number | null>(null);
-	const [delayedVisible, setDelayedVisible] = useState<number | null>(null);
+export default class HorizontalMenu extends React.Component<HorizontalMenuProps, HorizontalMenuState> {
+	protected hideTimeout: number | null = null;
+	protected popperElements: HTMLUListElement[] = [];
+	protected poppers: Instance[] = [];
+	protected popperRefs: HTMLLIElement[] = [];
 
-	const {styles, attributes} = usePopper(referenceElement, popperElement, {
-		placement: 'bottom-start',
-	});
+	constructor(props: HorizontalMenuProps) {
+		super(props);
 
-	const handleShow = (index: number, e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
-		if (hideTimeout.current) clearTimeout(hideTimeout.current);
-		setVisible(index);
-		setDelayedVisible(index);
-		setReferenceElement(e.currentTarget);
-		setPopperElement(popperElements.current[index]);
-	};
+		this.state = {
+			visiblePopup: null,
+			delayedVisible: null,
+		};
+	}
 
-	const handleHide = (index: number) => {
-		if (hideTimeout.current) clearTimeout(hideTimeout.current);
-		hideTimeout.current = window.setTimeout(() => {
-			if (index === visible) setVisible(null);
-			setReferenceElement(null);
-			setPopperElement(null);
+	handleShow(index: number) {
+		if (this.hideTimeout) clearTimeout(this.hideTimeout);
+		this.setState({
+			visiblePopup: index,
+			delayedVisible: index,
+		});
+		this.hideAllPoppers();
+		if (this.poppers[index]) this.enablePopper(this.poppers[index]);
+	}
+
+	handleHide(index: number) {
+		if (this.hideTimeout) clearTimeout(this.hideTimeout);
+		this.hideTimeout = window.setTimeout(() => {
+			if (index === this.state.visiblePopup) {
+				this.setState({
+					visiblePopup: null
+				});
+			}
+			this.hideAllPoppers();
 		}, 300);
-	};
+	}
 
-	return (
-		<div className='container'>
+	hideAllPoppers() {
+		this.poppers.forEach((popper) => popper && this.disablePopper(popper));
+	}
+
+	disablePopper(popperInstance: Instance) {
+		popperInstance.setOptions((options) => ({
+			...options,
+			modifiers: [
+				...options.modifiers!,
+				{
+					name: 'eventListeners',
+					enabled: false
+				},
+			],
+		}));
+	}
+
+	enablePopper(popperInstance: Instance) {
+		popperInstance.setOptions((options) => ({
+			...options,
+			modifiers: [
+				...options.modifiers!,
+				{name: 'eventListeners', enabled: true},
+			],
+		}));
+
+		popperInstance.update();
+	}
+
+	componentDidMount() {
+		this.popperElements.forEach((element, i) => {
+			if (!element) return;
+			this.poppers[i] = createPopper(this.popperRefs[i], this.popperElements[i], {
+				placement: 'bottom-start',
+			});
+		});
+	}
+
+	componentWillUnmount() {
+		this.poppers.forEach(popper => popper && popper.destroy());
+		this.poppers = [];
+	}
+
+	render(): React.ReactNode {
+		const {menuList} = this.props;
+		const {visiblePopup} = this.state;
+
+		return (
 			<nav className='horizontal-menu'>
-				<ul className='horizontal-menu__list list-unstyled mb-0 justify-content-around' itemScope itemType='http://schema.org/ItemList'>
-					{menuList.map((item, i) => {
-						const hasChildren = item.children && item.children.length > 0;
-						return (
-							<li
-								className={clsx({
-									active: item.isActive,
-									'has-children': hasChildren,
-									'open': hasChildren && item.isActive
-								})}
-								key={item.title + i}
-								onMouseOver={handleShow.bind(null, i)}
-								onMouseOut={handleHide.bind(null, i)}
-							>
-								<div className='d-flex align-items-center' itemProp='itemListElement' itemScope itemType='http://schema.org/ListItem'>
-									<ListElement item={item} position={i} />
-								</div>
-								{item.children && item.children.length > 0 &&
-									<CSSTransition
-										in={visible === i}
-										timeout={600}
-										onExited={() => setDelayedVisible(null)}
-										classNames={{
-											enterActive: 'animate__animated animate__fadeIn',
-											exitActive: 'animate__animated animate__fadeOut',
-											exitDone: 'd-none'
-										}}
-									>
+				<div className='container'>
+					<ul className='horizontal-menu__list list-unstyled mb-0 justify-content-around' itemScope itemType='http://schema.org/ItemList'>
+						{menuList.map((item, i) => {
+							const hasChildren = item.children && item.children.length > 0;
+							return (
+								<li
+									className={clsx({
+										active: item.isActive,
+										'has-children': hasChildren,
+										'open': hasChildren && item.isActive
+									})}
+									key={item.title + i}
+									ref={(el) => el && !this.popperRefs[i] && (this.popperRefs[i] = el)}
+									onMouseOver={this.handleShow.bind(this, i)}
+									onMouseOut={this.handleHide.bind(this, i)}
+								>
+									<div className='d-flex align-items-center' itemProp='itemListElement' itemScope itemType='http://schema.org/ListItem'>
+										<ListElement item={item} position={i} />
+									</div>
+									{item.children && item.children.length > 0 &&
 										<ul
-											className={clsx('horizontal-menu__child-list list-unstyled', {'d-none': delayedVisible !== i})}
-											ref={(el) => {
-												if (el) popperElements.current[i] = el;
-											}}
-											style={styles.popper}
-											{...attributes.popper}
+											className={clsx('horizontal-menu__child-list list-unstyled', {'d-none': visiblePopup !== i})}
+											ref={(el) => el && !this.popperElements[i] && (this.popperElements[i] = el)}
 										>
 											{item.children.map((childItem, j) =>
 												<li key={childItem.title + j} className={clsx({active: childItem.isActive})}>
 													<ListElement item={childItem} />
 												</li>)}
-										</ul>
-									</CSSTransition>}
-							</li>
-						);
-					})}
-				</ul>
+										</ul>}
+								</li>
+							);
+						})}
+					</ul>
+				</div>
 			</nav >
-		</div>
-	);
+		);
+	}
+}
+
+interface HorizontalMenuProps {
+	menuList: IMenuItem[]
+}
+
+interface HorizontalMenuState {
+	visiblePopup: number | null;
+	delayedVisible: number | null;
 }
 
 function ListElement({item, position}: {item: IMenuItem, position?: number}) {
