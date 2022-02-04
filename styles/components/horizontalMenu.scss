@@ -1,49 +1,52 @@
-$vertical-menu-big-padding: 15px;
-$vertical-menu-small-padding: 10px;
+$horizontal-menu-big-padding: 15px;
+$horizontal-menu-small-padding: 10px;
 
 .horizontal-menu {
 	background-color: $front-h-menu-bg;
-	border-top: 1px solid #eee;
 	border-bottom: 1px solid #eee;
+	border-top: 1px solid #eee;
 
 	&__list {
 		display: flex;
+		justify-content: space-around;
+		margin-bottom: 0;
 	}
 
-	&__list > li {
+	&__root-element {
 		padding: 15px;
 		position: relative;
+	}
+
+	&__element {
+		align-items: center;
+		display: flex;
+	}
+
+	&__child-list {
+		background-color: #fff;
+		border: 1px solid #eee;
+		padding: 15px;
+		top: 70px;
+		width: 220px;
+		z-index: 10;
+
+		&.animate__animated.animate__fadeIn,
+		&.animate__animated.animate__fadeOut {
+			--animate-duration: 0.4s;
+		}
+	}
+
+	&__child-element {
+		padding: 0 0 $horizontal-menu-small-padding 0;
+		white-space: nowrap;
 
 		&:last-child {
 			padding-bottom: 0;
 		}
 	}
 
-	&__child-list {
-		top: 70px;
-		background-color: #fff;
-		border: 1px solid #eee;
-		width: 220px;
-		z-index: 10;
-		padding: 15px;
-
-		&.animate__animated.animate__fadeIn,
-		&.animate__animated.animate__fadeOut {
-			--animate-duration: 0.4s;
-		}
-
-		> li {
-			padding: 0 0 $vertical-menu-small-padding 0;
-			white-space: nowrap;
-
-			&:last-child {
-				padding-bottom: 0;
-			}
-		}
-	}
-
 	&__link {
-		color: $front-v-menu-color;
+		color: $front-h-menu-color;
 		text-decoration: none;
 
 		&.is-child {
@@ -62,13 +65,13 @@ $vertical-menu-small-padding: 10px;
 		}
 
 		&:hover {
-			color: $front-v-menu-color;
+			color: $front-h-menu-color;
 			text-decoration: underline;
 		}
 	}
 
 	&__text-title {
-		color: $front-v-menu-active;
+		color: $front-h-menu-active;
 		font-weight: $front-font-weight-bold;
 
 		&.is-root {
