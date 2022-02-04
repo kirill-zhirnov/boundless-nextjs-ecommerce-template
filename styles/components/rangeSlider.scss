@@ -1,0 +1,27 @@
+.range-slider {
+	.rc-slider-handle {
+		border-color: $theme-color;
+
+		&:active {
+			border-color: darken($theme-color, 30%);
+			box-shadow: 0 0 5px darken($theme-color, 30%) !important;
+		}
+
+		&:hover {
+			border-color: darken($theme-color, 30%);
+		}
+
+		&-dragging {
+			border-color: darken($theme-color, 30%) !important;
+			box-shadow: 0 0 0 5px $theme-color !important;
+		}
+
+		&-click-focused:focus {
+			border-color: $theme-color;
+		}
+	}
+
+	.rc-slider-track {
+		background-color: $theme-color;
+	}
+}
