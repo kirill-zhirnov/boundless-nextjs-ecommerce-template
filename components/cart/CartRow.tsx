@@ -19,7 +19,7 @@ export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 								/>
 							</a>
 						</Link>
-						: <div className={'me-2'}><NoImage ratio={TThumbRatio['1-1']} className={'bg-xs'}/></div>}
+						: <div className={'me-2'} style={{width: '60px'}}><NoImage ratio={TThumbRatio['1-1']} className={'bg-xs'}/></div>}
 					<div className='py-1'>
 						<div>
 							<Link href={getProductUrl(item.vwItem.product)}>
