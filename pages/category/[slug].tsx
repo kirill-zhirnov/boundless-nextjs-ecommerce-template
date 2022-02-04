@@ -1,27 +1,28 @@
 import {useEffect, useMemo, useState} from 'react';
-import MainLayout from '../../layouts/Main';
-import {apiClient} from '../../lib/api';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
-import {ICategoryItem} from 'boundless-api-client/types/catalog/category';
-import {IProduct} from 'boundless-api-client/types/catalog/product';
-import ProductsList from '../../components/ProductsList';
-import {IPagination} from 'boundless-api-client/types/common';
-import Pagination from '../../components/Pagination';
 import {NextRouter, useRouter} from 'next/router';
-import BreadCrumbs from '../../components/BreadCrumbs';
-import CategorySidebar from '../../components/category/Sidebar';
-import {filterProductsQuery} from '../../lib/category';
-import {TQuery} from '../../@types/common';
-import FilterForm from '../../components/FilterForm';
-import {createGetStr} from 'boundless-api-client/utils';
+import {useAppDispatch} from '../../hooks/redux';
+import dynamic from 'next/dynamic';
 import qs from 'qs';
+import {apiClient} from '../../lib/api';
 import {getCategoryItemUrl} from '../../lib/urls';
-import SortButtons from '../../components/SortButtons';
+import {filterProductsQuery} from '../../lib/category';
+import {createGetStr} from 'boundless-api-client/utils';
 import {getCategoryMetaData} from '../../lib/meta';
 import {makeAllMenus} from '../../lib/menu';
 import {IMenuItem, setFooterMenu, setMainMenu} from '../../redux/reducers/menus';
-import {useAppDispatch} from '../../hooks/redux';
 import {makeBreadCrumbsFromCats} from '../../lib/breadcrumbs';
+import {IProduct, ICategoryItem} from 'boundless-api-client';
+import {IPagination} from 'boundless-api-client/types/common';
+import {TQuery} from '../../@types/common';
+
+import MainLayout from '../../layouts/Main';
+import ProductsList from '../../components/ProductsList';
+import Pagination from '../../components/Pagination';
+import BreadCrumbs from '../../components/BreadCrumbs';
+import CategorySidebar from '../../components/category/Sidebar';
+import SortButtons from '../../components/SortButtons';
+const FilterForm = dynamic(() => import('../../components/FilterForm'), {ssr: false});
 
 export default function CategoryPage({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const {category, mainMenu, footerMenu} = data;
