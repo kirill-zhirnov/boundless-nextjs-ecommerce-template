@@ -17,7 +17,7 @@ export default function IndexPage({products, mainMenu, footerMenu}: InferGetServ
 	const mainMenuList = useAppSelector((state: RootState) => state.menus.main);
 
 	return (
-		<MainLayout>
+		<MainLayout horizontalMenu>
 			<div className='container'>
 				<div className='row'>
 					<nav className='col-md-3 col-sm-4'>

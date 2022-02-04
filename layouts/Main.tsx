@@ -13,14 +13,16 @@ import {RootState} from '../redux/store';
 import clsx from 'clsx';
 const AsideMenu = dynamic(() => import('../components/AsideMenu'), {ssr: false});
 import AsideBackdrop from '../components/asideMenu/Backdrop';
+import HorizontalMenu from '../components/HorizontalMenu';
 
 const shopBaseUrl = process.env.BOUNDLESS_BASE_URL || '';
 
-export default function MainLayout({children, title, metaData}: IMainLayoutProps) {
+export default function MainLayout({children, title, metaData, horizontalMenu}: IMainLayoutProps) {
 	const {canonicalUrl, imgUrl, description} = metaData || {};
 	const router = useRouter();
 	const dispatch = useAppDispatch();
 	const asideIsOpened = useAppSelector((state: RootState) => state.asideMenu.isOpened);
+	const mainMenuList = useAppSelector((state: RootState) => state.menus.main);
 
 	useEffect(() => {
 		const handleStart = () => {
@@ -68,6 +70,7 @@ export default function MainLayout({children, title, metaData}: IMainLayoutProps
 			<AlertWidget />
 			<div className={clsx('page-layout page-layout_main', {'page-layout_aside-opened': asideIsOpened})}>
 				<Header />
+				{horizontalMenu && mainMenuList && <HorizontalMenu menuList={mainMenuList} />}
 				<main>
 					{children}
 				</main>
@@ -83,6 +86,7 @@ interface IMainLayoutProps {
 	children: ReactNode | ReactNode[];
 	title?: string;
 	metaData?: IMetaData;
+	horizontalMenu?: boolean;
 }
 
 interface IMetaData {
