@@ -17,7 +17,7 @@ import HorizontalMenu from '../components/HorizontalMenu';
 
 const shopBaseUrl = process.env.BOUNDLESS_BASE_URL || '';
 
-export default function MainLayout({children, title, metaData, horizontalMenu}: IMainLayoutProps) {
+export default function MainLayout({children, title, metaData}: IMainLayoutProps) {
 	const {canonicalUrl, imgUrl, description} = metaData || {};
 	const router = useRouter();
 	const dispatch = useAppDispatch();
@@ -70,8 +70,8 @@ export default function MainLayout({children, title, metaData, horizontalMenu}: 
 			<AlertWidget />
 			<div className={clsx('page-layout page-layout_main', {'page-layout_aside-opened': asideIsOpened})}>
 				<Header />
-				{horizontalMenu && mainMenuList && <HorizontalMenu menuList={mainMenuList} />}
-				<main>
+				{mainMenuList && <HorizontalMenu menuList={mainMenuList} />}
+				<main className='page-layout__main'>
 					{children}
 				</main>
 				<Footer />
@@ -86,7 +86,6 @@ interface IMainLayoutProps {
 	children: ReactNode | ReactNode[];
 	title?: string;
 	metaData?: IMetaData;
-	horizontalMenu?: boolean;
 }
 
 interface IMetaData {

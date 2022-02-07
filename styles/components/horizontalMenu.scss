@@ -1,19 +1,22 @@
 $horizontal-menu-big-padding: 15px;
 $horizontal-menu-small-padding: 10px;
+$horizontal-menu-border: 1px solid #eee;
 
 .horizontal-menu {
+	$root: &;
 	background-color: $front-h-menu-bg;
-	border-bottom: 1px solid #eee;
-	border-top: 1px solid #eee;
+	border-bottom: $horizontal-menu-border;
+	border-top: $horizontal-menu-border;
 
 	&__list {
 		display: flex;
+		flex-wrap: wrap;
 		justify-content: space-around;
 		margin-bottom: 0;
 	}
 
 	&__root-element {
-		padding: 15px;
+		padding: $horizontal-menu-big-padding;
 		position: relative;
 	}
 
@@ -23,25 +26,35 @@ $horizontal-menu-small-padding: 10px;
 	}
 
 	&__child-list {
-		background-color: #fff;
-		border: 1px solid #eee;
-		padding: 15px;
-		top: 70px;
+		background-color: $front-h-menu-child-bg;
+		margin-top: 15px;
+		position: absolute;
 		width: 220px;
 		z-index: 10;
 
-		&.animate__animated.animate__fadeIn,
+		&.animate__animated.animate__fadeInUp,
 		&.animate__animated.animate__fadeOut {
 			--animate-duration: 0.4s;
 		}
 	}
 
 	&__child-element {
-		padding: 0 0 $horizontal-menu-small-padding 0;
+		border: $horizontal-menu-border;
+		border-bottom-width: 0;
+		padding: $horizontal-menu-small-padding $horizontal-menu-big-padding;
 		white-space: nowrap;
 
+		&:hover {
+			background-color: darken($front-h-menu-child-bg, 5%);
+
+			#{$root}__link {
+				color: $front-h-menu-active;
+				text-decoration: none;
+			}
+		}
+
 		&:last-child {
-			padding-bottom: 0;
+			border-bottom-width: 1px;
 		}
 	}
 
@@ -50,18 +63,18 @@ $horizontal-menu-small-padding: 10px;
 		text-decoration: none;
 
 		&.is-child {
-			margin-left: 10px;
+			flex-grow: 1;
 			white-space: normal;
-		}
-
-		& + &.is-child {
-			margin-left: 0;
 		}
 
 		&.is-root {
 			font-size: 15px;
 			font-weight: $front-font-weight-light;
 			text-transform: uppercase;
+
+			&.title {
+				line-height: 24px;
+			}
 		}
 
 		&:hover {
@@ -72,10 +85,11 @@ $horizontal-menu-small-padding: 10px;
 
 	&__text-title {
 		color: $front-h-menu-active;
-		font-weight: $front-font-weight-bold;
 
 		&.is-root {
 			font-size: 15px;
+			font-weight: $front-font-weight-light;
+			text-transform: uppercase;
 		}
 	}
 }

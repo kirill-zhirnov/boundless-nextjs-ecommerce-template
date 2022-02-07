@@ -2,21 +2,23 @@ import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import {IMenuItem} from '../redux/reducers/menus';
-import {createPopper, Instance} from '@popperjs/core';
+// import {createPopper, Instance} from '@popperjs/core';
 import {CSSTransition} from 'react-transition-group';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faCaretDown} from '@fortawesome/free-solid-svg-icons/faCaretDown';
+
 
 export default class HorizontalMenu extends React.Component<HorizontalMenuProps, HorizontalMenuState> {
 	protected hideTimeout: number | null = null;
-	protected popperElements: HTMLUListElement[] = [];
-	protected poppers: Instance[] = [];
-	protected popperRefs: HTMLLIElement[] = [];
+	// protected popperElements: HTMLUListElement[] = [];
+	// protected poppers: Instance[] = [];
+	// protected popperRefs: HTMLLIElement[] = [];
 
 	constructor(props: HorizontalMenuProps) {
 		super(props);
 
 		this.state = {
 			visiblePopup: null,
-			delayedVisible: null,
 		};
 	}
 
@@ -24,10 +26,9 @@ export default class HorizontalMenu extends React.Component<HorizontalMenuProps,
 		if (this.hideTimeout) clearTimeout(this.hideTimeout);
 		this.setState({
 			visiblePopup: index,
-			delayedVisible: index,
 		});
-		this.hideAllPoppers();
-		if (this.poppers[index]) this.enablePopper(this.poppers[index]);
+		// this.hideAllPoppers();
+		// if (this.poppers[index]) this.enablePopper(this.poppers[index]);
 	}
 
 	handleHide(index: number) {
@@ -38,72 +39,56 @@ export default class HorizontalMenu extends React.Component<HorizontalMenuProps,
 					visiblePopup: null
 				});
 			}
-			this.hideAllPoppers();
+			// this.hideAllPoppers();
 		}, 300);
 	}
 
-	hideAllPoppers() {
-		this.poppers.forEach((popper) => popper && this.disablePopper(popper));
-	}
+	// hideAllPoppers() {
+	// 	this.poppers.forEach((popper) => popper && this.disablePopper(popper));
+	// }
 
-	delayedHide() {
-		this.setState(prev => {
-			if (prev.visiblePopup !== null) {
-				return {
-					...prev,
-					delayedVisible: prev.visiblePopup
-				};
-			} else {
-				return {
-					...prev,
-					delayedVisible: null
-				};
-			}
-		});
-	}
+	// disablePopper(popperInstance: Instance) {
+	// 	popperInstance.setOptions((options) => ({
+	// 		...options,
+	// 		modifiers: [
+	// 			...options.modifiers!,
+	// 			{
+	// 				name: 'eventListeners',
+	// 				enabled: false
+	// 			},
+	// 		],
+	// 	}));
+	// }
 
-	disablePopper(popperInstance: Instance) {
-		popperInstance.setOptions((options) => ({
-			...options,
-			modifiers: [
-				...options.modifiers!,
-				{
-					name: 'eventListeners',
-					enabled: false
-				},
-			],
-		}));
-	}
+	// enablePopper(popperInstance: Instance) {
+	// 	popperInstance.setOptions((options) => ({
+	// 		...options,
+	// 		modifiers: [
+	// 			...options.modifiers!,
+	// 			{name: 'eventListeners', enabled: true},
+	// 		],
+	// 	}));
 
-	enablePopper(popperInstance: Instance) {
-		popperInstance.setOptions((options) => ({
-			...options,
-			modifiers: [
-				...options.modifiers!,
-				{name: 'eventListeners', enabled: true},
-			],
-		}));
+	// 	popperInstance.update();
+	// }
 
-		popperInstance.update();
-	}
+	// componentDidMount() {
+	// 	this.popperElements.forEach((element, i) => {
+	// 		if (!element) return;
+	// 		this.poppers[i] = createPopper(this.popperRefs[i], this.popperElements[i], {
+	// 			placement: 'bottom-start',
+	// 		});
+	// 	});
+	// }
 
-	componentDidMount() {
-		this.popperElements.forEach((element, i) => {
-			if (!element) return;
-			this.poppers[i] = createPopper(this.popperRefs[i], this.popperElements[i], {
-				placement: 'bottom-start',
-			});
-		});
-	}
-
-	componentWillUnmount() {
-		this.poppers.forEach(popper => popper && popper.destroy());
-		this.poppers = [];
-	}
+	// componentWillUnmount() {
+	// 	this.poppers.forEach(popper => popper && popper.destroy());
+	// 	this.poppers = [];
+	// }
 
 	render(): React.ReactNode {
 		const {menuList} = this.props;
-		const {visiblePopup, delayedVisible} = this.state;
+		const {visiblePopup} = this.state;
 
 		return (
 			<nav className='horizontal-menu'>
@@ -119,27 +104,26 @@ export default class HorizontalMenu extends React.Component<HorizontalMenuProps,
 										'open': hasChildren && item.isActive
 									})}
 									key={item.title + i}
-									ref={(el) => el && !this.popperRefs[i] && (this.popperRefs[i] = el)}
+									// ref={(el) => el && !this.popperRefs[i] && (this.popperRefs[i] = el)}
 									onMouseOver={this.handleShow.bind(this, i)}
 									onMouseOut={this.handleHide.bind(this, i)}
 								>
 									<div itemProp='itemListElement' itemScope itemType='http://schema.org/ListItem'>
-										<ListElement item={item} position={i} />
+										<ListElement item={item} position={i} hasChildren={hasChildren} />
 									</div>
 									{item.children && item.children.length > 0 &&
 										<CSSTransition
 											in={visiblePopup === i}
 											timeout={600}
-											onExited={this.delayedHide.bind(this, i)}
+											unmountOnExit
 											classNames={{
-												enterActive: 'animate__animated animate__fadeIn',
+												enterActive: 'animate__animated animate__fadeInUp',
 												exitActive: 'animate__animated animate__fadeOut',
-												exitDone: 'd-none'
 											}}
 										>
 											<ul
-												className={clsx('horizontal-menu__child-list list-unstyled', {'d-none': delayedVisible !== i})}
-												ref={(el) => el && !this.popperElements[i] && (this.popperElements[i] = el)}
+												className={clsx('horizontal-menu__child-list list-unstyled')}
+											// ref={(el) => el && !this.popperElements[i] && (this.popperElements[i] = el)}
 											>
 												{item.children.map((childItem, j) =>
 													<li key={childItem.title + j} className={clsx('horizontal-menu__child-element', {active: childItem.isActive})}>
@@ -163,10 +147,9 @@ interface HorizontalMenuProps {
 
 interface HorizontalMenuState {
 	visiblePopup: number | null;
-	delayedVisible: number | null;
 }
 
-function ListElement({item, position}: {item: IMenuItem, position?: number}) {
+function ListElement({item, position, hasChildren}: {item: IMenuItem, position?: number, hasChildren?: boolean}) {
 	const image = item.img || null;
 	const isRootElem = position !== undefined;
 
@@ -178,6 +161,13 @@ function ListElement({item, position}: {item: IMenuItem, position?: number}) {
 			height={image.height}
 		/>
 		: null;
+
+	const titleWithIcon = hasChildren
+		? <>
+			{item.title}
+			{hasChildren && <FontAwesomeIcon className='ms-2' icon={faCaretDown} />}
+		</>
+		: item.title;
 
 	return (
 		<div className='horizontal-menu__element'>
@@ -195,14 +185,16 @@ function ListElement({item, position}: {item: IMenuItem, position?: number}) {
 					<Link href={item.url}>
 						<a className={clsx('horizontal-menu__link title', isRootElem ? 'is-root' : 'is-child')} itemProp='url'>
 							{isRootElem
-								? <span itemProp='name'>{item.title}</span>
+								? <span itemProp='name'>
+									{titleWithIcon}
+								</span>
 								: item.title}
 						</a>
 					</Link>
 					{isRootElem && <meta itemProp='position' content={String(position + 1)} />}
 				</>
 				: <span className={clsx('horizontal-menu__text-title', isRootElem ? 'is-root' : 'is-child')}>
-					{item.title}
+					{titleWithIcon}
 				</span>}
 		</div>
 	);
