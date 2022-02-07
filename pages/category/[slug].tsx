@@ -31,8 +31,11 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 	const [collection, setCollection] = useState(data.collection);
 
 	const dispatch = useAppDispatch();
-	dispatch(setMainMenu(mainMenu));
-	dispatch(setFooterMenu(footerMenu));
+
+	useEffect(() => {
+		dispatch(setMainMenu(mainMenu));
+		dispatch(setFooterMenu(footerMenu));
+	}, [mainMenu, footerMenu]); //eslint-disable-line
 
 	const onCollectionChange = async (newParams: TQuery) => {
 		const {collection, filteredQuery} = await fetchCollection(category.category_id, newParams);

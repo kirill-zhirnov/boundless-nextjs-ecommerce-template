@@ -1,3 +1,4 @@
+import {useEffect} from 'react';
 import {IProduct} from 'boundless-api-client';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
 import ProductsList from '../components/ProductsList';
@@ -11,8 +12,11 @@ import VerticalMenu from '../components/VerticalMenu';
 
 export default function IndexPage({products, mainMenu, footerMenu}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	const dispatch = useAppDispatch();
-	dispatch(setMainMenu(mainMenu));
-	dispatch(setFooterMenu(footerMenu));
+
+	useEffect(() => {
+		dispatch(setMainMenu(mainMenu));
+		dispatch(setFooterMenu(footerMenu));
+	}, [mainMenu, footerMenu]); //eslint-disable-line
 
 	const mainMenuList = useAppSelector((state: RootState) => state.menus.main);
 

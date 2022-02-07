@@ -21,8 +21,11 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 	const [resolvedParents, setResolvedParents] = useState(categoryParents);
 
 	const dispatch = useAppDispatch();
-	dispatch(setMainMenu(mainMenu));
-	dispatch(setFooterMenu(footerMenu));
+
+	useEffect(() => {
+		dispatch(setMainMenu(mainMenu));
+		dispatch(setFooterMenu(footerMenu));
+	}, [mainMenu, footerMenu]); //eslint-disable-line
 
 	const router = useRouter();
 	const query = useMemo<ParsedQs>(() => qs.parse(router.asPath.split('?')[1] || ''), [router.asPath]);
