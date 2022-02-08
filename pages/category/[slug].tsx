@@ -21,7 +21,8 @@ import ProductsList from '../../components/ProductsList';
 import Pagination from '../../components/Pagination';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import CategorySidebar from '../../components/category/Sidebar';
-import SortButtons from '../../components/SortButtons';
+import FiltersModal from '../../components/category/FiltersModal';
+import ControlBar from '../../components/ControlBar';
 const FilterForm = dynamic(() => import('../../components/FilterForm'), {ssr: false});
 
 export default function CategoryPage({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -29,6 +30,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 	const router = useRouter();
 	const [productsQuery, setProductsQuery] = useState(data.productsQuery);
 	const [collection, setCollection] = useState(data.collection);
+	const [showModal, setShowModal] = useState(false);
 
 	const dispatch = useAppDispatch();
 	dispatch(setMainMenu(mainMenu));
@@ -36,6 +38,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 
 	const onCollectionChange = async (newParams: TQuery) => {
 		const {collection, filteredQuery} = await fetchCollection(category.category_id, newParams);
+		setShowModal(false);
 		setCollection(collection);
 		setProductsQuery(filteredQuery);
 
@@ -48,7 +51,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 	}, [data]);
 
 	const breadcrumbItems = useMemo(() =>
-			makeBreadCrumbsFromCats(category.parents!, ({category_id}) => ({isActive: category_id === category.category_id}))
+		makeBreadCrumbsFromCats(category.parents!, ({category_id}) => ({isActive: category_id === category.category_id}))
 		, [category.parents, category.category_id]);
 
 	const title = category.text?.custom_header || category.text?.title;
@@ -57,12 +60,13 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 		<MainLayout title={title} metaData={getCategoryMetaData(category)}>
 			<div className='container'>
 				<div className='row'>
-					<div className='col-md-3 col-sm-4'>
+					<div className='category-sidebar__wrapper col-md-3 col-sm-4'>
 						<CategorySidebar category={category} />
 						<FilterForm filterFields={category.filter!.fields}
 							queryParams={productsQuery}
 							categoryId={category.category_id}
-							onSearch={onCollectionChange} />
+							onSearch={onCollectionChange}
+						/>
 					</div>
 					<main className='col-md-9 col-sm-8 content-box'>
 						<BreadCrumbs items={breadcrumbItems} />
@@ -72,7 +76,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 						}
 
 						{collection && <>
-							<SortButtons params={productsQuery} onSort={onCollectionChange} />
+							<ControlBar params={productsQuery} onSort={onCollectionChange} onMobileShow={() => setShowModal(true)}/>
 							<ProductsList products={collection.products} query={productsQuery} categoryId={category.category_id} />
 							<Pagination pagination={collection.pagination} params={productsQuery} onChange={onCollectionChange} />
 						</>}
@@ -80,6 +84,18 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 					</main>
 				</div>
 			</div>
+			<FiltersModal
+				show={showModal}
+				setShow={setShowModal}
+			>
+				<CategorySidebar category={category} />
+				<FilterForm filterFields={category.filter!.fields}
+					queryParams={productsQuery}
+					categoryId={category.category_id}
+					onSearch={onCollectionChange}
+					isMobile={true}
+				/>
+			</FiltersModal>
 		</MainLayout>
 	);
 }

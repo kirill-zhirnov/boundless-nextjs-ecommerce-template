@@ -24,7 +24,7 @@ const DEFAULT_DISPLAY_LIMIT = 3;
  * @param onSubmit
  * @constructor
  */
-export default function FilterForm({filterFields, queryParams, categoryId, onSearch}: IFilterFormProps) {
+export default function FilterForm({filterFields, queryParams, categoryId, onSearch, isMobile = false}: IFilterFormProps) {
 	const [hasChanged, setHasChanged] = useState<boolean>(false);
 	const [values, setValues] = useState<TQuery>({});
 	const [ranges, setRanges] = useState<IFilterFieldRange[]>([]);
@@ -132,7 +132,9 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 								onChange={onChange}
 								values={values}
 								displayLimit={DEFAULT_DISPLAY_LIMIT}
-								key={i} />;
+								key={i}
+								isMobile={isMobile}
+							/>;
 						} else {
 							return <TextCharacteristic
 								field={filterField}
@@ -285,6 +287,7 @@ interface IFilterFormProps {
 	queryParams: TQuery;
 	categoryId: number;
 	onSearch: (data: TQuery) => void;
+	isMobile?: boolean
 }
 
 export interface IFilterFieldProps {
@@ -292,4 +295,5 @@ export interface IFilterFieldProps {
 	values: TQuery;
 	onChange: (value: {[key: string]: any}) => void;
 	displayLimit?: number;
+	isMobile?: boolean
 }

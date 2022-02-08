@@ -1,0 +1,25 @@
+.control-bar {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+	.mobile-filters {
+		margin-bottom: 0.5rem;
+
+		&__button {
+			display: block;
+
+			@include media-breakpoint-up(sm) {
+				display: none;
+			}
+		}
+	}
+
+	.sort-buttons {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		margin-bottom: 0.5rem;
+	}
+}

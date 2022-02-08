@@ -3,7 +3,7 @@ import {ChangeEvent, useEffect, useState} from 'react';
 import {ICharacteristicCase} from 'boundless-api-client';
 import Collapse from 'react-bootstrap/Collapse';
 
-export default function MultipleSelectCharacteristic({field, onChange, values, displayLimit}: IFilterFieldProps) {
+export default function MultipleSelectCharacteristic({field, onChange, values, displayLimit, isMobile}: IFilterFieldProps) {
 	const characteristic = field.characteristic!;
 	const [visibleCases, setVisibleCases] = useState<ICharacteristicCase[]>([]);
 	const [collapsedCases, setCollapsedCases] = useState<ICharacteristicCase[]>([]);
@@ -40,8 +40,10 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 	};
 
 	const isChecked = (caseId: number): boolean => {
-		if (characteristic.characteristic_id in values.props && Array.isArray(values.props[characteristic.characteristic_id])) {
-			const index = values.props[characteristic.characteristic_id].findIndex((value: string | number) => String(value) == String(caseId));
+		console.log('Is mobile => ', isMobile);
+		const characteristicId = characteristic.characteristic_id;
+		if (characteristicId in values.props && Array.isArray(values.props[characteristicId])) {
+			const index = values.props[characteristicId].findIndex((value: string | number) => String(value) == String(caseId));
 			return index !== -1;
 		}
 
@@ -61,6 +63,7 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 				characteristicId={characteristic.characteristic_id}
 				onInput={onInput}
 				isChecked={isChecked}
+				isMobile={isMobile}
 			/>
 			{collapsedCases.length > 0 && <>
 				<Collapse in={showMore} key={characteristic.characteristic_id}>
@@ -71,6 +74,7 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 								characteristicId={characteristic.characteristic_id}
 								onInput={onInput}
 								isChecked={isChecked}
+								isMobile={isMobile}
 							/>
 						</div>
 					</div>
@@ -89,13 +93,14 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 	);
 }
 
-const CharacteristicCases = ({caseItems, characteristicId, onInput, isChecked}: ICasesProps) => {
+const CharacteristicCases = ({caseItems, characteristicId, onInput, isChecked, isMobile}: ICasesProps) => {
 	const idPrefix = `filter_props_${characteristicId}`;
+	console.log(isMobile, caseItems.map(el => isChecked(el.case_id)));
 
 	return (
 		<div className='d-flex gap-1 flex-wrap'>
 			{caseItems.map(({case_id, title, products_qty}) =>
-				<div key={case_id}>
+				<div key={isMobile ? 'Mobile' + case_id : case_id}>
 					<input className='btn-check'
 						type='checkbox'
 						value={case_id}
@@ -119,4 +124,5 @@ interface ICasesProps {
 	characteristicId: number;
 	isChecked: (caseId: number) => boolean;
 	onInput: (caseId: number, e: ChangeEvent<HTMLInputElement>) => void;
+	isMobile?: boolean
 }
