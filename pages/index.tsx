@@ -4,24 +4,16 @@ import ProductsList from '../components/ProductsList';
 import MainLayout from '../layouts/Main';
 import {apiClient} from '../lib/api';
 import {makeAllMenus} from '../lib/menu';
-import {useAppDispatch, useAppSelector} from '../hooks/redux';
-import {IMenuItem, setFooterMenu, setMainMenu} from '../redux/reducers/menus';
-import {RootState} from '../redux/store';
+import {IMenuItem} from '../redux/reducers/menus';
 import VerticalMenu from '../components/VerticalMenu';
 
 export default function IndexPage({products, mainMenu, footerMenu}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-	const dispatch = useAppDispatch();
-	dispatch(setMainMenu(mainMenu));
-	dispatch(setFooterMenu(footerMenu));
-
-	const mainMenuList = useAppSelector((state: RootState) => state.menus.main);
-
 	return (
-		<MainLayout>
+		<MainLayout mainMenu={mainMenu} footerMenu={footerMenu}>
 			<div className='container'>
 				<div className='row'>
 					<nav className='col-md-3 col-sm-4'>
-						{mainMenuList && <VerticalMenu menuList={mainMenuList} />}
+						{mainMenu && <VerticalMenu menuList={mainMenu} />}
 					</nav>
 					<main className='col-md-9 col-sm-8 content-box'>
 						<h1 className='page-header page-header_h1  page-header_m-h1'>Boundless store</h1>

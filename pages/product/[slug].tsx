@@ -13,17 +13,11 @@ import ProductLabels from '../../components/product/Labels';
 import ProductVariantAndBuy from '../../components/product/VariantAndBuy';
 import ProductCharacteristics from '../../components/product/Characteristics';
 import {makeAllMenus} from '../../lib/menu';
-import {IMenuItem, setFooterMenu, setMainMenu} from '../../redux/reducers/menus';
-import {useAppDispatch} from '../../hooks/redux';
+import {IMenuItem} from '../../redux/reducers/menus';
 import {makeBreadCrumbsFromCats} from '../../lib/breadcrumbs';
 
 export default function ProductPage({data: {product, categoryParents, mainMenu, footerMenu}}: InferGetStaticPropsType<typeof getStaticProps>) {
 	const [resolvedParents, setResolvedParents] = useState(categoryParents);
-
-	const dispatch = useAppDispatch();
-	dispatch(setMainMenu(mainMenu));
-	dispatch(setFooterMenu(footerMenu));
-
 	const router = useRouter();
 	const query = useMemo<ParsedQs>(() => qs.parse(router.asPath.split('?')[1] || ''), [router.asPath]);
 	const {category, ...restQuery} = query;
@@ -56,7 +50,12 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 	}, [resolvedParents, query]); //eslint-disable-line
 
 	return (
-		<MainLayout title={product.text.custom_title || product.text.title} metaData={getProductMetaData(product!)}>
+		<MainLayout
+			footerMenu={footerMenu}
+			mainMenu={mainMenu}
+			metaData={getProductMetaData(product!)}
+			title={product.text.custom_title || product.text.title}
+		>
 			<div className={'container'}>
 				<BreadCrumbs items={breadcrumbItems} />
 				<div className='product-page' itemScope itemType='http://schema.org/Product'>
