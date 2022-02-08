@@ -40,11 +40,9 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 	};
 
 	const isChecked = (caseId: number): boolean => {
-		console.log('Is mobile => ', isMobile);
 		const characteristicId = characteristic.characteristic_id;
 		if (characteristicId in values.props && Array.isArray(values.props[characteristicId])) {
-			const index = values.props[characteristicId].findIndex((value: string | number) => String(value) == String(caseId));
-			return index !== -1;
+			return values.props[characteristicId].some((value: string | number) => String(value) == String(caseId));
 		}
 
 		return false;
@@ -94,13 +92,12 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 }
 
 const CharacteristicCases = ({caseItems, characteristicId, onInput, isChecked, isMobile}: ICasesProps) => {
-	const idPrefix = `filter_props_${characteristicId}`;
-	console.log(isMobile, caseItems.map(el => isChecked(el.case_id)));
+	const idPrefix = `${isMobile ? 'mobile_' : 'desk_'}filter_props_${characteristicId}`;
 
 	return (
 		<div className='d-flex gap-1 flex-wrap'>
 			{caseItems.map(({case_id, title, products_qty}) =>
-				<div key={isMobile ? 'Mobile' + case_id : case_id}>
+				<div key={case_id}>
 					<input className='btn-check'
 						type='checkbox'
 						value={case_id}
