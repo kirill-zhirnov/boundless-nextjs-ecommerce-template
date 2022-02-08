@@ -2,17 +2,12 @@ import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import {IMenuItem} from '../redux/reducers/menus';
-// import {createPopper, Instance} from '@popperjs/core';
 import {CSSTransition} from 'react-transition-group';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCaretDown} from '@fortawesome/free-solid-svg-icons/faCaretDown';
 
-
 export default class HorizontalMenu extends React.Component<HorizontalMenuProps, HorizontalMenuState> {
 	protected hideTimeout: number | null = null;
-	// protected popperElements: HTMLUListElement[] = [];
-	// protected poppers: Instance[] = [];
-	// protected popperRefs: HTMLLIElement[] = [];
 
 	constructor(props: HorizontalMenuProps) {
 		super(props);
@@ -27,8 +22,6 @@ export default class HorizontalMenu extends React.Component<HorizontalMenuProps,
 		this.setState({
 			visiblePopup: index,
 		});
-		// this.hideAllPoppers();
-		// if (this.poppers[index]) this.enablePopper(this.poppers[index]);
 	}
 
 	handleHide(index: number) {
@@ -39,52 +32,8 @@ export default class HorizontalMenu extends React.Component<HorizontalMenuProps,
 					visiblePopup: null
 				});
 			}
-			// this.hideAllPoppers();
 		}, 300);
 	}
-
-	// hideAllPoppers() {
-	// 	this.poppers.forEach((popper) => popper && this.disablePopper(popper));
-	// }
-
-	// disablePopper(popperInstance: Instance) {
-	// 	popperInstance.setOptions((options) => ({
-	// 		...options,
-	// 		modifiers: [
-	// 			...options.modifiers!,
-	// 			{
-	// 				name: 'eventListeners',
-	// 				enabled: false
-	// 			},
-	// 		],
-	// 	}));
-	// }
-
-	// enablePopper(popperInstance: Instance) {
-	// 	popperInstance.setOptions((options) => ({
-	// 		...options,
-	// 		modifiers: [
-	// 			...options.modifiers!,
-	// 			{name: 'eventListeners', enabled: true},
-	// 		],
-	// 	}));
-
-	// 	popperInstance.update();
-	// }
-
-	// componentDidMount() {
-	// 	this.popperElements.forEach((element, i) => {
-	// 		if (!element) return;
-	// 		this.poppers[i] = createPopper(this.popperRefs[i], this.popperElements[i], {
-	// 			placement: 'bottom-start',
-	// 		});
-	// 	});
-	// }
-
-	// componentWillUnmount() {
-	// 	this.poppers.forEach(popper => popper && popper.destroy());
-	// 	this.poppers = [];
-	// }
 
 	render(): React.ReactNode {
 		const {menuList} = this.props;
@@ -104,7 +53,6 @@ export default class HorizontalMenu extends React.Component<HorizontalMenuProps,
 										'open': hasChildren && item.isActive
 									})}
 									key={item.title + i}
-									// ref={(el) => el && !this.popperRefs[i] && (this.popperRefs[i] = el)}
 									onMouseOver={this.handleShow.bind(this, i)}
 									onMouseOut={this.handleHide.bind(this, i)}
 								>
@@ -123,7 +71,6 @@ export default class HorizontalMenu extends React.Component<HorizontalMenuProps,
 										>
 											<ul
 												className={clsx('horizontal-menu__child-list list-unstyled')}
-											// ref={(el) => el && !this.popperElements[i] && (this.popperElements[i] = el)}
 											>
 												{item.children.map((childItem, j) =>
 													<li key={childItem.title + j} className={clsx('horizontal-menu__child-element', {active: childItem.isActive})}>
@@ -142,7 +89,7 @@ export default class HorizontalMenu extends React.Component<HorizontalMenuProps,
 }
 
 interface HorizontalMenuProps {
-	menuList: IMenuItem[]
+	menuList: IMenuItem[];
 }
 
 interface HorizontalMenuState {
@@ -169,33 +116,34 @@ function ListElement({item, position, hasChildren}: {item: IMenuItem, position?:
 		</>
 		: item.title;
 
+	if (item.url && (!item.isActive || isRootElem)) return (
+		<>
+			<Link href={item.url}>
+				<a className={clsx(
+					'horizontal-menu__element is-link',
+					isRootElem ? 'is-root' : 'is-child',
+					{active: item.isActive}
+				)}>
+					{image && <span className='img-link'>{imageElem}</span>}
+					<span className='title' {...(isRootElem ? {itemProp: 'name'} : {})}>
+						{isRootElem ? titleWithIcon : item.title}
+					</span>
+				</a>
+			</Link>
+			{isRootElem && <meta itemProp='position' content={String(position + 1)} />}
+		</>
+	);
+
 	return (
-		<div className='horizontal-menu__element'>
-			{image && <>
-				{item.url && !item.isActive ?
-					<Link href={item.url}>
-						<a className={clsx('horizontal-menu__link img-link', isRootElem ? 'is-root' : 'is-child')}>
-							{imageElem}
-						</a>
-					</Link>
-					: imageElem}
-			</>}
-			{item.url && !item.isActive
-				? <>
-					<Link href={item.url}>
-						<a className={clsx('horizontal-menu__link title', isRootElem ? 'is-root' : 'is-child')} itemProp='url'>
-							{isRootElem
-								? <span itemProp='name'>
-									{titleWithIcon}
-								</span>
-								: item.title}
-						</a>
-					</Link>
-					{isRootElem && <meta itemProp='position' content={String(position + 1)} />}
-				</>
-				: <span className={clsx('horizontal-menu__text-title', isRootElem ? 'is-root' : 'is-child')}>
-					{titleWithIcon}
-				</span>}
+		<div className={clsx(
+			'horizontal-menu__element',
+			isRootElem ? 'is-root' : 'is-child',
+			{active: item.isActive}
+		)}>
+			{image && imageElem}
+			<span className='horizontal-menu__text-title'>
+				{titleWithIcon}
+			</span>
 		</div>
 	);
 }
