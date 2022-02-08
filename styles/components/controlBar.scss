@@ -17,9 +17,18 @@
 	}
 
 	.sort-buttons {
-		display: flex;
 		align-items: center;
+		display: flex;
 		justify-content: flex-end;
 		margin-bottom: 0.5rem;
+	}
+}
+
+.close-filter {
+	color: $front-link-color;
+	text-decoration: none;
+
+	&:active {
+		color: $front-link-color;
 	}
 }

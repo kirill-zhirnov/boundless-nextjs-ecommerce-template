@@ -24,7 +24,7 @@ const DEFAULT_DISPLAY_LIMIT = 3;
  * @param onSubmit
  * @constructor
  */
-export default function FilterForm({filterFields, queryParams, categoryId, onSearch, isMobile = false}: IFilterFormProps) {
+export default function FilterForm({filterFields, queryParams, categoryId, onSearch, idsPrefix}: IFilterFormProps) {
 	const [hasChanged, setHasChanged] = useState<boolean>(false);
 	const [values, setValues] = useState<TQuery>({});
 	const [ranges, setRanges] = useState<IFilterFieldRange[]>([]);
@@ -110,20 +110,26 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 						return <PriceRangeField field={filterField}
 							onChange={onChange}
 							values={values}
-							key={i} />;
+							key={i}
+							idsPrefix={idsPrefix}
+						/>;
 
 					case TFilterFieldType.brand:
 						return <BrandSelect field={filterField}
 							onChange={onChange}
 							values={values}
 							displayLimit={DEFAULT_DISPLAY_LIMIT}
-							key={i} />;
+							key={i}
+							idsPrefix={idsPrefix}
+						/>;
 
 					case TFilterFieldType.availability:
 						return <Stock field={filterField}
 							onChange={onChange}
 							values={values}
-							key={i} />;
+							key={i}
+							idsPrefix={idsPrefix}
+						/>;
 
 					case TFilterFieldType.characteristic: {
 						if (isMultiCaseType(filterField.characteristic!.type)) {
@@ -133,14 +139,16 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 								values={values}
 								displayLimit={DEFAULT_DISPLAY_LIMIT}
 								key={i}
-								isMobile={isMobile}
+								idsPrefix={idsPrefix}
 							/>;
 						} else {
 							return <TextCharacteristic
 								field={filterField}
 								onChange={onChange}
 								values={values}
-								key={i} />;
+								key={i}
+								idsPrefix={idsPrefix}
+							/>;
 						}
 					}
 				}
@@ -287,13 +295,13 @@ interface IFilterFormProps {
 	queryParams: TQuery;
 	categoryId: number;
 	onSearch: (data: TQuery) => void;
-	isMobile?: boolean
+	idsPrefix: string;
 }
 
 export interface IFilterFieldProps {
 	field: IFilterFieldRange;
 	values: TQuery;
 	onChange: (value: {[key: string]: any}) => void;
+	idsPrefix: string;
 	displayLimit?: number;
-	isMobile?: boolean
 }

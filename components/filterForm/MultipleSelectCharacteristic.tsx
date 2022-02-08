@@ -3,7 +3,7 @@ import {ChangeEvent, useEffect, useState} from 'react';
 import {ICharacteristicCase} from 'boundless-api-client';
 import Collapse from 'react-bootstrap/Collapse';
 
-export default function MultipleSelectCharacteristic({field, onChange, values, displayLimit, isMobile}: IFilterFieldProps) {
+export default function MultipleSelectCharacteristic({field, onChange, values, displayLimit, idsPrefix}: IFilterFieldProps) {
 	const characteristic = field.characteristic!;
 	const [visibleCases, setVisibleCases] = useState<ICharacteristicCase[]>([]);
 	const [collapsedCases, setCollapsedCases] = useState<ICharacteristicCase[]>([]);
@@ -61,7 +61,7 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 				characteristicId={characteristic.characteristic_id}
 				onInput={onInput}
 				isChecked={isChecked}
-				isMobile={isMobile}
+				idsPrefix={`${idsPrefix}filter_props_${characteristic.characteristic_id}`}
 			/>
 			{collapsedCases.length > 0 && <>
 				<Collapse in={showMore} key={characteristic.characteristic_id}>
@@ -72,7 +72,7 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 								characteristicId={characteristic.characteristic_id}
 								onInput={onInput}
 								isChecked={isChecked}
-								isMobile={isMobile}
+								idsPrefix={`${idsPrefix}filter_props_${characteristic.characteristic_id}`}
 							/>
 						</div>
 					</div>
@@ -91,9 +91,7 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 	);
 }
 
-const CharacteristicCases = ({caseItems, characteristicId, onInput, isChecked, isMobile}: ICasesProps) => {
-	const idPrefix = `${isMobile ? 'mobile_' : 'desk_'}filter_props_${characteristicId}`;
-
+const CharacteristicCases = ({caseItems, characteristicId, onInput, isChecked, idsPrefix}: ICasesProps) => {
 	return (
 		<div className='d-flex gap-1 flex-wrap'>
 			{caseItems.map(({case_id, title, products_qty}) =>
@@ -102,12 +100,12 @@ const CharacteristicCases = ({caseItems, characteristicId, onInput, isChecked, i
 						type='checkbox'
 						value={case_id}
 						name={`props[${characteristicId}][]`}
-						id={`${idPrefix}_${case_id}`}
+						id={`${idsPrefix}_${case_id}`}
 						onChange={onInput.bind(null, case_id)}
 						checked={isChecked(case_id)}
 						disabled={products_qty === 0}
 					/>
-					<label className='btn btn-outline-secondary btn-sm' htmlFor={`${idPrefix}_${case_id}`}>
+					<label className='btn btn-outline-secondary btn-sm' htmlFor={`${idsPrefix}_${case_id}`}>
 						{title} ({products_qty})
 					</label>
 				</div>
@@ -121,5 +119,5 @@ interface ICasesProps {
 	characteristicId: number;
 	isChecked: (caseId: number) => boolean;
 	onInput: (caseId: number, e: ChangeEvent<HTMLInputElement>) => void;
-	isMobile?: boolean
+	idsPrefix: string;
 }

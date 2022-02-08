@@ -5,7 +5,7 @@ import {TQuery} from '../../@types/common';
 import Collapse from 'react-bootstrap/Collapse';
 
 
-export default function BrandSelect({field, onChange, values, displayLimit}: IFilterFieldProps) {
+export default function BrandSelect({field, onChange, values, displayLimit, idsPrefix}: IFilterFieldProps) {
 	const {brand} = values;
 	const [showMore, setShowMore] = useState(false);
 
@@ -45,6 +45,7 @@ export default function BrandSelect({field, onChange, values, displayLimit}: IFi
 				manufacturers={visibleBrands}
 				onInput={onInput}
 				values={values}
+				idsPrefix={idsPrefix}
 			/>
 			{collapsedBrands.length > 0 && <>
 				<Collapse in={showMore}>
@@ -54,6 +55,7 @@ export default function BrandSelect({field, onChange, values, displayLimit}: IFi
 								manufacturers={collapsedBrands}
 								onInput={onInput}
 								values={values}
+								idsPrefix={idsPrefix}
 							/>
 						</div>
 					</div>
@@ -72,13 +74,13 @@ export default function BrandSelect({field, onChange, values, displayLimit}: IFi
 	);
 }
 
-const BrandCases = ({manufacturers, onInput, values}: IBrandsProps) => {
+const BrandCases = ({manufacturers, onInput, values, idsPrefix}: IBrandsProps) => {
 	return (
 		<div className='d-flex gap-1 flex-wrap'>
 			{manufacturers.map(({manufacturer_id, title, products_qty}) =>
 				<div key={manufacturer_id}>
 					<input className='btn-check'
-						id={`brand_${manufacturer_id}`}
+						id={`${idsPrefix}brand_${manufacturer_id}`}
 						type='checkbox'
 						value={manufacturer_id}
 						name={'brand[]'}
@@ -86,7 +88,7 @@ const BrandCases = ({manufacturers, onInput, values}: IBrandsProps) => {
 						checked={values.brand.includes(manufacturer_id)}
 						disabled={products_qty === 0}
 					/>
-					<label className='btn btn-outline-secondary btn-sm' htmlFor={`brand_${manufacturer_id}`}>
+					<label className='btn btn-outline-secondary btn-sm' htmlFor={`${idsPrefix}brand_${manufacturer_id}`}>
 						{title} ({products_qty})
 					</label>
 				</div>
@@ -99,6 +101,7 @@ interface IBrandsProps {
 	manufacturers: TManufacturer[];
 	values: TQuery;
 	onInput: (manufacturerId: number, e: ChangeEvent<HTMLInputElement>) => void;
+	idsPrefix: string;
 }
 
 type TManufacturer = IProductManufacturer & {products_qty: number}

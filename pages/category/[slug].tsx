@@ -66,6 +66,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 							queryParams={productsQuery}
 							categoryId={category.category_id}
 							onSearch={onCollectionChange}
+							idsPrefix='desk_'
 						/>
 					</div>
 					<main className='col-md-9 col-sm-8 content-box'>
@@ -93,7 +94,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 					queryParams={productsQuery}
 					categoryId={category.category_id}
 					onSearch={onCollectionChange}
-					isMobile={true}
+					idsPrefix='mobile_'
 				/>
 			</FiltersModal>
 		</MainLayout>
