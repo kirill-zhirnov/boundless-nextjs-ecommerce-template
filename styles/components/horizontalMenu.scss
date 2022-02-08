@@ -27,6 +27,7 @@ $horizontal-menu-border: 1px solid #eee;
 		&.is-link {
 			color: $front-h-menu-color;
 			text-decoration: none;
+
 			&:hover {
 				text-decoration: underline;
 			}
@@ -59,6 +60,7 @@ $horizontal-menu-border: 1px solid #eee;
 
 		&.active {
 			color: $front-h-menu-active;
+
 			&:hover {
 				color: $front-h-menu-active;
 			}
