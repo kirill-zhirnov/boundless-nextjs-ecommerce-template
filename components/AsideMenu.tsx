@@ -1,15 +1,30 @@
 import clsx from 'clsx';
+import {useDrag} from '@use-gesture/react';
 import {useAppDispatch, useAppSelector} from '../hooks/redux';
 import {RootState} from '../redux/store';
-import {disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks} from 'body-scroll-lock';
+import {
+	disableBodyScroll,
+	enableBodyScroll,
+	clearAllBodyScrollLocks,
+} from 'body-scroll-lock';
 import {useEffect, useRef} from 'react';
 import {setIsOpened} from '../redux/reducers/asideMenu';
 import HeaderCart from './cart/HeaderCart';
+import MenuItem from './asideMenu/MenuItem';
+import {Cross} from './asideMenu/Cross';
 
 export default function AsideMenu() {
 	const rootEl = useRef(null);
-	const isOpened = useAppSelector((state: RootState) => state.asideMenu.isOpened);
+	const isOpened = useAppSelector(
+		(state: RootState) => state.asideMenu.isOpened
+	);
+	const mainMenu = useAppSelector((state: RootState) => state.menus.main);
+	// console.log('AsideMenu', mainMenu);
 	const dispatch = useAppDispatch();
+	const gest = useDrag(({swipe: [swipeX]}) => {
+		// console.log('gesture', swipeX);
+		if (swipeX === 1) closeIfOpened();
+	});
 
 	const closeIfOpened = () => {
 		if (isOpened) {
@@ -26,6 +41,10 @@ export default function AsideMenu() {
 		} else if (e.keyCode !== undefined && e.keyCode === 27) {
 			closeIfOpened();
 		}
+	};
+
+	const crossClicked = () => {
+		if (isOpened) closeIfOpened();
 	};
 
 	useEffect(() => {
@@ -50,16 +69,24 @@ export default function AsideMenu() {
 			window.removeEventListener('resize', closeIfOpened);
 			window.removeEventListener('keydown', onEscPressed);
 		};
-	}, [isOpened]);//eslint-disable-line
+	}, [isOpened]); //eslint-disable-line
 
 	return (
-		<aside className={clsx('aside-menu', {'aside-menu_visible': isOpened})}
-					 ref={rootEl}
+		<aside
+			{...gest()}
+			className={clsx('aside-menu', {'aside-menu_visible': isOpened})}
+			ref={rootEl}
+			style={{touchAction: 'none'}}
 		>
-			<div>
-				<HeaderCart className={'cart-header_horizontal'} />
+			<div className='aside-menu__header-container'>
+				<HeaderCart horizontal />
+				<Cross onClick={crossClicked} />
 			</div>
-			<p>coming soon :)</p>
+			<div>
+				{mainMenu?.map((item) => (
+					<MenuItem className='aside-menu__item' item={item} key={item.title} />
+				))}
+			</div>
 		</aside>
 	);
 }
