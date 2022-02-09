@@ -18,7 +18,7 @@ import {IMenuItem} from '../redux/reducers/menus';
 
 const shopBaseUrl = process.env.BOUNDLESS_BASE_URL || '';
 
-export default function MainLayout({children, title, metaData, mainMenu}: IMainLayoutProps) {
+export default function MainLayout({children, title, metaData, mainMenu, footerMenu}: IMainLayoutProps) {
 	const {canonicalUrl, imgUrl, description} = metaData || {};
 	const router = useRouter();
 	const dispatch = useAppDispatch();
@@ -74,7 +74,7 @@ export default function MainLayout({children, title, metaData, mainMenu}: IMainL
 				<main className='page-layout__main'>
 					{children}
 				</main>
-				<Footer />
+				<Footer menuList={footerMenu}/>
 				<AsideBackdrop />
 			</div>
 			<AsideMenu />
@@ -87,7 +87,7 @@ interface IMainLayoutProps {
 	title?: string;
 	metaData?: IMetaData;
 	mainMenu: IMenuItem [];
-	footerMenu?: IMenuItem [];
+	footerMenu: IMenuItem [];
 }
 
 interface IMetaData {

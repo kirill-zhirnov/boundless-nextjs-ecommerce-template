@@ -30,7 +30,7 @@ $front-hr-color: #eee;
 
 $aside-width: (
 	'xxs': 290px,
-	'xs': 430px
+	'xs': 430px,
 );
 
 $front-cart-header-qty-bg: $theme-color;
@@ -45,3 +45,9 @@ $front-h-menu-child-bg: #fff;
 $front-h-menu-color: #000;
 $front-h-menu-active: #ffba00;
 $front-h-menu-link-weight: 400;
+
+$front-footer-bg: #f5f5f5;
+$front-footer-text-color: #000;
+$front-footer-header-weight: 600;
+$front-footer-link-color: #000;
+$front-footer-link-active: #ffba00;

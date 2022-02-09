@@ -1,8 +1,27 @@
-export default function Footer() {
+import {IMenuItem} from '../redux/reducers/menus';
+import FooterMenu from './footer/FooterMenu';
+import SocialButtons from './footer/SocialButtons';
+import FooterContacts from './footer/Contacts';
+import FooterAbout from './footer/About';
+
+export default function Footer({menuList, companyTitle}: {menuList: IMenuItem[], companyTitle?: string}) {
 	return (
-		<footer className='page__footer d-flex flex-column justify-content-end flex-grow-1'>
+		<footer className='footer'>
 			<div className='container'>
-				<div className='text-center text-small text-muted p-2'>All rights reserved. © Boundless-Commerce</div>
+				<div className='row'>
+					<div className='footer__item col-sm-12 col-md-6 col-lg-3 order-lg-1 order-md-3 order-4'>
+						<FooterAbout companyTitle={companyTitle}/>
+					</div>
+					<div className='footer__item col-sm-12 col-md-6 col-lg-3 order-lg-2 order-md-1 order-1'>
+						<FooterMenu menuList={menuList} />
+					</div>
+					<div className='footer__item col-sm-12 col-md-6 col-lg-3 order-lg-3 order-md-2 order-2'>
+						<FooterContacts />
+					</div>
+					<div className='footer__item col-sm-12 col-md-6 col-lg-3 order-lg-4 order-md-4 order-3'>
+						<SocialButtons />
+					</div>
+				</div>
 			</div>
 		</footer>
 	);

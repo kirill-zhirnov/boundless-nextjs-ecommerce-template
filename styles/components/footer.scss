@@ -1,0 +1,115 @@
+.footer {
+	background: $front-footer-bg;
+	color: $front-footer-text-color;
+	padding: 45px 0 30px;
+
+	&__item {
+		margin-bottom: 30px;
+		@include media-breakpoint-up(lg) {
+			margin-bottom: 0;
+		}
+	}
+
+	&__header {
+		color: $front-footer-text-color;
+		font-size: 18px;
+		font-weight: $front-footer-header-weight;
+		line-height: 1.27;
+		margin: 15px 0 24px;
+		padding: 0;
+	}
+
+	&__logo {
+		margin-bottom: 25px;
+	}
+
+	&__company-info {
+		margin-bottom: 25px;
+
+		.title {
+			color: $front-footer-text-color;
+			font-size: 15px;
+			line-height: 22px;
+			margin-bottom: 0;
+		}
+	}
+
+	&__icon-w-link {
+		align-items: center;
+		display: flex;
+
+		.icon {
+			color: $theme-color;
+			display: inline-block;
+			height: 21px;
+			margin-right: 5px;
+			width: 21px;
+		}
+
+		.link {
+			color: $front-footer-link-color;
+			text-decoration: none;
+			transition: all ease-in-out 0.35s;
+
+			&:hover {
+				color: $front-footer-link-active;
+				text-decoration: underline;
+			}
+		}
+	}
+
+	&__social-buttons {
+		display: flex;
+		margin-bottom: 30px;
+	}
+
+	&__social-button {
+		&:not(:last-child) {
+			margin-right: 12px;
+		}
+	}
+
+	&__social-link {
+		align-items: center;
+		background: transparent;
+		border: 1px solid $theme-color;
+		border-radius: 50%;
+		display: inline-flex;
+		height: 36px;
+		justify-content: center;
+		text-decoration: none;
+		transition: all ease-in-out 0.35s;
+		width: 36px;
+
+		&:hover {
+			background: #fff;
+			text-decoration: none;
+		}
+
+		.social-icon {
+			color: $theme-color;
+		}
+	}
+}
+
+.footer-menu {
+	&__list-element {
+		margin-bottom: 16px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	&__element {
+		&.is-link {
+			color: $front-footer-link-color;
+			text-decoration: none;
+
+			&:hover {
+				color: $front-footer-link-active;
+				text-decoration: underline;
+			}
+		}
+	}
+}
