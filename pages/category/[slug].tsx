@@ -60,7 +60,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 		<MainLayout title={title} metaData={getCategoryMetaData(category)}>
 			<div className='container'>
 				<div className='row'>
-					<div className='category-sidebar__wrapper col-md-3 col-sm-4'>
+					<div className='category-sidebar__wrapper col-md-4 col-lg-3'>
 						<CategorySidebar category={category} />
 						<FilterForm filterFields={category.filter!.fields}
 							queryParams={productsQuery}
@@ -69,7 +69,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 							idsPrefix='desk_'
 						/>
 					</div>
-					<main className='col-md-9 col-sm-8 content-box'>
+					<main className='col-md-8 content-box'>
 						<BreadCrumbs items={breadcrumbItems} />
 						<h1 className='page-header page-header_h1  page-header_m-h1'>{title}</h1>
 						{category.text?.description_top &&
