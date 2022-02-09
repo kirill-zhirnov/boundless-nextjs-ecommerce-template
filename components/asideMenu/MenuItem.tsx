@@ -16,9 +16,12 @@ const MenuItem = ({item, className}: TMenuItemProps) => {
 				{item.children && (
 					<>
 						<FontAwesomeIcon icon={faChevronRight} />
-						<SubMenu children={item.children} className='aside-menu__submenu' />
 					</>
 				)}
+				<SubMenu
+					children={item.children || []}
+					className='aside-menu__submenu'
+				/>
 			</li>
 		</>
 	);
