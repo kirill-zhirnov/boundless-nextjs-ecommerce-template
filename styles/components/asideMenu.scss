@@ -1,3 +1,6 @@
+$lightgray: #d3d3d3;
+$gray: #808080;
+
 .page-layout {
 	position: relative;
 	transition: transform 0.4s ease;
@@ -34,11 +37,12 @@
 
 .aside-menu {
 	// background: #423e3e;
-	background: lightgrey;
+	background-color: $lightgray;
 	bottom: 0;
 	max-width: 100vw;
 	overflow-x: hidden;
 	overflow-y: auto;
+	padding: 20px;
 	position: fixed;
 	right: 0;
 	top: 0;
@@ -46,7 +50,6 @@
 	transition: transform 0.4s ease;
 	visibility: hidden;
 	width: map-get($aside-width, 'xxs');
-	padding: 20px 20px;
 
 	@include media-breakpoint-up(sm) {
 		transform: translate3d(map-get($aside-width, 'xs'), 0, 0);
@@ -57,41 +60,46 @@
 		transform: translate3d(0, 0, 0);
 		visibility: visible;
 	}
+
 	&__header-container {
-		display: flex;
 		align-items: center;
+		background: lighten($gray, 20%);
+		display: flex;
 		justify-content: space-between;
-		background: lighten(grey, 20%);
-		width: 90%;
 		margin-top: 8px;
 		padding: 0 12px;
+		width: 90%;
 	}
+
 	&__submenu {
+		background-color: $lightgray;
 		display: none;
 		position: absolute;
-		background-color: lightgray;
-		top: 100%;
 		right: 0;
+		top: 100%;
 		width: 80%;
 		z-index: 100;
 	}
 
 	&__item {
+		background-color: $lightgray;
+		border: 1px solid $gray;
+		border-bottom: none solid $gray;
 		cursor: pointer;
-		width: 90%;
 		display: flex;
 		justify-content: space-between;
 		padding: 15px 10px;
-		border: 1px solid grey;
-		border-bottom: none;
 		position: relative;
-		background-color: lightgray;
+		width: 90%;
+
 		&:last-child {
-			border-bottom: 1px solid grey;
+			border-bottom: 1px solid $gray;
 		}
+
 		&:hover {
-			background: grey;
+			background: $gray;
 		}
+
 		&:hover > .aside-menu__submenu {
 			display: flex;
 			flex-direction: column;

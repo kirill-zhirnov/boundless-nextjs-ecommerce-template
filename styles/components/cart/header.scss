@@ -3,9 +3,10 @@
 	padding: 11px 16px 0 0;
 	position: relative;
 	text-decoration: none;
+
 	&_horizontal {
-		display: flex;
 		align-items: center;
+		display: flex;
 		padding: 15px 10px;
 		// margin-top: 10px;
 		// background: lighten(grey, 20%);
@@ -17,22 +18,24 @@
 		display: block;
 		height: 24px;
 		margin: 0 auto;
-		width: 24px;
 		position: relative;
-		&:after {
-			content: attr(data-qty);
+		width: 24px;
+
+		&::after {
 			background: $front-cart-header-qty-bg;
 			border-radius: 13px;
 			color: $front-cart-header-qty-color;
+			content: attr(data-qty);
 			display: block;
 			font-weight: $front-font-weight-bold;
 			height: 21px;
-			right: -14px;
-			top: -10px;
 			padding: 0 6px;
 			position: absolute;
+			right: -14px;
+			top: -10px;
 			transition: background-color 0.35s ease-in-out;
 		}
+
 		&_horizontal {
 			margin: 0;
 		}
@@ -58,9 +61,10 @@
 		margin: 5px 0 0;
 		padding: 0;
 		text-align: center;
+
 		&_horizontal {
-			display: flex;
 			align-items: center;
+			display: flex;
 			margin: 0;
 			margin-left: 20px;
 			padding-bottom: 4px;
