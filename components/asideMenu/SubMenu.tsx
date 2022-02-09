@@ -10,13 +10,13 @@ type TSubMenuProps = {
 const SubMenu = ({children, className}: TSubMenuProps) => {
 	// console.log('SubMenu', children);
 	return (
-		<div className={clsx(className)}>
+		<ul className={clsx(className)}>
 			{children.map((item) => {
 				return (
 					<MenuItem key={item.title} item={item} className='aside-menu__item' />
 				);
 			})}
-		</div>
+		</ul>
 	);
 };
 

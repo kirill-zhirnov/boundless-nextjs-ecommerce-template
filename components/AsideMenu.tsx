@@ -1,5 +1,7 @@
 import clsx from 'clsx';
 import {useDrag} from '@use-gesture/react';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faTimes} from '@fortawesome/free-solid-svg-icons/faTimes';
 import {useAppDispatch, useAppSelector} from '../hooks/redux';
 import {RootState} from '../redux/store';
 import {
@@ -10,8 +12,7 @@ import {
 import {useEffect, useRef} from 'react';
 import {setIsOpened} from '../redux/reducers/asideMenu';
 import HeaderCart from './cart/HeaderCart';
-import MenuItem from './asideMenu/MenuItem';
-import {Cross} from './asideMenu/Cross';
+import AsideDropDownMenu from './asideMenu/AsideDropDownMenu';
 
 export default function AsideMenu() {
 	const rootEl = useRef(null);
@@ -41,10 +42,6 @@ export default function AsideMenu() {
 		} else if (e.keyCode !== undefined && e.keyCode === 27) {
 			closeIfOpened();
 		}
-	};
-
-	const crossClicked = () => {
-		if (isOpened) closeIfOpened();
 	};
 
 	useEffect(() => {
@@ -80,13 +77,11 @@ export default function AsideMenu() {
 		>
 			<div className='aside-menu__header-container'>
 				<HeaderCart horizontal />
-				<Cross onClick={crossClicked} />
+				<FontAwesomeIcon icon={faTimes} />
 			</div>
-			<div>
-				{mainMenu?.map((item) => (
-					<MenuItem className='aside-menu__item' item={item} key={item.title} />
-				))}
-			</div>
+			<nav>
+				<AsideDropDownMenu items={mainMenu || []} />
+			</nav>
 		</aside>
 	);
 }

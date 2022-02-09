@@ -84,7 +84,7 @@ $gray: #808080;
 	&__item {
 		background-color: $lightgray;
 		border: 1px solid $gray;
-		border-bottom: none solid $gray;
+		border-bottom: none solid transparent;
 		cursor: pointer;
 		display: flex;
 		justify-content: space-between;
@@ -103,6 +103,14 @@ $gray: #808080;
 		&:hover > .aside-menu__submenu {
 			display: flex;
 			flex-direction: column;
+		}
+		& > a {
+			background-color: rgba(0, 0, 0, 0);
+			color: #333;
+			display: block;
+			font-size: 15px;
+			font-weight: 400;
+			text-decoration: none;
 		}
 	}
 }

@@ -7,8 +7,7 @@
 		"dev": "next dev",
 		"build": "next build",
 		"start": "next start",
-		"lint": "npx eslint --ext .ts --ext .tsx . && npx stylelint ./styles",
-		"lint:fix": "eslint . --ext .ts,.tsx --cache --fix"
+		"lint": "npx eslint --ext .ts --ext .tsx . && npx stylelint ./styles"
 	},
 	"dependencies": {
 		"@fortawesome/fontawesome-free": "^5.15.4",
