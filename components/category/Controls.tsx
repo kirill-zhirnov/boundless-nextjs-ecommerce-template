@@ -1,13 +1,13 @@
-import {TQuery} from '../@types/common';
-import SortButtons from './SortButtons';
+import {TQuery} from '../../@types/common';
+import SortButtons from '../SortButtons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faSlidersH} from '@fortawesome/free-solid-svg-icons/faSlidersH';
 
-export default function ControlBar({params, onSort, onMobileShow}: ControlBarProps) {
+export default function CaregoryControls({params, onSort, onMobileShow}: ControlBarProps) {
 	return (
-		<div className='control-bar'>
-			<div className='mobile-filters'>
-				<button className='btn btn-outline-secondary mobile-filters__button' onClick={onMobileShow}>
+		<div className='category-controls'>
+			<div className='category-controls__mobile'>
+				<button className='btn btn-outline-secondary category-controls__toggle-filters' onClick={onMobileShow}>
 					<FontAwesomeIcon className='me-2' icon={faSlidersH} />
 					Filters
 				</button>

@@ -1,7 +1,7 @@
 import {useEffect, useMemo, useState} from 'react';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
 import {NextRouter, useRouter} from 'next/router';
-import {useAppDispatch} from '../../hooks/redux';
+import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import dynamic from 'next/dynamic';
 import qs from 'qs';
 import {apiClient} from '../../lib/api';
@@ -22,7 +22,8 @@ import Pagination from '../../components/Pagination';
 import BreadCrumbs from '../../components/BreadCrumbs';
 import CategorySidebar from '../../components/category/Sidebar';
 import FiltersModal from '../../components/category/FiltersModal';
-import ControlBar from '../../components/ControlBar';
+import CategoryControls from '../../components/category/Controls';
+import {RootState} from '../../redux/store';
 const FilterForm = dynamic(() => import('../../components/FilterForm'), {ssr: false});
 
 export default function CategoryPage({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -31,6 +32,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 	const [productsQuery, setProductsQuery] = useState(data.productsQuery);
 	const [collection, setCollection] = useState(data.collection);
 	const [showModal, setShowModal] = useState(false);
+	const isRouteChanging = useAppSelector((state: RootState) => state.app.isRouteChanging);
 
 	const dispatch = useAppDispatch();
 	dispatch(setMainMenu(mainMenu));
@@ -44,6 +46,10 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 
 		changeUrl(router, filteredQuery);
 	};
+
+	useEffect(() => {
+		if (isRouteChanging) setShowModal(false);
+	}, [isRouteChanging]);
 
 	useEffect(() => {
 		setCollection(data.collection);
@@ -77,7 +83,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 						}
 
 						{collection && <>
-							<ControlBar params={productsQuery} onSort={onCollectionChange} onMobileShow={() => setShowModal(true)}/>
+							<CategoryControls params={productsQuery} onSort={onCollectionChange} onMobileShow={() => setShowModal(true)}/>
 							<ProductsList products={collection.products} query={productsQuery} categoryId={category.category_id} />
 							<Pagination pagination={collection.pagination} params={productsQuery} onChange={onCollectionChange} />
 						</>}

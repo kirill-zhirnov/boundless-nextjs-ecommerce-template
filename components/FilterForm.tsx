@@ -103,7 +103,7 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 	}
 
 	return (
-		<form className={'filters px-1'} onSubmit={onSubmit}>
+		<form className={'category-filters px-1'} onSubmit={onSubmit}>
 			{ranges.map((filterField, i) => {
 				switch (filterField.type) {
 					case TFilterFieldType.price:
@@ -153,16 +153,18 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 					}
 				}
 			})}
-			<div className='btn-group' role='group'>
-				<button type='button'
-					className='btn btn-secondary'
-					onClick={onClear}
-					disabled={isFetching}
-				>Clear</button>
-				<button type='submit'
-					className='btn btn-primary'
-					disabled={!hasChanged || isFetching}
-				>{getSubmitLabel(hasChanged, isFetching, preSearchResult)}</button>
+			<div className='category-filters__actions'>
+				<div className='btn-group' role='group'>
+					<button type='button'
+						className='btn btn-secondary'
+						onClick={onClear}
+						disabled={isFetching}
+					>Clear</button>
+					<button type='submit'
+						className='btn btn-primary'
+						disabled={!hasChanged || isFetching}
+					>{getSubmitLabel(hasChanged, isFetching, preSearchResult)}</button>
+				</div>
 			</div>
 		</form>
 	);

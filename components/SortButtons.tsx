@@ -42,7 +42,7 @@ export default function SortButtons({params, onSort}: {params: TQuery, onSort: (
 	};
 
 	return (
-		<div className='sort-buttons'>
+		<div className='category-controls__sort-buttons'>
 			<label className='small me-2'>Sort by:</label>
 			<ul className='list-unstyled d-flex gap-2 flex-wrap flex-sm-nowrap m-0'>
 				{sortFields.map(field => {

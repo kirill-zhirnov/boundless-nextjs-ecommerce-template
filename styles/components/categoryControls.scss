@@ -1,22 +1,23 @@
-.control-bar {
+.category-controls {
 	align-items: center;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
 
-	.mobile-filters {
+	&__mobile {
 		margin-bottom: 0.5rem;
+		margin-right: 1rem;
+	}
 
-		&__button {
-			display: block;
+	&__toggle-filters {
+		display: block;
 
-			@include media-breakpoint-up(md) {
-				display: none;
-			}
+		@include media-breakpoint-up(md) {
+			display: none;
 		}
 	}
 
-	.sort-buttons {
+	&__sort-buttons {
 		align-items: center;
 		display: flex;
 		justify-content: flex-end;
