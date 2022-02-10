@@ -5,11 +5,11 @@ import {IMenuItem} from '../../redux/reducers/menus';
 export default function FooterMenu({menuList}: {menuList: IMenuItem[]}) {
 	return (
 		<>
-			<h3 className='footer__header'>Most popular</h3>
-			<ul className='footer-menu list-unstyled' itemScope itemType='http://schema.org/ItemList'>
+			<h3 className='page-footer__header'>Most popular</h3>
+			<ul className='page-footer-menu list-unstyled' itemScope itemType='http://schema.org/ItemList'>
 				{menuList.map((item, i) => (
 					<li
-						className={clsx('footer-menu__list-element', {
+						className={clsx('page-footer-menu__list-element', {
 							active: item.isActive,
 						})}
 						key={item.title + i}
@@ -29,7 +29,7 @@ function ListElement({item, position}: {item: IMenuItem, position: number}) {
 		<>
 			<Link href={item.url}>
 				<a className={clsx(
-					'footer-menu__element is-link',
+					'page-footer-menu__element is-link',
 					{active: item.isActive}
 				)}>
 					<span className='title' itemProp='name'>
@@ -43,10 +43,10 @@ function ListElement({item, position}: {item: IMenuItem, position: number}) {
 
 	return (
 		<div className={clsx(
-			'footer-menu__element',
+			'page-footer-menu__element',
 			{active: item.isActive}
 		)}>
-			<span className='footer-menu__text-title'>
+			<span className='page-footer-menu__text-title'>
 				{item.title}
 			</span>
 		</div>
