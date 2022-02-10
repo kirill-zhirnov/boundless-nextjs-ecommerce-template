@@ -38,7 +38,7 @@ export default function CartPage() {
 				<main className='cart-page row'>
 					<div className='col-lg-8 offset-lg-2'>
 						<h1 className='page-header page-header_h1  page-header_m-h1'>Shopping cart</h1>
-						<div className='cart-page__content content-box p-3'>
+						<div className='cart-page__content p-3'>
 							{(loading || cartInited === TCartInited.processing)
 								? <Loader />
 								: <>

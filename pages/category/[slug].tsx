@@ -1,7 +1,7 @@
 import {useEffect, useMemo, useState} from 'react';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next';
 import {NextRouter, useRouter} from 'next/router';
-import {useAppDispatch, useAppSelector} from '../../hooks/redux';
+import {useAppSelector} from '../../hooks/redux';
 import dynamic from 'next/dynamic';
 import qs from 'qs';
 import {apiClient} from '../../lib/api';
@@ -10,7 +10,7 @@ import {filterProductsQuery} from '../../lib/category';
 import {createGetStr} from 'boundless-api-client/utils';
 import {getCategoryMetaData} from '../../lib/meta';
 import {makeAllMenus} from '../../lib/menu';
-import {IMenuItem, setFooterMenu, setMainMenu} from '../../redux/reducers/menus';
+import {IMenuItem} from '../../redux/reducers/menus';
 import {makeBreadCrumbsFromCats} from '../../lib/breadcrumbs';
 import {IProduct, ICategoryItem} from 'boundless-api-client';
 import {IPagination} from 'boundless-api-client/types/common';
@@ -33,10 +33,6 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 	const [collection, setCollection] = useState(data.collection);
 	const [showModal, setShowModal] = useState(false);
 	const isRouteChanging = useAppSelector((state: RootState) => state.app.isRouteChanging);
-
-	const dispatch = useAppDispatch();
-	dispatch(setMainMenu(mainMenu));
-	dispatch(setFooterMenu(footerMenu));
 
 	const onCollectionChange = async (newParams: TQuery) => {
 		const {collection, filteredQuery} = await fetchCollection(category.category_id, newParams);
@@ -63,7 +59,12 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 	const title = category.text?.custom_header || category.text?.title;
 
 	return (
-		<MainLayout title={title} metaData={getCategoryMetaData(category)}>
+		<MainLayout
+			footerMenu={footerMenu}
+			mainMenu={mainMenu}
+			metaData={getCategoryMetaData(category)}
+			title={title}
+		>
 			<div className='container'>
 				<div className='row'>
 					<div className='category-sidebar__wrapper col-md-4 col-lg-3'>
@@ -75,7 +76,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 							idsPrefix='desk_'
 						/>
 					</div>
-					<main className='col-md-8 content-box'>
+					<div className='col-md-8 col-lg-9'>
 						<BreadCrumbs items={breadcrumbItems} />
 						<h1 className='page-header page-header_h1  page-header_m-h1'>{title}</h1>
 						{category.text?.description_top &&
@@ -88,7 +89,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 							<Pagination pagination={collection.pagination} params={productsQuery} onChange={onCollectionChange} />
 						</>}
 						{category.text?.description_bottom && <div dangerouslySetInnerHTML={{__html: category.text.description_bottom}} />}
-					</main>
+					</div>
 				</div>
 			</div>
 			<FiltersModal
