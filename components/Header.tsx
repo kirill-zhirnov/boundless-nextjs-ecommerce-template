@@ -1,6 +1,5 @@
 import {MouseEvent} from 'react';
 import Link from 'next/link';
-import CallToOrder from './header/CallToOrder';
 import HeaderCart from './cart/HeaderCart';
 import ChooseVariantModal from './header/ChooseVariantModal';
 import logoImg from '../assets/logo.svg';
@@ -36,7 +35,6 @@ export default function Header() {
 						<FontAwesomeIcon icon={faBars} />
 					</button>
 				</div>
-				<CallToOrder />
 			</div>
 			<ChooseVariantModal />
 		</header>

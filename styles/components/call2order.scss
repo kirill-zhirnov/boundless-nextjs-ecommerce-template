@@ -1,12 +1,22 @@
-$call-to-order-right: 20px;
+$call-to-order-right: 5px;
 
 @keyframes call-to-order-show-from-right {
 	from {
-		right: -500px;
+		margin-right: -500px;
 	}
 
 	to {
-		right: $call-to-order-right;
+		margin-right: $call-to-order-right;
+	}
+}
+
+@keyframes call-to-order-show-from-right-mobile {
+	from {
+		margin-right: -500px;
+	}
+
+	to {
+		margin-right: 0;
 	}
 }
 
@@ -17,14 +27,33 @@ $call-to-order-right: 20px;
 	border: 2px solid $theme-color;
 	box-shadow: 0 6px 24px -4px #eee;
 	display: none;
+	margin-left: auto;
+	margin-right: 0;
 	min-height: 100px;
+	opacity: 1;
 	padding: 20px;
-	position: absolute;
-	right: $call-to-order-right;
+	position: sticky;
 	text-align: left;
-	top: 60px;
-	width: 300px;
+	top: $call-to-order-top;
+	width: 100%;
 	z-index: $zindex-call-to-order;
+
+	@include media-breakpoint-up(sm) {
+		margin-right: $call-to-order-right;
+		width: 300px;
+	}
+
+	&__wrapper {
+		bottom: 0;
+		left: 0;
+		position: absolute;
+		right: 0;
+		top: 0;
+	}
+
+	&__container {
+		height: 100%;
+	}
 
 	&__header {
 		border-bottom: 1px solid #eee;
@@ -60,7 +89,17 @@ $call-to-order-right: 20px;
 	}
 
 	&.opened {
-		animation: call-to-order-show-from-right 0.2s forwards;
+		animation: call-to-order-show-from-right-mobile 0.5s forwards;
 		display: block;
+		opacity: 1;
+
+		@include media-breakpoint-up(sm) {
+			animation: call-to-order-show-from-right 0.5s forwards;
+		}
+	}
+
+	&.hiding {
+		opacity: 0;
+		transition: opacity 0.3s;
 	}
 }

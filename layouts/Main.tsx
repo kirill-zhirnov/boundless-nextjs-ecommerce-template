@@ -15,6 +15,7 @@ const AsideMenu = dynamic(() => import('../components/AsideMenu'), {ssr: false})
 import AsideBackdrop from '../components/asideMenu/Backdrop';
 import HorizontalMenu from '../components/HorizontalMenu';
 import {IMenuItem} from '../redux/reducers/menus';
+import CallToOrder from '../components/header/CallToOrder';
 
 const shopBaseUrl = process.env.BOUNDLESS_BASE_URL || '';
 
@@ -61,7 +62,7 @@ export default function MainLayout({children, title, metaData, mainMenu}: IMainL
 				<meta property='og:type' content='website' />
 				<meta property='og:title' content={title || 'Boundless-Commerce Shop Example'} />
 				<meta property='og:url' content={canonicalUrl || shopBaseUrl} />
-				<meta property='og:image' content={imgUrl || (shopBaseUrl+ '/og.jpeg')} />
+				<meta property='og:image' content={imgUrl || (shopBaseUrl + '/og.jpeg')} />
 				{description && <meta property='og:description' content={description} />}
 
 				<title>{title || 'Boundless-Commerce Shop Example'}</title>
@@ -69,6 +70,7 @@ export default function MainLayout({children, title, metaData, mainMenu}: IMainL
 			<LoadingLine />
 			<AlertWidget />
 			<div className={clsx('page-layout page-layout_main', {'page-layout_aside-opened': asideIsOpened})}>
+				<CallToOrder />
 				<Header />
 				{mainMenu && <HorizontalMenu menuList={mainMenu} />}
 				<main className='page-layout__main'>
@@ -86,12 +88,12 @@ interface IMainLayoutProps {
 	children: ReactNode | ReactNode[];
 	title?: string;
 	metaData?: IMetaData;
-	mainMenu: IMenuItem [];
-	footerMenu?: IMenuItem [];
+	mainMenu: IMenuItem[];
+	footerMenu?: IMenuItem[];
 }
 
 interface IMetaData {
 	canonicalUrl?: string;
-	imgUrl?: string|null;
-	description?: string|null;
+	imgUrl?: string | null;
+	description?: string | null;
 }
