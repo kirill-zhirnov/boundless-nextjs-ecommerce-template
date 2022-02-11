@@ -4,7 +4,6 @@ import cartReducers from './reducers/cart';
 import alertReducers from './reducers/alert';
 import appReducers from './reducers/app';
 import asideMenuReducers from './reducers/asideMenu';
-import menusReducers from './reducers/menus';
 
 export const store = configureStore({
 	reducer: {
@@ -13,7 +12,6 @@ export const store = configureStore({
 		alert: alertReducers,
 		app: appReducers,
 		asideMenu: asideMenuReducers,
-		menus: menusReducers
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({

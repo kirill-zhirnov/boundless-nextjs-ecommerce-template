@@ -14,7 +14,7 @@ import clsx from 'clsx';
 const AsideMenu = dynamic(() => import('../components/AsideMenu'), {ssr: false});
 import AsideBackdrop from '../components/asideMenu/Backdrop';
 import HorizontalMenu from '../components/HorizontalMenu';
-import {IMenuItem} from '../redux/reducers/menus';
+import {IMenuItem} from '../@types/components';
 
 const shopBaseUrl = process.env.BOUNDLESS_BASE_URL || '';
 

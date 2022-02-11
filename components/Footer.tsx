@@ -1,8 +1,8 @@
-import {IMenuItem} from '../redux/reducers/menus';
 import FooterMenu from './footer/FooterMenu';
 import SocialButtons from './footer/SocialButtons';
 import FooterContacts from './footer/Contacts';
 import FooterAbout from './footer/About';
+import {IMenuItem} from '../@types/components';
 
 export default function Footer({menuList, companyTitle}: {menuList: IMenuItem[], companyTitle?: string}) {
 	return (

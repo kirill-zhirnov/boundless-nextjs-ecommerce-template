@@ -9,7 +9,7 @@ import {filterProductsQuery} from '../../lib/category';
 import {createGetStr} from 'boundless-api-client/utils';
 import {getCategoryMetaData} from '../../lib/meta';
 import {makeAllMenus} from '../../lib/menu';
-import {IMenuItem} from '../../redux/reducers/menus';
+import {IMenuItem} from '../../@types/components';
 import {makeBreadCrumbsFromCats} from '../../lib/breadcrumbs';
 import {IProduct, ICategoryItem} from 'boundless-api-client';
 import {IPagination} from 'boundless-api-client/types/common';

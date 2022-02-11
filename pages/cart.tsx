@@ -8,34 +8,48 @@ import {setCartTotal, TCartInited} from '../redux/reducers/cart';
 import {addPromise} from '../redux/reducers/xhr';
 import CartRowLoader from '../components/cart/CartRowLoader';
 import {useCart} from '../hooks/cart';
+import {makeAllMenus} from '../lib/menu';
+import {IMenuItem} from '../@types/components';
 
 export default function CartPage() {
 	const dispatch = useAppDispatch();
 	const {id: cartId, cartInited} = useCart();
 	const [items, setItems] = useState<ICartItem[]>([]);
+	const [mainMenu, setMainMenu] = useState<IMenuItem[]>([]);
+	const [footerMenu, setFooterMenu] = useState<IMenuItem[]>([]);
 	const [loading, setLoading] = useState(false);
 
-	const getCartItems = async (cartId: string) => {
+	const getCartData = async (cartId: string) => {
 		setLoading(true);
-		const promise = apiClient.orders.getCartItems(cartId)
-			.then(({cart, items}) => {
+
+		const cartPromise = apiClient.orders.getCartItems(cartId);
+		const menuPromise = apiClient.catalog.getCategoryTree({menu: 'category'});
+
+		Promise.all([cartPromise, menuPromise])
+			.then(([{cart, items}, categoryTree]) => {
 				setItems(items);
 				dispatch(setCartTotal(cart.total));
+
+				const menus = makeAllMenus({categoryTree});
+				setMainMenu(menus.mainMenu);
+				setFooterMenu(menus.footerMenu);
+
 			})
 			.catch((err) => console.error(err))
 			.finally(() => setLoading(false));
 
-		dispatch(addPromise(promise));
+		dispatch(addPromise(cartPromise));
+		dispatch(addPromise(menuPromise));
 	};
 
 	useEffect(() => {
-		if (cartId) getCartItems(cartId);
+		if (cartId) getCartData(cartId);
 	}, [cartId]); //eslint-disable-line
 
 	return (
-		<MainLayout>
+		<MainLayout mainMenu={mainMenu} footerMenu={footerMenu}>
 			<div className='container'>
-				<main className='cart-page row'>
+				<div className='cart-page row'>
 					<div className='col-lg-8 offset-lg-2'>
 						<h1 className='page-header page-header_h1  page-header_m-h1'>Shopping cart</h1>
 						<div className='cart-page__content content-box p-3'>
@@ -53,11 +67,11 @@ export default function CartPage() {
 												</a>
 											</p>
 										</div>}
-									{items.length > 0 && <CartItems items={items} />}
+									{items.length > 0 && <CartItems items={items} setItems={setItems} />}
 								</>}
 						</div>
 					</div>
-				</main>
+				</div>
 			</div>
 		</MainLayout>
 	);
