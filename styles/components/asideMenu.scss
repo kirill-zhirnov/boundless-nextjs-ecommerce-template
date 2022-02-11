@@ -26,6 +26,7 @@
 	position: fixed;
 	right: 0;
 	top: 0;
+	// touch-action: none;
 	transform: translate3d(map-get($aside-width, 'xxs'), 0, 0);
 	transition: transform 0.4s ease;
 	visibility: hidden;

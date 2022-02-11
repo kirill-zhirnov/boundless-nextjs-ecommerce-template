@@ -9,12 +9,14 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
 import {IMenuItem} from '../redux/reducers/menus';
 import AsideMenuList from './asideMenu/MenuList';
+import {DragGesture} from '@use-gesture/vanilla';
 
 export default function AsideMenu({menuList}: {menuList?: IMenuItem[]}) {
 	const rootEl = useRef(null);
 	const isOpened = useAppSelector((state: RootState) => state.asideMenu.isOpened);
 	const isRouteChanging = useAppSelector((state: RootState) => state.app.isRouteChanging);
 	const dispatch = useAppDispatch();
+	const gesture = useRef<DragGesture | null>(null);
 
 	const closeIfOpened = () => {
 		if (isOpened) {
@@ -33,6 +35,25 @@ export default function AsideMenu({menuList}: {menuList?: IMenuItem[]}) {
 		}
 	};
 
+	const enableSwipe = () => {
+		const body = document.querySelector('body');
+
+		body!.style.touchAction = 'none';
+		gesture.current = new DragGesture(body!, ({last, direction: [dx], velocity: [vx, vy]}) => {
+			if (last && vx > 1 && (Math.abs(vy) < Math.abs(vx)) && dx === 1) {
+				closeIfOpened();
+			}
+		});
+	};
+
+	const disableSwipe = () => {
+		const body = document.querySelector('body');
+
+		if (gesture.current) gesture.current.destroy();
+		gesture.current = null;
+		body!.style.touchAction = 'auto';
+	};
+
 	useEffect(() => {
 		if (isRouteChanging) closeIfOpened();
 	}, [isRouteChanging]); //eslint-disable-line
@@ -43,12 +64,16 @@ export default function AsideMenu({menuList}: {menuList?: IMenuItem[]}) {
 				disableBodyScroll(rootEl.current);
 			}
 
+			enableSwipe();
+
 			window.addEventListener('resize', closeIfOpened);
 			window.addEventListener('keydown', onEscPressed);
 		} else {
 			if (rootEl.current) {
 				enableBodyScroll(rootEl.current);
 			}
+
+			disableSwipe();
 
 			window.removeEventListener('resize', closeIfOpened);
 			window.removeEventListener('keydown', onEscPressed);
@@ -58,6 +83,8 @@ export default function AsideMenu({menuList}: {menuList?: IMenuItem[]}) {
 			clearAllBodyScrollLocks();
 			window.removeEventListener('resize', closeIfOpened);
 			window.removeEventListener('keydown', onEscPressed);
+
+			disableSwipe();
 		};
 	}, [isOpened]);//eslint-disable-line
 

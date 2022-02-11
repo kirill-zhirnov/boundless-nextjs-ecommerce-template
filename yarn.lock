@@ -482,6 +482,18 @@
     "@typescript-eslint/types" "5.9.1"
     eslint-visitor-keys "^3.0.0"
 
+"@use-gesture/core@10.2.5":
+  version "10.2.5"
+  resolved "https://registry.yarnpkg.com/@use-gesture/core/-/core-10.2.5.tgz#f7df136a759059f58b524b8c7cca20c06b015724"
+  integrity sha512-Pggq5qLipJNYjMq6R7p7Y5h1juUlTkrhi9KqFJH6PcRFCNn+evjbOvpX7JEFehrx4Ik9UZcQpkmR+E0s7a5Lbg==
+
+"@use-gesture/vanilla@^10.2.5":
+  version "10.2.5"
+  resolved "https://registry.yarnpkg.com/@use-gesture/vanilla/-/vanilla-10.2.5.tgz#00350047c19b1b54b07bb0714b888079dc44858a"
+  integrity sha512-BxDWrhajPO7MKx7Y/k1FlhSbZEStRS3qlUShrcxPJWSz8K2ut2jcGZVDxG9HEbTRwGocxjvSFO8AZ0Vy/WJxiw==
+  dependencies:
+    "@use-gesture/core" "10.2.5"
+
 acorn-jsx@^5.3.1:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz#7ed5bb55908b3b2f1bc55c6af1653bada7f07937"
