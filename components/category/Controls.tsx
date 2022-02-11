@@ -12,7 +12,7 @@ export default function CaregoryControls({params, onSort, onMobileShow}: Control
 					Filters
 				</button>
 			</div>
-			<SortButtons params={params} onSort={onSort} />
+			<SortButtons params={params} onSort={onSort} className='category-controls__sort' />
 		</div>
 	);
 }
