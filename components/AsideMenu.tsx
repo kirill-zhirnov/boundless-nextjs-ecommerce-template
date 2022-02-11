@@ -5,10 +5,15 @@ import {disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks} from 'body
 import {useEffect, useRef} from 'react';
 import {setIsOpened} from '../redux/reducers/asideMenu';
 import HeaderCart from './cart/HeaderCart';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faTimes} from '@fortawesome/free-solid-svg-icons';
+import {IMenuItem} from '../redux/reducers/menus';
+import AsideMenuList from './asideMenu/MenuList';
 
-export default function AsideMenu() {
+export default function AsideMenu({menuList}: {menuList?: IMenuItem[]}) {
 	const rootEl = useRef(null);
 	const isOpened = useAppSelector((state: RootState) => state.asideMenu.isOpened);
+	const isRouteChanging = useAppSelector((state: RootState) => state.app.isRouteChanging);
 	const dispatch = useAppDispatch();
 
 	const closeIfOpened = () => {
@@ -27,6 +32,10 @@ export default function AsideMenu() {
 			closeIfOpened();
 		}
 	};
+
+	useEffect(() => {
+		if (isRouteChanging) closeIfOpened();
+	}, [isRouteChanging]); //eslint-disable-line
 
 	useEffect(() => {
 		if (isOpened) {
@@ -54,12 +63,15 @@ export default function AsideMenu() {
 
 	return (
 		<aside className={clsx('aside-menu', {'aside-menu_visible': isOpened})}
-					 ref={rootEl}
+			ref={rootEl}
 		>
-			<div>
-				<HeaderCart className={'cart-header_horizontal'} />
+			<div className='aside-menu__header'>
+				<HeaderCart className={'cart-header cart-header_horizontal'} />
+				<div className='aside-menu__close-btn' onClick={closeIfOpened} >
+					<FontAwesomeIcon icon={faTimes} />
+				</div>
 			</div>
-			<p>coming soon :)</p>
+			{menuList && <AsideMenuList menuList={menuList} />}
 		</aside>
 	);
 }
