@@ -86,7 +86,7 @@ interface IMainLayoutProps {
 	children: ReactNode | ReactNode[];
 	title?: string;
 	metaData?: IMetaData;
-	mainMenu: IMenuItem [];
+	mainMenu?: IMenuItem [];
 	footerMenu?: IMenuItem [];
 }
 

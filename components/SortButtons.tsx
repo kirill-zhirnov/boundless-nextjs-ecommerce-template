@@ -9,7 +9,7 @@ const sortFields = [
 	{id: 2, title: 'By price', order: true, alias: 'price'},
 ];
 
-export default function SortButtons({params, onSort}: {params: TQuery, onSort: (query: TQuery) => void}) {
+export default function SortButtons({params, onSort, className}: {params: TQuery, onSort: (query: TQuery) => void, className?: string}) {
 	const activeField = getActiveSortField(params.sort);
 	const [activeId, setActiveId] = useState<number>(activeField.id);
 	const [order, setOrder] = useState<TSortOrder>(activeField.order);
@@ -42,16 +42,21 @@ export default function SortButtons({params, onSort}: {params: TQuery, onSort: (
 	};
 
 	return (
-		<div className='sort-buttons d-flex align-items-center justify-content-end mb-2'>
+		<div className={clsx('sort-buttons', className)}>
 			<label className='small me-2'>Sort by:</label>
-			<ul className='list-unstyled d-flex gap-2 flex-wrap flex-sm-nowrap m-0'>
+			<ul className='sort-buttons__list list-unstyled'>
 				{sortFields.map(field => {
 					const isActive = activeId === field.id;
 					return (
-						<li key={field.id} className={clsx(isActive && 'active')}>
+						<li key={field.id} className={clsx('sort-buttons__element', isActive && 'active')}>
 							{isActive && !field.order
 								? <>{field.title}</>
-								: <a href='#' rel='nofollow' onClick={(e) => onSortClick(e, field.id)}>
+								: <a
+									href='#'
+									rel='nofollow'
+									className='sort-buttons__link'
+									onClick={(e) => onSortClick(e, field.id)}
+								>
 									{field.title}
 									{field.order && <img
 										className='ms-1'
