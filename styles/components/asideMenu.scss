@@ -68,12 +68,13 @@
 		padding: 15px 15px 15px 20px;
 		text-decoration: none;
 
-		&.active,
 		&:hover {
 			background-color: darken($front-aside-list-bg, 3%);
+			color: $front-aside-menu-color;
 		}
 
 		&.active {
+			background-color: darken($front-aside-list-bg, 3%);
 			color: $front-aside-menu-active;
 			font-weight: $front-aside-menu-active-weight;
 		}

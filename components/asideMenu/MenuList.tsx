@@ -2,7 +2,7 @@ import {faCaretDown, faCaretRight} from '@fortawesome/free-solid-svg-icons';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
 import Link from 'next/link';
-import {useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAppSelector} from '../../hooks/redux';
 import {IMenuItem} from '../../redux/reducers/menus';
 import {RootState} from '../../redux/store';
@@ -69,6 +69,8 @@ function ListElement({item, position, open}: {item: IMenuItem, position?: number
 	const hasChildren = item.children && item.children.length > 0;
 	const isRootElem = position !== undefined;
 
+	const rootProps = {onClick: (e: React.MouseEvent) => e.preventDefault()};
+
 	const imageElem = image
 		? <img src={image.src}
 			className='me-2'
@@ -78,14 +80,16 @@ function ListElement({item, position, open}: {item: IMenuItem, position?: number
 		/>
 		: null;
 
-	if (item.url && !item.isActive && (!isRootElem || !hasChildren)) return (
+	if (item.url && (isRootElem || !item.isActive)) return (
 		<>
 			<Link href={item.url}>
 				<a className={clsx(
 					'aside-menu__element is-link',
 					isRootElem ? 'is-root' : 'is-child',
 					{active: item.isActive}
-				)}>
+				)}
+					{...(isRootElem ? rootProps : {})}
+				>
 					<span>
 						{image && <span className='img-link'>{imageElem}</span>}
 						<span {...(isRootElem ? {itemProp: 'name'} : {})}>

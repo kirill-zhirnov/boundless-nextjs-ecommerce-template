@@ -94,9 +94,9 @@ export default function AsideMenu({menuList}: {menuList?: IMenuItem[]}) {
 		>
 			<div className='aside-menu__header'>
 				<HeaderCart className={'cart-header cart-header_horizontal'} />
-				<div className='aside-menu__close-btn' onClick={closeIfOpened} >
+				<button className='btn' onClick={closeIfOpened} >
 					<FontAwesomeIcon icon={faTimes} />
-				</div>
+				</button>
 			</div>
 			{menuList && <AsideMenuList menuList={menuList} />}
 		</aside>
