@@ -10,7 +10,7 @@ import {TThumbRatio} from '../../@types/image';
 import {faCheck} from '@fortawesome/free-solid-svg-icons/faCheck';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {formatMoney} from '../../lib/formatter';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 
 export default function CallToOrder() {
 	const dispatch = useAppDispatch();
@@ -26,8 +26,19 @@ export default function CallToOrder() {
 		}, 300);
 	};
 
+	useEffect(() => {
+		if (show) {
+			document.body.addEventListener('click', hide);
+		} else {
+			document.body.removeEventListener('click', hide);
+		}
+		return () => {
+			document.body.removeEventListener('click', hide);
+		};
+	}, [show]); //eslint-disable-line
+
 	return (
-		<div className={clsx('call-to-order__wrapper', {'d-none': !show})} onClick={hide}>
+		<div className={clsx('call-to-order__wrapper', {'d-none': !show})}>
 			<div className='container call-to-order__container'>
 				<div className={clsx('call-to-order', {opened: show, hiding: hiding})} onClick={(e) => e.stopPropagation()}>
 					<h5 className={'call-to-order__header mb-3'}>
