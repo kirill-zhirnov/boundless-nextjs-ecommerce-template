@@ -99,12 +99,12 @@ export default function CartItems({items, setItems}: ICartItemsProps) {
 	return (
 		<>
 			<div className='cart-items'>
-				<div className='row fw-bold d-none d-md-flex mb-2'>
-					<div className='col-md-4 text-center'></div>
-					<div className='col-md-2 text-center'>Price</div>
-					<div className='col-md-2 text-center'>Qty</div>
-					<div className='col-md-2 text-center'>Total</div>
-					<div className='col-md-2 text-center'></div>
+				<div className='cart-items__thead row'>
+					<div className='cart-items__thead-cell col-md-4'></div>
+					<div className='cart-items__thead-cell col-md-2'>Price</div>
+					<div className='cart-items__thead-cell col-md-2'>Qty</div>
+					<div className='cart-items__thead-cell col-md-2'>Total</div>
+					<div className='cart-items__thead-cell col-md-2'></div>
 				</div>
 				{items.map(item => (
 					<CartRow
@@ -113,19 +113,19 @@ export default function CartItems({items, setItems}: ICartItemsProps) {
 						onQtyChange={(qty: number) => onQtyChange(item.item_id, qty)}
 					/>
 				))}
-				<div className='row fw-bold mb-2 py-3 '>
-					<div className='col-md-6 text-start text-md-end mb-2'>Order Total:</div>
-					<div className='col-md-2 text-start text-md-center mb-2'>
-						<span className='d-inline d-md-none'><strong>Qty: </strong></span>
+				<div className='cart-items__total-row row'>
+					<div className='cart-items__total-cell cart-items__total-cell_title col-md-6'>Order Total:</div>
+					<div className='cart-items__total-cell col-md-2'>
+						<span className='cart-items__label'>Qty: </span>
 						{totalCount.qty}
 					</div>
-					<div className='col-md-2 text-start text-md-center mb-2'>
-						<span className='d-inline d-md-none'><strong>Price: </strong></span>
+					<div className='cart-items__total-cell col-md-2'>
+						<span className='cart-items__label'>Price: </span>
 						{totalCount.price}
 					</div>
 				</div>
 			</div>
-			<div className='text-end mt-4 mb-2'>
+			<div className='cart-items__actions'>
 				<button
 					className='btn btn-action btn-lg btn-anim'
 					disabled={submitting}
