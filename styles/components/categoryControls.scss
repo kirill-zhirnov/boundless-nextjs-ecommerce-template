@@ -1,0 +1,32 @@
+.category-controls {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+
+	&__mobile {
+		margin-bottom: 0.5rem;
+		margin-right: 1rem;
+	}
+
+	&__toggle-filters {
+		display: block;
+
+		@include media-breakpoint-up(md) {
+			display: none;
+		}
+	}
+
+	&__sort {
+		margin-bottom: 0.5rem;
+	}
+}
+
+.close-filter {
+	color: $front-link-color;
+	text-decoration: none;
+
+	&:active {
+		color: $front-link-color;
+	}
+}
