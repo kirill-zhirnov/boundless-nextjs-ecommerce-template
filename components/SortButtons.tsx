@@ -58,7 +58,7 @@ export default function SortButtons({params, onSort, className}: {params: TQuery
 									onClick={(e) => onSortClick(e, field.id)}
 								>
 									{field.title}
-									{field.order && <img
+									{field.order && isActive && <img
 										className='ms-1'
 										height={14}
 										src={order === TSortOrder.asc ? SortDown.src : SortUp.src}
