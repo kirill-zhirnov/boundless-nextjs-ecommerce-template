@@ -34,7 +34,7 @@ $call-to-order-right: 5px;
 	padding: 20px;
 	position: sticky;
 	text-align: left;
-	top: $call-to-order-top;
+	top: 0;
 	width: 100%;
 	z-index: $zindex-call-to-order;
 
@@ -53,6 +53,7 @@ $call-to-order-right: 5px;
 
 	&__container {
 		height: 100%;
+		padding-top: $call-to-order-top;
 	}
 
 	&__header {
