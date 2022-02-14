@@ -13,10 +13,8 @@ import {addPromise} from '../reducers/xhr';
 import {showErrorAlert} from '../reducers/alert';
 
 export const initCart = (): AppThunk => async (dispatch, getState) => {
-	console.log('initCart called');
 	const {cartInited} = getState().cart;
 	if ([TCartInited.yes, TCartInited.processing].includes(cartInited)) {
-		console.log('cart inited:', cartInited, 'returning');
 		return;
 	}
 

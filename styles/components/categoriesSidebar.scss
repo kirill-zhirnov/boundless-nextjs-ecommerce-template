@@ -7,6 +7,13 @@
 		font-size: 1.15rem;
 	}
 
+	&__wrapper {
+		display: none;
+		@include media-breakpoint-up(md) {
+			display: block;
+		}
+	}
+
 	&__parents {
 		margin: 0;
 
