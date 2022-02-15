@@ -5,11 +5,18 @@ import {disableBodyScroll, enableBodyScroll, clearAllBodyScrollLocks} from 'body
 import {useEffect, useRef} from 'react';
 import {setIsOpened} from '../redux/reducers/asideMenu';
 import HeaderCart from './cart/HeaderCart';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faTimes} from '@fortawesome/free-solid-svg-icons';
+import {IMenuItem} from '../redux/reducers/menus';
+import AsideMenuList from './asideMenu/MenuList';
+import {DragGesture} from '@use-gesture/vanilla';
 
-export default function AsideMenu() {
+export default function AsideMenu({menuList}: {menuList?: IMenuItem[]}) {
 	const rootEl = useRef(null);
 	const isOpened = useAppSelector((state: RootState) => state.asideMenu.isOpened);
+	const isRouteChanging = useAppSelector((state: RootState) => state.app.isRouteChanging);
 	const dispatch = useAppDispatch();
+	const gesture = useRef<DragGesture | null>(null);
 
 	const closeIfOpened = () => {
 		if (isOpened) {
@@ -28,11 +35,37 @@ export default function AsideMenu() {
 		}
 	};
 
+	const enableSwipe = () => {
+		const body = document.querySelector('body');
+
+		body!.style.touchAction = 'none';
+		gesture.current = new DragGesture(body!, ({last, direction: [dx], velocity: [vx, vy], movement}) => {
+			// if (last && vx > 0.3 && (Math.abs(vy) < Math.abs(vx)) && dx === 1) {
+			if (last && movement[0] > 100) {
+				closeIfOpened();
+			}
+		});
+	};
+
+	const disableSwipe = () => {
+		const body = document.querySelector('body');
+
+		if (gesture.current) gesture.current.destroy();
+		gesture.current = null;
+		body!.style.touchAction = 'auto';
+	};
+
+	useEffect(() => {
+		if (isRouteChanging) closeIfOpened();
+	}, [isRouteChanging]); //eslint-disable-line
+
 	useEffect(() => {
 		if (isOpened) {
 			if (rootEl.current) {
 				disableBodyScroll(rootEl.current);
 			}
+
+			enableSwipe();
 
 			window.addEventListener('resize', closeIfOpened);
 			window.addEventListener('keydown', onEscPressed);
@@ -40,6 +73,8 @@ export default function AsideMenu() {
 			if (rootEl.current) {
 				enableBodyScroll(rootEl.current);
 			}
+
+			disableSwipe();
 
 			window.removeEventListener('resize', closeIfOpened);
 			window.removeEventListener('keydown', onEscPressed);
@@ -49,17 +84,22 @@ export default function AsideMenu() {
 			clearAllBodyScrollLocks();
 			window.removeEventListener('resize', closeIfOpened);
 			window.removeEventListener('keydown', onEscPressed);
+
+			disableSwipe();
 		};
 	}, [isOpened]);//eslint-disable-line
 
 	return (
 		<aside className={clsx('aside-menu', {'aside-menu_visible': isOpened})}
-					 ref={rootEl}
+			ref={rootEl}
 		>
-			<div>
-				<HeaderCart className={'cart-header_horizontal'} />
+			<div className='aside-menu__header'>
+				<HeaderCart className={'cart-header cart-header_horizontal'} />
+				<button className='btn' onClick={closeIfOpened} >
+					<FontAwesomeIcon icon={faTimes} />
+				</button>
 			</div>
-			<p>coming soon :)</p>
+			{menuList && <AsideMenuList menuList={menuList} />}
 		</aside>
 	);
 }

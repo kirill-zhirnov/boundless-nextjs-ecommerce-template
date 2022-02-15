@@ -77,7 +77,7 @@ export default function MainLayout({children, title, metaData, mainMenu, footerM
 				<Footer menuList={footerMenu}/>
 				<AsideBackdrop />
 			</div>
-			<AsideMenu />
+			<AsideMenu menuList={mainMenu}/>
 		</>
 	);
 }
