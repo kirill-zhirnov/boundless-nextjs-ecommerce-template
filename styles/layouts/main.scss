@@ -1,4 +1,7 @@
 .page-layout {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
 	position: relative;
 	transition: transform 0.4s ease;
 
@@ -14,6 +17,7 @@
 	}
 
 	&__main {
+		flex-grow: 1;
 		padding: 18px 0;
 	}
 }

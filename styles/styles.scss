@@ -1,8 +1,5 @@
 @import '~bootstrap';
 
-$theme-color: #c490e4;
-
-
 @import 'components/variables';
 
 //@import 'functions/stripUnits';
@@ -30,5 +27,6 @@ $theme-color: #c490e4;
 @import './components/verticalMenu';
 @import './components/horizontalMenu';
 @import './components/rangeSlider';
+@import './components/footer';
 @import './components/categoryControls';
 @import './components/categoryFilters';
