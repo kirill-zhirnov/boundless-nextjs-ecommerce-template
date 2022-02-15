@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
-import SortUp from '@fortawesome/fontawesome-free/svgs/solid/sort-amount-down.svg';
-import SortDown from '@fortawesome/fontawesome-free/svgs/solid/sort-amount-down-alt.svg';
 import {TQuery, TSortOrder} from '../@types/common';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faSortAmountDown, faSortAmountDownAlt} from '@fortawesome/free-solid-svg-icons';
 
 const sortFields = [
 	{id: 1, title: 'Default', order: false, alias: 'default'},
-	{id: 2, title: 'By price', order: true, alias: 'price'},
+	{id: 2, title: 'By title', order: true, alias: 'title'},
+	{id: 3, title: 'By price', order: true, alias: 'price'},
 ];
 
 export default function SortButtons({params, onSort, className}: {params: TQuery, onSort: (query: TQuery) => void, className?: string}) {
@@ -58,12 +59,11 @@ export default function SortButtons({params, onSort, className}: {params: TQuery
 									onClick={(e) => onSortClick(e, field.id)}
 								>
 									{field.title}
-									{field.order && <img
-										className='ms-1'
-										height={14}
-										src={order === TSortOrder.asc ? SortDown.src : SortUp.src}
-										width={14}
-									/>}
+									{field.order && isActive &&
+										<FontAwesomeIcon
+											className='ms-1'
+											icon={order === TSortOrder.asc ? faSortAmountDownAlt : faSortAmountDown}
+										/>}
 								</a>}
 						</li>
 					);
