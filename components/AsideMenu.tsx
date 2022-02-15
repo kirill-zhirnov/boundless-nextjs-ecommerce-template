@@ -39,8 +39,9 @@ export default function AsideMenu({menuList}: {menuList?: IMenuItem[]}) {
 		const body = document.querySelector('body');
 
 		body!.style.touchAction = 'none';
-		gesture.current = new DragGesture(body!, ({last, direction: [dx], velocity: [vx, vy]}) => {
-			if (last && vx > 0.3 && (Math.abs(vy) < Math.abs(vx)) && dx === 1) {
+		gesture.current = new DragGesture(body!, ({last, direction: [dx], velocity: [vx, vy], movement}) => {
+			// if (last && vx > 0.3 && (Math.abs(vy) < Math.abs(vx)) && dx === 1) {
+			if (last && movement[0] > 100) {
 				closeIfOpened();
 			}
 		});
