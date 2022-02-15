@@ -11,6 +11,7 @@ import {makeAllMenus} from '../lib/menu';
 import {IMenuItem} from '../@types/components';
 import {GetServerSideProps} from 'next';
 import CartLoader from '../components/cart/CartLoader';
+import Link from 'next/link';
 
 export default function CartPage({mainMenu, footerMenu}: ICartPageProps) {
 	const dispatch = useAppDispatch();
@@ -52,9 +53,9 @@ export default function CartPage({mainMenu, footerMenu}: ICartPageProps) {
 											Your shopping cart is empty.
 										</p>
 										<p className='cart-page__warning'>
-											<a href='/' className='btn btn-success'>
-												Go shopping!
-											</a>
+											<Link href='/'>
+												<a className='btn btn-success'>Go shopping!</a>
+											</Link>
 										</p>
 									</>}
 						</div>
