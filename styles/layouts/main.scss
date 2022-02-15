@@ -1,0 +1,23 @@
+.page-layout {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	position: relative;
+	transition: transform 0.4s ease;
+
+	&_aside-opened {
+		box-shadow: 5px 0 10px 0 rgba(0, 0, 0, 0.75);
+		min-height: 100vh;
+		transform: translate3d((map-get($aside-width, 'xxs') * -1), 0, 0);
+		z-index: 2;
+
+		@include media-breakpoint-up(sm) {
+			transform: translate3d((map-get($aside-width, 'xs') * -1), 0, 0);
+		}
+	}
+
+	&__main {
+		flex-grow: 1;
+		padding: 18px 0;
+	}
+}

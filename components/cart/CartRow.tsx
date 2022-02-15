@@ -7,36 +7,39 @@ import NoImage from '../NoImage';
 import {TThumbRatio} from '../../@types/image';
 
 export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
+	const imgPath = item.vwItem?.image?.path;
+	const productUrl = getProductUrl(item.vwItem.product);
+
+	const imgElement = imgPath
+		? <img src={getCartImg(imgPath)}
+			alt={item.vwItem?.product?.title}
+		/>
+		: <NoImage ratio={TThumbRatio['1-1']} className={'bg-xs'} />;
+
 	return (
-		<div className='cart-row row mb-2 py-3'>
-			<div className='col-md-4 d-flex mb-2 align-items-start'>
-				<div className='d-flex'>
-					{item.vwItem?.image?.path
-						? <Link href={getProductUrl(item.vwItem.product)}>
-							<a className='img me-2'>
-								<img src={getCartImg(item.vwItem?.image?.path)}
-									alt={item.vwItem?.product?.title}
-								/>
-							</a>
+		<div className='cart-item row'>
+			<div className='cart-item__description-col col-md-4'>
+				<Link href={productUrl}>
+					<a className='cart-item__img-link'>
+						{imgElement}
+					</a>
+				</Link>
+				<div className='cart-item__title'>
+					<div>
+						<Link href={productUrl}>
+							{item.vwItem?.product?.title || ''}
 						</Link>
-						: <div className={'me-2'} style={{width: '60px'}}><NoImage ratio={TThumbRatio['1-1']} className={'bg-xs'}/></div>}
-					<div className='py-1'>
-						<div>
-							<Link href={getProductUrl(item.vwItem.product)}>
-								{item.vwItem?.product?.title || ''}
-							</Link>
-						</div>
-						{item.vwItem.type === 'variant' && <div className='text-muted text-decoration-none'>{item.vwItem?.variant?.title || ''}</div>}
 					</div>
+					{item.vwItem.type === 'variant' && <div className='text-muted'>{item.vwItem?.variant?.title || ''}</div>}
 				</div>
 			</div>
-			<div className='col-md-2 text-start text-md-center mb-2 py-1'>
-				<span className='d-inline d-md-none'><strong>Price: </strong></span>
+			<div className='cart-item__col col-md-2'>
+				<span className='cart-items__label'><strong>Price: </strong></span>
 				{formatMoney(item.itemPrice.final_price)}
 			</div>
-			<div className='col-md-2 text-start text-md-center mb-2'>
-				<span className='d-inline d-md-none'><strong>Qty: </strong></span>
-				<div className='cart-qty-input input-group input-group-sm d-inline-flex'>
+			<div className='cart-item__col cart-item__col_qty col-md-2'>
+				<span className='cart-items__label'><strong>Qty: </strong></span>
+				<div className='cart-item__qty-input input-group input-group-sm'>
 					<button
 						className='btn btn-outline-secondary text-center'
 						type='button'
@@ -60,10 +63,10 @@ export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 					>+</button>
 				</div>
 			</div>
-			<div className='col-md-2 text-start text-md-center mb-2 py-1'>
-				<span className='d-inline d-md-none'><strong>Total: </strong></span>
+			<div className='cart-item__col col-md-2'>
+				<span className='cart-items__label'><strong>Total: </strong></span>
 				{formatMoney(parseInt(item.itemPrice.final_price || '') * item.qty)}</div>
-			<div className='col-md-2 text-start text-md-center mb-2'>
+			<div className='cart-item__col cart-item__col_rm col-md-2'>
 				<button
 					className='btn btn-sm btn-outline-secondary'
 					onClick={rmItem}

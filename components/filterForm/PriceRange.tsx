@@ -6,7 +6,7 @@ import 'rc-slider/assets/index.css';
 
 const Range = createSliderWithTooltip(RangeComponent);
 
-export default function PriceRangeField({field, onChange, values}: IFilterFieldProps) {
+export default function PriceRangeField({field, onChange, values, idsPrefix}: IFilterFieldProps) {
 	const onInput = (e: ChangeEvent<HTMLInputElement>) => onChange({[e.target.name]: e.target.value});
 	const minValue = field.range?.min ? parseFloat(field.range.min) : 0;
 	const maxValue = field.range?.max ? parseFloat(field.range?.max) : 0;
@@ -33,10 +33,10 @@ export default function PriceRangeField({field, onChange, values}: IFilterFieldP
 			/>
 			<div className={'row'}>
 				<div className={'col mb-3 d-flex gap-2 justify-content-center'}>
-					<label htmlFor='filter_price_min' className='text-muted'><small>From</small></label>
+					<label htmlFor={`${idsPrefix}filter_price_min`} className='text-muted'><small>From</small></label>
 					<input type='number'
 						className='form-control form-control-sm'
-						id='filter_price_min'
+						id={`${idsPrefix}filter_price_min`}
 						min={minValue}
 						placeholder={String(minValue || '')}
 						name={'price_min'}
@@ -46,10 +46,10 @@ export default function PriceRangeField({field, onChange, values}: IFilterFieldP
 					/>
 				</div>
 				<div className={'col mb-3 d-flex gap-2 justify-content-center'}>
-					<label htmlFor='filter_price_max' className='text-muted'><small>To</small></label>
+					<label htmlFor={`${idsPrefix}filter_price_max`} className='text-muted'><small>To</small></label>
 					<input type='number'
 						className='form-control form-control-sm'
-						id='filter_price_max'
+						id={`${idsPrefix}filter_price_max`}
 						max={maxValue}
 						placeholder={String(maxValue || '')}
 						name={'price_max'}

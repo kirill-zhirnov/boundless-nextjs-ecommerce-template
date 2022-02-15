@@ -24,7 +24,7 @@ const DEFAULT_DISPLAY_LIMIT = 3;
  * @param onSubmit
  * @constructor
  */
-export default function FilterForm({filterFields, queryParams, categoryId, onSearch}: IFilterFormProps) {
+export default function FilterForm({filterFields, queryParams, categoryId, onSearch, idsPrefix}: IFilterFormProps) {
 	const [hasChanged, setHasChanged] = useState<boolean>(false);
 	const [values, setValues] = useState<TQuery>({});
 	const [ranges, setRanges] = useState<IFilterFieldRange[]>([]);
@@ -103,27 +103,33 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 	}
 
 	return (
-		<form className={'filters px-1'} onSubmit={onSubmit}>
+		<form className={'category-filters px-1'} onSubmit={onSubmit}>
 			{ranges.map((filterField, i) => {
 				switch (filterField.type) {
 					case TFilterFieldType.price:
 						return <PriceRangeField field={filterField}
 							onChange={onChange}
 							values={values}
-							key={i} />;
+							key={i}
+							idsPrefix={idsPrefix}
+						/>;
 
 					case TFilterFieldType.brand:
 						return <BrandSelect field={filterField}
 							onChange={onChange}
 							values={values}
 							displayLimit={DEFAULT_DISPLAY_LIMIT}
-							key={i} />;
+							key={i}
+							idsPrefix={idsPrefix}
+						/>;
 
 					case TFilterFieldType.availability:
 						return <Stock field={filterField}
 							onChange={onChange}
 							values={values}
-							key={i} />;
+							key={i}
+							idsPrefix={idsPrefix}
+						/>;
 
 					case TFilterFieldType.characteristic: {
 						if (isMultiCaseType(filterField.characteristic!.type)) {
@@ -132,27 +138,33 @@ export default function FilterForm({filterFields, queryParams, categoryId, onSea
 								onChange={onChange}
 								values={values}
 								displayLimit={DEFAULT_DISPLAY_LIMIT}
-								key={i} />;
+								key={i}
+								idsPrefix={idsPrefix}
+							/>;
 						} else {
 							return <TextCharacteristic
 								field={filterField}
 								onChange={onChange}
 								values={values}
-								key={i} />;
+								key={i}
+								idsPrefix={idsPrefix}
+							/>;
 						}
 					}
 				}
 			})}
-			<div className='btn-group' role='group'>
-				<button type='button'
-					className='btn btn-secondary'
-					onClick={onClear}
-					disabled={isFetching}
-				>Clear</button>
-				<button type='submit'
-					className='btn btn-primary'
-					disabled={!hasChanged || isFetching}
-				>{getSubmitLabel(hasChanged, isFetching, preSearchResult)}</button>
+			<div className='category-filters__actions'>
+				<div className='btn-group' role='group'>
+					<button type='button'
+						className='btn btn-secondary'
+						onClick={onClear}
+						disabled={isFetching}
+					>Clear</button>
+					<button type='submit'
+						className='btn btn-primary'
+						disabled={!hasChanged || isFetching}
+					>{getSubmitLabel(hasChanged, isFetching, preSearchResult)}</button>
+				</div>
 			</div>
 		</form>
 	);
@@ -285,11 +297,13 @@ interface IFilterFormProps {
 	queryParams: TQuery;
 	categoryId: number;
 	onSearch: (data: TQuery) => void;
+	idsPrefix: string;
 }
 
 export interface IFilterFieldProps {
 	field: IFilterFieldRange;
 	values: TQuery;
 	onChange: (value: {[key: string]: any}) => void;
+	idsPrefix: string;
 	displayLimit?: number;
 }

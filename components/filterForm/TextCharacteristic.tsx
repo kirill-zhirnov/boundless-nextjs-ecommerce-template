@@ -1,9 +1,9 @@
 import {IFilterFieldProps} from '../FilterForm';
 import {ChangeEvent} from 'react';
 
-export default function TextCharacteristic({field, onChange, values}: IFilterFieldProps) {
+export default function TextCharacteristic({field, onChange, values, idsPrefix}: IFilterFieldProps) {
 	const characteristic = field.characteristic!;
-	const id = `filter_prop_${characteristic.characteristic_id}`;
+	const id = `${idsPrefix}filter_prop_${characteristic.characteristic_id}`;
 
 	const onInput = (e: ChangeEvent<HTMLInputElement>) => {
 		onChange({props: {[characteristic.characteristic_id]: e.target.value}});

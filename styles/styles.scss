@@ -1,7 +1,5 @@
 @import '~bootstrap';
 
-$theme-color: #c490e4;
-
 @import 'components/variables';
 
 //@import 'functions/stripUnits';
@@ -9,6 +7,8 @@ $theme-color: #c490e4;
 
 @import 'themes/sample/basic';
 @import 'themes/sample/page';
+
+@import './layouts/main';
 
 //Components
 @import './components/noImage';
@@ -25,4 +25,8 @@ $theme-color: #c490e4;
 @import './components/categoriesSidebar';
 @import './components/asideMenu';
 @import './components/verticalMenu';
+@import './components/horizontalMenu';
 @import './components/rangeSlider';
+@import './components/footer';
+@import './components/categoryControls';
+@import './components/categoryFilters';

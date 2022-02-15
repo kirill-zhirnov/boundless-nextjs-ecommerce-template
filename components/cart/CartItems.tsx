@@ -1,5 +1,5 @@
 import {ICartItem} from 'boundless-api-client';
-import {useEffect, useMemo, useRef, useState} from 'react';
+import {Dispatch, SetStateAction, useEffect, useMemo, useRef, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux';
 import {calcTotal, calcTotalPrice} from '../../lib/calculator';
 import {apiClient} from '../../lib/api';
@@ -11,16 +11,16 @@ import {setCartTotal} from '../../redux/reducers/cart';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faShoppingCart} from '@fortawesome/free-solid-svg-icons/faShoppingCart';
 
-export default function CartItems({items}: ICartItemsProps) {
+export default function CartItems({items, setItems}: ICartItemsProps) {
 	const dispatch = useAppDispatch();
 	const submits = useRef<Promise<any>[]>([]);
+	const mounted = useRef(false);
 	const cartId = useAppSelector((state: RootState) => state.cart.cartId);
-	const [filteredItems, setFilteredItems] = useState(items);
 	const [submitting, setSubmitting] = useState(false);
 
 	const checkBgSubmits = () => {
 		const size = submits.current.length;
-		if (!size) return;
+		if (!size || !mounted.current) return;
 
 		setSubmitting(true);
 		Promise.allSettled(submits.current)
@@ -36,20 +36,19 @@ export default function CartItems({items}: ICartItemsProps) {
 		if (!cartId) return;
 		if (!confirm('Are you sure?')) return;
 
-		setFilteredItems(prevItems => prevItems.filter(el => el.item_id !== itemId));
-
 		setSubmitting(true);
 		const promise = apiClient.orders.removeFromCart(cartId, [itemId])
-			.then(() => checkBgSubmits());
+		.then(() => checkBgSubmits());
 
 		submits.current.push(promise);
 		dispatch(addPromise(promise));
+		setItems(prevItems => prevItems.filter(el => el.item_id !== itemId));
 	};
 
-	const totalCount = useMemo(() => calcTotal(filteredItems.map(el => ({
+	const totalCount = useMemo(() => calcTotal(items.map(el => ({
 		qty: el.qty,
 		price: calcTotalPrice(el.itemPrice.final_price!, el.qty)
-	}))), [filteredItems]);
+	}))), [items]);
 
 	const submitQty = async (itemId: number, newQty: number) => {
 		if (!cartId) return;
@@ -70,7 +69,10 @@ export default function CartItems({items}: ICartItemsProps) {
 		), []);// eslint-disable-line
 
 	const onQtyChange = (itemId: number, newQty: number) => {
-		setFilteredItems(prevFiltered => {
+		setSubmitting(true);
+		debouncedSubmitQty(itemId, newQty);
+
+		setItems(prevFiltered => {
 			const out = [...prevFiltered];
 			const index = out.findIndex(el => el.item_id === itemId);
 			if (index >= 0) {
@@ -78,9 +80,6 @@ export default function CartItems({items}: ICartItemsProps) {
 			}
 			return out;
 		});
-
-		setSubmitting(true);
-		debouncedSubmitQty(itemId, newQty);
 	};
 
 	useEffect(() => {
@@ -91,39 +90,42 @@ export default function CartItems({items}: ICartItemsProps) {
 	},[totalCount]); //eslint-disable-line
 
 	useEffect(() => {
-		setFilteredItems(items);
-	}, [items]);
+		mounted.current = true;
+		return () => {
+			mounted.current = false;
+		};
+	}, []);
 
 	return (
 		<>
 			<div className='cart-items'>
-				<div className='row fw-bold d-none d-md-flex mb-2'>
-					<div className='col-md-4 text-center'></div>
-					<div className='col-md-2 text-center'>Price</div>
-					<div className='col-md-2 text-center'>Qty</div>
-					<div className='col-md-2 text-center'>Total</div>
-					<div className='col-md-2 text-center'></div>
+				<div className='cart-items__thead row'>
+					<div className='cart-items__thead-cell col-md-4'></div>
+					<div className='cart-items__thead-cell col-md-2'>Price</div>
+					<div className='cart-items__thead-cell col-md-2'>Qty</div>
+					<div className='cart-items__thead-cell col-md-2'>Total</div>
+					<div className='cart-items__thead-cell col-md-2'></div>
 				</div>
-				{filteredItems.map(item => (
+				{items.map(item => (
 					<CartRow
 						item={item}
 						rmItem={() => rmItem(item.item_id)} key={item.item_id}
 						onQtyChange={(qty: number) => onQtyChange(item.item_id, qty)}
 					/>
 				))}
-				<div className='row fw-bold mb-2 py-3 '>
-					<div className='col-md-6 text-start text-md-end mb-2'>Order Total:</div>
-					<div className='col-md-2 text-start text-md-center mb-2'>
-						<span className='d-inline d-md-none'><strong>Qty: </strong></span>
+				<div className='cart-items__total-row row'>
+					<div className='cart-items__total-cell cart-items__total-cell_title col-md-6'>Order Total:</div>
+					<div className='cart-items__total-cell col-md-2'>
+						<span className='cart-items__label'>Qty: </span>
 						{totalCount.qty}
 					</div>
-					<div className='col-md-2 text-start text-md-center mb-2'>
-						<span className='d-inline d-md-none'><strong>Price: </strong></span>
+					<div className='cart-items__total-cell col-md-2'>
+						<span className='cart-items__label'>Price: </span>
 						{totalCount.price}
 					</div>
 				</div>
 			</div>
-			<div className='text-end mt-4 mb-2'>
+			<div className='cart-items__actions'>
 				<button
 					className='btn btn-action btn-lg btn-anim'
 					disabled={submitting}
@@ -137,4 +139,5 @@ export default function CartItems({items}: ICartItemsProps) {
 
 interface ICartItemsProps {
 	items: ICartItem[];
+	setItems: Dispatch<SetStateAction<ICartItem[]>>;
 }

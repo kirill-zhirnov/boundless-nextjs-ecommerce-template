@@ -1,7 +1,7 @@
 import {ICategory} from 'boundless-api-client/types/catalog/category';
 import {getCategoryUrl} from './urls';
-import {IMenuItem} from '../redux/reducers/menus';
 import {getCategoryImg} from './imgs';
+import {IMenuItem} from '../@types/components';
 
 export const makeMenuByCategoryTree = ({categoryTree, isActiveClb}: {categoryTree: ICategory[], isActiveClb?: (category: ICategory) => boolean}): IMenuItem[] => {
 	const menu = categoryTree.map(category => {
@@ -16,6 +16,9 @@ export const makeMenuByCategoryTree = ({categoryTree, isActiveClb}: {categoryTre
 
 		if (category.children) {
 			item.children = makeMenuByCategoryTree({categoryTree: category.children, isActiveClb});
+			if (item.children.some(el => el.isActive)) {
+				item.isActive = true;
+			}
 		}
 
 		if (category.image) {
