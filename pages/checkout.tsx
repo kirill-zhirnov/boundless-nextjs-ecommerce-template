@@ -1,10 +1,10 @@
 import MainLayout from '../layouts/Main';
-import {BoundlessCheckout} from 'boundless-checkout-react';
 import {useCart} from '../hooks/cart';
 import {useEffect} from 'react';
 import CartRowLoader from '../components/cart/CartRowLoader';
 import {apiClient} from '../lib/api';
 
+import {BoundlessCheckout} from 'boundless-checkout-react';
 //import dynamic from 'next/dynamic';
 // const {BoundlessCheckout} = dynamic(() => import('boundless-checkout-react'), {ssr: false});
 
@@ -20,7 +20,7 @@ export default function CheckoutPage() {
 	const onHide = () => {};
 
 	return (
-		<MainLayout>
+		<MainLayout mainMenu={[]} footerMenu={[]}>
 			<div className='container'>
 				{cartInited ?
 					<BoundlessCheckout show={true}
