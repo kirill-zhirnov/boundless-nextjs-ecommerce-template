@@ -3,8 +3,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
 import Link from 'next/link';
 import React, {useEffect, useState} from 'react';
+import {IMenuItem} from '../../@types/components';
 import {useAppSelector} from '../../hooks/redux';
-import {IMenuItem} from '../../redux/reducers/menus';
 import {RootState} from '../../redux/store';
 
 export default function AsideMenuList({menuList}: {menuList: IMenuItem[]}) {
