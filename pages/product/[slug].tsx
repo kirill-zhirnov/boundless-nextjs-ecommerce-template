@@ -13,9 +13,9 @@ import ProductLabels from '../../components/product/Labels';
 import ProductVariantAndBuy from '../../components/product/VariantAndBuy';
 import ProductCharacteristics from '../../components/product/Characteristics';
 import {makeAllMenus} from '../../lib/menu';
-import {IMenuItem} from '../../redux/reducers/menus';
 import {makeBreadCrumbsFromCats} from '../../lib/breadcrumbs';
 import ProductShipping from '../../components/product/Shipping';
+import {IMenuItem} from '../../@types/components';
 
 export default function ProductPage({data: {product, categoryParents, mainMenu, footerMenu}}: InferGetStaticPropsType<typeof getStaticProps>) {
 	const [resolvedParents, setResolvedParents] = useState(categoryParents);

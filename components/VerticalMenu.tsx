@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import Link from 'next/link';
-import {IMenuItem} from '../redux/reducers/menus';
+import {IMenuItem} from '../@types/components';
 
 export default function VerticalMenu({menuList}: {menuList: IMenuItem[]}) {
 	return (

@@ -1,10 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
 import Link from 'next/link';
-import {IMenuItem} from '../redux/reducers/menus';
 import {CSSTransition} from 'react-transition-group';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCaretDown} from '@fortawesome/free-solid-svg-icons/faCaretDown';
+import {IMenuItem} from '../@types/components';
 
 export default class HorizontalMenu extends React.Component<HorizontalMenuProps, HorizontalMenuState> {
 	protected hideTimeout: number | null = null;

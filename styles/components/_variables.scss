@@ -30,8 +30,15 @@ $front-hr-color: #eee;
 
 $aside-width: (
 	'xxs': 290px,
-	'xs': 430px
+	'xs': 430px,
 );
+
+$front-aside-header-bg: #eaeaea;
+$front-aside-list-bg: #fafafa;
+$front-aside-border-color: #dfdfdf;
+$front-aside-menu-color: #000;
+$front-aside-menu-active: #c490e4;
+$front-aside-menu-active-weight: 400;
 
 $front-cart-header-qty-bg: $theme-color;
 $front-cart-header-qty-color: color-contrast($theme-color);
@@ -45,3 +52,9 @@ $front-h-menu-child-bg: #fff;
 $front-h-menu-color: #000;
 $front-h-menu-active: #ffba00;
 $front-h-menu-link-weight: 400;
+
+$front-footer-bg: #f5f5f5;
+$front-footer-text-color: #000;
+$front-footer-header-weight: 600;
+$front-footer-link-color: #000;
+$front-footer-link-active: #ffba00;

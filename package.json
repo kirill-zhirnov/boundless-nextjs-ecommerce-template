@@ -13,8 +13,10 @@
 		"analyze:browser": "cross-env BUNDLE_ANALYZE=browser next build"
   },
   "dependencies": {
+    "@fontsource/roboto": "^4.5.3",
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-brands-svg-icons": "^5.15.4",
     "@fortawesome/free-solid-svg-icons": "^5.15.4",
     "@fortawesome/react-fontawesome": "^0.1.16",
     "@popperjs/core": "^2.11.2",
@@ -24,6 +26,7 @@
     "@types/nprogress": "^0.2.0",
     "@types/react-redux": "^7.1.21",
     "@types/react-transition-group": "^4.4.4",
+    "@use-gesture/vanilla": "^10.2.5",
     "animate.css": "^4.1.1",
     "body-scroll-lock": "^4.0.0-beta.0",
     "bootstrap": "^5.1.3",
