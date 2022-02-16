@@ -2,13 +2,14 @@ import React, {useMemo, useState} from 'react';
 import clsx from 'clsx';
 import ProductImage from './ProductImage';
 import {getMetaImgUrl, getProductImg, productImgRatio} from '../../lib/imgs';
-import ImagesSlider from './ImagesSlider';
 import NoImage from '../NoImage';
 import {IProductItem} from 'boundless-api-client';
+import dynamic from 'next/dynamic';
+import {Item, Gallery, useGallery} from 'react-photoswipe-gallery';
 
 import 'photoswipe/dist/photoswipe.css';
 import 'photoswipe/dist/default-skin/default-skin.css';
-import {Item, Gallery, useGallery} from 'react-photoswipe-gallery';
+const ImagesSlider = dynamic(() => import('./ImagesSlider'), {ssr: false});
 
 export default function ProductImagesWrapper({product}: {product: IProductItem}) {
 	return (

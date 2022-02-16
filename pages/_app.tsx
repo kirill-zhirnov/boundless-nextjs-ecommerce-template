@@ -6,7 +6,6 @@ import '../styles/styles.scss';
 import 'swiper/scss';
 import 'swiper/scss/navigation';
 import 'swiper/scss/pagination';
-import 'swiper/scss/scrollbar';
 import 'animate.css';
 
 import '@fortawesome/fontawesome-free/css/svg-with-js.css';
