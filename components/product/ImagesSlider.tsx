@@ -1,6 +1,6 @@
 import React, {useRef} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import SwiperCore, {Pagination, Navigation, Scrollbar} from 'swiper';
+import SwiperCore, {Pagination, Navigation} from 'swiper';
 import {IProductImage} from 'boundless-api-client/types/image';
 import ProductImage from './ProductImage';
 
@@ -16,7 +16,7 @@ export default function ImagesSlider({images, onClick}: ImagesSliderProps) {
 		<div className='slider mb-5'>
 			<div className={'slider__wrapper'}>
 				<Swiper grabCursor={true}
-					modules={[Navigation, Pagination, Scrollbar]}
+					modules={[Navigation, Pagination]}
 					centerInsufficientSlides
 					slidesPerView={1}
 					spaceBetween={0}
@@ -31,7 +31,6 @@ export default function ImagesSlider({images, onClick}: ImagesSliderProps) {
 						},
 					}}
 					pagination={{clickable: true}}
-					scrollbar={{draggable: true}}
 					navigation
 					onSwiper={(instance) => swiper.current = instance}
 				>
