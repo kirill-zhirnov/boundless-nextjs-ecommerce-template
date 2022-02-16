@@ -1,17 +1,15 @@
 import {ICartItem} from 'boundless-api-client';
 import {Dispatch, SetStateAction, useEffect, useMemo, useRef, useState} from 'react';
 import {useAppDispatch, useAppSelector} from '../../hooks/redux';
-import {calcTotal, calcTotalPrice} from '../../lib/calculator';
 import {apiClient} from '../../lib/api';
 import {addPromise} from '../../redux/reducers/xhr';
 import {RootState} from '../../redux/store';
 import debounce from 'lodash/debounce';
 import CartRow from './CartRow';
-import {setCartTotal} from '../../redux/reducers/cart';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faShoppingCart} from '@fortawesome/free-solid-svg-icons/faShoppingCart';
 
-export default function CartItems({items, setItems}: ICartItemsProps) {
+export default function CartItems({items, setItems, total}: ICartItemsProps) {
 	const dispatch = useAppDispatch();
 	const submits = useRef<Promise<any>[]>([]);
 	const mounted = useRef(false);
@@ -38,17 +36,12 @@ export default function CartItems({items, setItems}: ICartItemsProps) {
 
 		setSubmitting(true);
 		const promise = apiClient.orders.removeFromCart(cartId, [itemId])
-		.then(() => checkBgSubmits());
+			.then(() => checkBgSubmits());
 
 		submits.current.push(promise);
 		dispatch(addPromise(promise));
 		setItems(prevItems => prevItems.filter(el => el.item_id !== itemId));
 	};
-
-	const totalCount = useMemo(() => calcTotal(items.map(el => ({
-		qty: el.qty,
-		price: calcTotalPrice(el.itemPrice.final_price!, el.qty)
-	}))), [items]);
 
 	const submitQty = async (itemId: number, newQty: number) => {
 		if (!cartId) return;
@@ -59,8 +52,6 @@ export default function CartItems({items, setItems}: ICartItemsProps) {
 		}])
 			.then(() => checkBgSubmits());
 		submits.current.push(promise);
-
-		// dispatch(getCartTotal(cartId, true));
 	};
 
 	const debouncedSubmitQty = useMemo(() =>
@@ -81,13 +72,6 @@ export default function CartItems({items, setItems}: ICartItemsProps) {
 			return out;
 		});
 	};
-
-	useEffect(() => {
-		dispatch(setCartTotal({
-			qty: totalCount.qty,
-			total: totalCount.price
-		}));
-	},[totalCount]); //eslint-disable-line
 
 	useEffect(() => {
 		mounted.current = true;
@@ -117,11 +101,11 @@ export default function CartItems({items, setItems}: ICartItemsProps) {
 					<div className='cart-items__total-cell cart-items__total-cell_title col-md-6'>Order Total:</div>
 					<div className='cart-items__total-cell col-md-2'>
 						<span className='cart-items__label'>Qty: </span>
-						{totalCount.qty}
+						{total.qty}
 					</div>
 					<div className='cart-items__total-cell col-md-2'>
 						<span className='cart-items__label'>Price: </span>
-						{totalCount.price}
+						{total.price}
 					</div>
 				</div>
 			</div>
@@ -140,4 +124,5 @@ export default function CartItems({items, setItems}: ICartItemsProps) {
 interface ICartItemsProps {
 	items: ICartItem[];
 	setItems: Dispatch<SetStateAction<ICartItem[]>>;
+	total: {qty: number, price: string}
 }
