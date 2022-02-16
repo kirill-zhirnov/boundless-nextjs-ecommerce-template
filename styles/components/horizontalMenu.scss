@@ -7,7 +7,6 @@ $horizontal-menu-border: 1px solid #eee;
 	background-color: $front-h-menu-bg;
 	border-bottom: $horizontal-menu-border;
 	border-top: $horizontal-menu-border;
-	z-index: $zindex-page-layout-children;
 
 	&__list {
 		display: flex;
