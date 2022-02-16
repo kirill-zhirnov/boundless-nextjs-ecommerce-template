@@ -34,13 +34,13 @@ export const getCartByCookieOrRetrieve = async () => {
 	const cartId = Cookie.get('boundless_cart_id');
 	if (cartId) {
 		try {
-			return await apiClient.orders.getCartInfo(cartId);
+			return await apiClient.cart.getCartInfo(cartId);
 		} catch (e) {
 			//
 		}
 	}
 
-	return await apiClient.orders.retrieveCart();
+	return await apiClient.cart.retrieveCart();
 };
 
 export const addItem2Cart = (itemId: number, qty: number = 1, callToOrder: boolean = true): AppThunk => async (dispatch, getState) => {
@@ -52,7 +52,7 @@ export const addItem2Cart = (itemId: number, qty: number = 1, callToOrder: boole
 		}
 
 		dispatch(setCartSubmitting(true));
-		const promise = apiClient.orders.addItemToCart(cartId, itemId, qty).then(
+		const promise = apiClient.cart.addItemToCart(cartId, itemId, qty).then(
 			({product, actionRequired, cartTotal, added}) => {
 				dispatch(setCartSubmitting(false));
 				if (actionRequired === 'chooseVariant' && product) {
