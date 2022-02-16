@@ -7,9 +7,9 @@ import {setIsOpened} from '../redux/reducers/asideMenu';
 import HeaderCart from './cart/HeaderCart';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faTimes} from '@fortawesome/free-solid-svg-icons';
-import {IMenuItem} from '../redux/reducers/menus';
 import AsideMenuList from './asideMenu/MenuList';
 import {DragGesture} from '@use-gesture/vanilla';
+import {IMenuItem} from '../@types/components';
 
 export default function AsideMenu({menuList}: {menuList?: IMenuItem[]}) {
 	const rootEl = useRef(null);
@@ -39,7 +39,7 @@ export default function AsideMenu({menuList}: {menuList?: IMenuItem[]}) {
 		const body = document.querySelector('body');
 
 		body!.style.touchAction = 'none';
-		gesture.current = new DragGesture(body!, ({last, direction: [dx], velocity: [vx, vy], movement}) => {
+		gesture.current = new DragGesture(body!, ({last, movement}) => {
 			// if (last && vx > 0.3 && (Math.abs(vy) < Math.abs(vx)) && dx === 1) {
 			if (last && movement[0] > 100) {
 				closeIfOpened();
