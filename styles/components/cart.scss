@@ -78,8 +78,8 @@
 
 	&__col {
 		margin-bottom: 0.5rem;
-		padding-top: 0.25rem;
 		padding-bottom: 0.25rem;
+		padding-top: 0.25rem;
 		text-align: start;
 
 		@include media-breakpoint-up(md) {
@@ -88,8 +88,8 @@
 
 		&_qty,
 		&_rm {
-			padding-top: 0;
 			padding-bottom: 0;
+			padding-top: 0;
 		}
 	}
 
