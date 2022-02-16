@@ -6,17 +6,22 @@ import MainLayout from '../layouts/Main';
 import {apiClient} from '../lib/api';
 import {setCartTotal, TCartInited} from '../redux/reducers/cart';
 import {addPromise} from '../redux/reducers/xhr';
-import CartRowLoader from '../components/cart/CartRowLoader';
 import {useCart} from '../hooks/cart';
+import {makeAllMenus} from '../lib/menu';
+import {IMenuItem} from '../@types/components';
+import {GetServerSideProps} from 'next';
+import CartLoader from '../components/cart/CartLoader';
+import Link from 'next/link';
 
-export default function CartPage() {
+export default function CartPage({mainMenu, footerMenu}: ICartPageProps) {
 	const dispatch = useAppDispatch();
 	const {id: cartId, cartInited} = useCart();
 	const [items, setItems] = useState<ICartItem[]>([]);
 	const [loading, setLoading] = useState(false);
 
-	const getCartItems = async (cartId: string) => {
+	const getCartData = async (cartId: string) => {
 		setLoading(true);
+
 		const promise = apiClient.orders.getCartItems(cartId)
 			.then(({cart, items}) => {
 				setItems(items);
@@ -29,46 +34,51 @@ export default function CartPage() {
 	};
 
 	useEffect(() => {
-		if (cartId) getCartItems(cartId);
+		if (cartId) getCartData(cartId);
 	}, [cartId]); //eslint-disable-line
 
 	return (
-		<MainLayout>
+		<MainLayout mainMenu={mainMenu} footerMenu={footerMenu}>
 			<div className='container'>
-				<main className='cart-page row'>
+				<div className='cart-page row'>
 					<div className='col-lg-8 offset-lg-2'>
 						<h1 className='page-header page-header_h1  page-header_m-h1'>Shopping cart</h1>
-						<div className='cart-page__content p-3'>
+						<div className='cart-page__content'>
 							{(loading || cartInited === TCartInited.processing)
-								? <Loader />
-								: <>
-									{items?.length === 0 &&
-										<div>
-											<p className='text-center my-4'>
-												Your shopping cart is empty.
-											</p>
-											<p className='text-center'>
-												<a href='/' className='btn btn-success'>
-													Go shopping!
-												</a>
-											</p>
-										</div>}
-									{items.length > 0 && <CartItems items={items} />}
-								</>}
+								? <CartLoader />
+								: items.length > 0
+									? <CartItems items={items} setItems={setItems} />
+									: <>
+										<p className='cart-page__warning'>
+											Your shopping cart is empty.
+										</p>
+										<p className='cart-page__warning'>
+											<Link href='/'>
+												<a className='btn btn-success'>Go shopping!</a>
+											</Link>
+										</p>
+									</>}
 						</div>
 					</div>
-				</main>
+				</div>
 			</div>
-		</MainLayout>
+		</MainLayout >
 	);
 }
 
-const Loader = () => {
-	return (
-		<div className='pt-md-4'>
-			{[...Array(3)].map((_, i) => (
-				<CartRowLoader key={i} bg={i % 2 === 0 ? '#f9f9f9' : ''} />
-			))}
-		</div>
-	);
+export const getServerSideProps: GetServerSideProps<ICartPageProps> = async () => {
+	const categoryTree = await apiClient.catalog.getCategoryTree({menu: 'category'});
+	const {mainMenu, footerMenu} = makeAllMenus({categoryTree});
+
+	return {
+		props: {
+			mainMenu,
+			footerMenu
+		}
+	};
 };
+
+interface ICartPageProps {
+	mainMenu: IMenuItem[];
+	footerMenu: IMenuItem[];
+}

@@ -19,7 +19,9 @@
 	}
 
 	&__link {
+		align-items: center;
 		color: #777;
+		display: flex;
 		text-decoration: none;
 
 		&:hover {
