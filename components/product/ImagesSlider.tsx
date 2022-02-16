@@ -4,8 +4,13 @@ import SwiperCore, {Pagination, Navigation, Scrollbar} from 'swiper';
 import {IProductImage} from 'boundless-api-client/types/image';
 import ProductImage from './ProductImage';
 
-export default function ImagesSlider({images}: {images: IProductImage[]}) {
+export default function ImagesSlider({images, onClick}: ImagesSliderProps) {
 	const swiper = useRef<SwiperCore | null>(null);
+
+	const onImageClick = (index: number, e: React.MouseEvent, ) => {
+		e.preventDefault();
+		onClick(index);
+	};
 
 	return (
 		<div className='slider mb-5'>
@@ -30,8 +35,8 @@ export default function ImagesSlider({images}: {images: IProductImage[]}) {
 					navigation
 					onSwiper={(instance) => swiper.current = instance}
 				>
-					{images.map((image) =>
-						<SwiperSlide key={image.image_id}>
+					{images.map((image, i) =>
+						<SwiperSlide key={image.image_id} onClick={onImageClick.bind(null, i)} >
 							<ProductImage image={image.image} maxSize={800} alt={image.alt || image.description!} />
 						</SwiperSlide>
 					)}
@@ -39,4 +44,9 @@ export default function ImagesSlider({images}: {images: IProductImage[]}) {
 			</div>
 		</div>
 	);
+}
+
+interface ImagesSliderProps {
+	images: IProductImage[];
+	onClick: (i: number) => void;
 }

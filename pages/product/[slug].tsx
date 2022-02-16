@@ -15,6 +15,7 @@ import ProductCharacteristics from '../../components/product/Characteristics';
 import {makeAllMenus} from '../../lib/menu';
 import {IMenuItem} from '../../redux/reducers/menus';
 import {makeBreadCrumbsFromCats} from '../../lib/breadcrumbs';
+import ProductShipping from '../../components/product/Shipping';
 
 export default function ProductPage({data: {product, categoryParents, mainMenu, footerMenu}}: InferGetStaticPropsType<typeof getStaticProps>) {
 	const [resolvedParents, setResolvedParents] = useState(categoryParents);
@@ -35,7 +36,6 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 			fetchParents(categoryId);
 		}
 	}, [category, product]);
-
 
 	const breadcrumbItems = useMemo(() => {
 		return makeBreadCrumbsFromCats(resolvedParents || [], ({category_id}) => {
@@ -67,14 +67,18 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 						</div>
 						<div className='col-md-5'>
 							<ProductVariantAndBuy product={product} />
-							<hr />
-							<ProductCharacteristics characteristics={product.nonVariantCharacteristics!} />
-							<h3>Shipping</h3>
-							We ship ASAP!
+							<hr className='product-page__hr' />
+							<ProductCharacteristics
+								characteristics={product.nonVariantCharacteristics!}
+								manufacturer={product.manufacturer}
+								size={product.props.size}
+							/>
+							<hr className='product-page__hr' />
+							<ProductShipping />
 						</div>
 					</div>
 					{product.text.description && <article itemProp='description'
-						className={'product-description my-4'}
+						className={'product-page__description'}
 						dangerouslySetInnerHTML={{__html: product?.text.description}} />}
 					<MetaSchemaOrg product={product} parents={resolvedParents} />
 				</div>

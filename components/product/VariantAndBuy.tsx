@@ -38,6 +38,7 @@ export default function ProductVariantAndBuy({product, onAddedToCart}: IProductV
 						/>
 					</CSSTransition>
 					{error && <div className={'variant-and-buy__error'}>{error}</div>}
+					<hr className='variant-and-buy__hr' />
 				</div>}
 			<ProductPriceAndBuy
 				product={product}
@@ -50,6 +51,6 @@ export default function ProductVariantAndBuy({product, onAddedToCart}: IProductV
 }
 
 interface IProductVariantAndBuyProps {
-	product: Pick<IProductItem, 'price' | 'has_variants' | 'in_stock' | 'item_id' | 'extendedVariants'>,
+	product: Pick<IProductItem, 'price' | 'has_variants' | 'in_stock' | 'item_id' | 'extendedVariants' | 'sku'>,
 	onAddedToCart?: (itemId: number, qty: number) => void;
 }
