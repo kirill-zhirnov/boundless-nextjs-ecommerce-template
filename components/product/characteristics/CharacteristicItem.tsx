@@ -3,11 +3,13 @@ import {INonVariantCaracteristic} from 'boundless-api-client';
 export default function CharacteristicItem({characteristic}: {characteristic: INonVariantCaracteristic}) {
 	return (
 		<>
-			<dl className='d-flex gap-2 my-2 align-items-start'>
-				<dt className='w-50'>
-					{characteristic.title}
+			<dl className='product-attrs__item'>
+				<dt className='product-attrs__item-name-wrapper'>
+					<span className='product-attrs__item-name'>
+						{characteristic.title}
+					</span>
 				</dt>
-				<dd className='w-50 mb-0'>
+				<dd className='product-attrs__item-value'>
 					{characteristic.value && <div>{characteristic.value}</div>}
 					{characteristic.cases?.map(caseItem => (
 						<div key={caseItem.id}>{caseItem.title}</div>

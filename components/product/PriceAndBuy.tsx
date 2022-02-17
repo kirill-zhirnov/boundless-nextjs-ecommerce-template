@@ -16,7 +16,7 @@ export default function ProductPriceAndBuy({product, selectedVariant, setError, 
 	const [qty, setQty] = useState<number>(1);
 
 	const {price, benefit, isInStock} = useMemo(() => {
-		let price: IPriceForTpl, benefit: number|null = null;
+		let price: IPriceForTpl, benefit: number | null = null;
 		if (selectedVariant) {
 			price = {price: selectedVariant.price, oldPrice: selectedVariant.price_old};
 		} else {
@@ -59,18 +59,23 @@ export default function ProductPriceAndBuy({product, selectedVariant, setError, 
 				<label className={'price-and-buy__benefit-label'}>You save:</label>
 				<span className={'price-and-buy__benefit-value'}>{formatMoney(benefit)}</span>
 			</p>}
-			{(!product.has_variants || selectedVariant) && <p className={clsx('price-and-buy__stock', {'in': isInStock, 'out': !isInStock})}>
-				{isInStock && 'In stock'}
-				{!isInStock && 'Out of stock'}
-			</p>}
+			{(!product.has_variants || selectedVariant) && <>
+				<p className={clsx('price-and-buy__stock', {'in': isInStock, 'out': !isInStock})}>
+					{isInStock && 'In stock'}
+					{!isInStock && 'Out of stock'}
+				</p>
+				{(product.sku || selectedVariant?.sku) && <p>
+					SKU: <span className='text-muted'>{selectedVariant?.sku || product.sku}</span>
+				</p>}
+			</>}
 			{isInStock !== false && <div className={'price-and-buy__2-cart'}>
 				<PriceAndBuyQty qty={qty}
-												setQty={setQty}
+					setQty={setQty}
 				/>
 				<div className={'price-and-buy__btns'}>
 					<button type={'button'}
-									className={'btn btn-action btn-anim btn-lg'}
-									onClick={onBuyBtnClicked}
+						className={'btn btn-action btn-anim btn-lg'}
+						onClick={onBuyBtnClicked}
 					>
 						<FontAwesomeIcon icon={faCartPlus} /> Buy
 					</button>
@@ -81,9 +86,9 @@ export default function ProductPriceAndBuy({product, selectedVariant, setError, 
 }
 
 interface IPriceAndBuyProps {
-	product: Pick<IProductItem, 'price' | 'has_variants' | 'in_stock' | 'item_id'>;
-	selectedVariant?: IProductVariant|null;
-	setError: (error: null|string) => void;
+	product: Pick<IProductItem, 'price' | 'has_variants' | 'in_stock' | 'item_id' | 'sku'>;
+	selectedVariant?: IProductVariant | null;
+	setError: (error: null | string) => void;
 	onAddedToCart?: (itemId: number, qty: number) => void;
 }
 
@@ -103,20 +108,20 @@ const PriceAndBuyQty = ({qty, setQty}: {qty: number, setQty: (value: number) => 
 	return (
 		<div className={'price-and-buy__qty input-group'}>
 			<button type={'button'}
-							className={'btn btn-outline-secondary text-center'}
-							onClick={onBtnClicked.bind(null, -1)}
+				className={'btn btn-outline-secondary text-center'}
+				onClick={onBtnClicked.bind(null, -1)}
 			>
 				<FontAwesomeIcon icon={faMinus} />
 			</button>
 			<input type={'number'}
-						 className={'form-control'}
-						 value={qty}
-						 min={1}
-						 onChange={onChange}
+				className={'form-control'}
+				value={qty}
+				min={1}
+				onChange={onChange}
 			/>
 			<button type={'button'}
-							className={'btn btn-outline-secondary text-center'}
-							onClick={onBtnClicked.bind(null, 1)}
+				className={'btn btn-outline-secondary text-center'}
+				onClick={onBtnClicked.bind(null, 1)}
 			>
 				<FontAwesomeIcon icon={faPlus} />
 			</button>
