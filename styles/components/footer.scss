@@ -2,6 +2,8 @@
 	background: $front-footer-bg;
 	color: $front-footer-text-color;
 	padding: 45px 0 30px;
+	position: relative;
+	z-index: $zindex-page-layout-children;
 
 	&__item {
 		margin-bottom: 30px;
