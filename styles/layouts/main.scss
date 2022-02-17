@@ -4,12 +4,13 @@
 	min-height: 100vh;
 	position: relative;
 	transition: transform 0.4s ease;
+	z-index: $zindex-page-layout;
 
 	&_aside-opened {
 		box-shadow: 5px 0 10px 0 rgba(0, 0, 0, 0.75);
 		min-height: 100vh;
 		transform: translate3d((map-get($aside-width, 'xxs') * -1), 0, 0);
-		z-index: 2;
+		z-index: $zindex-page-layout-aside-opened;
 
 		@include media-breakpoint-up(sm) {
 			transform: translate3d((map-get($aside-width, 'xs') * -1), 0, 0);
@@ -19,5 +20,7 @@
 	&__main {
 		flex-grow: 1;
 		padding: 18px 0;
+		position: relative;
+		z-index: $zindex-page-layout-children;
 	}
 }

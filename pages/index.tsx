@@ -16,7 +16,7 @@ export default function IndexPage({products, mainMenu, footerMenu}: InferGetServ
 						{mainMenu && <VerticalMenu menuList={mainMenu} />}
 					</nav>
 					<div className='col-md-9 col-sm-8'>
-						<h1 className='page-header page-header_h1  page-header_m-h1'>Boundless store</h1>
+						<h1 className='page-heading page-heading_h1  page-heading_m-h1'>Boundless store</h1>
 						<ProductsList products={products} query={{}}/>
 					</div>
 				</div>
