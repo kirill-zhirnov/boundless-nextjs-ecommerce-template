@@ -37,7 +37,7 @@ export default function CartItems({items, setItems}: ICartItemsProps) {
 		if (!confirm('Are you sure?')) return;
 
 		setSubmitting(true);
-		const promise = apiClient.orders.removeFromCart(cartId, [itemId])
+		const promise = apiClient.cart.removeFromCart(cartId, [itemId])
 		.then(() => checkBgSubmits());
 
 		submits.current.push(promise);
@@ -53,7 +53,7 @@ export default function CartItems({items, setItems}: ICartItemsProps) {
 	const submitQty = async (itemId: number, newQty: number) => {
 		if (!cartId) return;
 
-		const promise = apiClient.orders.setCartItemsQty(cartId, [{
+		const promise = apiClient.cart.setCartItemsQty(cartId, [{
 			item_id: itemId,
 			qty: newQty
 		}])

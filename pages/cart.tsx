@@ -22,7 +22,7 @@ export default function CartPage({mainMenu, footerMenu}: ICartPageProps) {
 	const getCartData = async (cartId: string) => {
 		setLoading(true);
 
-		const promise = apiClient.orders.getCartItems(cartId)
+		const promise = apiClient.cart.getCartItems(cartId)
 			.then(({cart, items}) => {
 				setItems(items);
 				dispatch(setCartTotal(cart.total));
