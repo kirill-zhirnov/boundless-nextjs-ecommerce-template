@@ -14,6 +14,7 @@ import clsx from 'clsx';
 const AsideMenu = dynamic(() => import('../components/AsideMenu'), {ssr: false});
 import AsideBackdrop from '../components/asideMenu/Backdrop';
 import HorizontalMenu from '../components/HorizontalMenu';
+import CallToOrder from '../components/header/CallToOrder';
 import {IMenuItem} from '../@types/components';
 
 const shopBaseUrl = process.env.BOUNDLESS_BASE_URL || '';
@@ -61,7 +62,7 @@ export default function MainLayout({children, title, metaData, mainMenu, footerM
 				<meta property='og:type' content='website' />
 				<meta property='og:title' content={title || 'Boundless-Commerce Shop Example'} />
 				<meta property='og:url' content={canonicalUrl || shopBaseUrl} />
-				<meta property='og:image' content={imgUrl || (shopBaseUrl+ '/og.jpeg')} />
+				<meta property='og:image' content={imgUrl || (shopBaseUrl + '/og.jpeg')} />
 				{description && <meta property='og:description' content={description} />}
 
 				<title>{title || 'Boundless-Commerce Shop Example'}</title>
@@ -69,6 +70,7 @@ export default function MainLayout({children, title, metaData, mainMenu, footerM
 			<LoadingLine />
 			<AlertWidget />
 			<div className={clsx('page-layout page-layout_main', {'page-layout_aside-opened': asideIsOpened})}>
+				<CallToOrder />
 				<Header />
 				{mainMenu && <HorizontalMenu menuList={mainMenu} />}
 				<main className='page-layout__main'>
@@ -92,6 +94,6 @@ interface IMainLayoutProps {
 
 interface IMetaData {
 	canonicalUrl?: string;
-	imgUrl?: string|null;
-	description?: string|null;
+	imgUrl?: string | null;
+	description?: string | null;
 }

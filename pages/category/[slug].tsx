@@ -78,7 +78,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 					</div>
 					<div className='col-md-8 col-lg-9'>
 						<BreadCrumbs items={breadcrumbItems} />
-						<h1 className='page-header page-header_h1  page-header_m-h1'>{title}</h1>
+						<h1 className='page-heading page-heading_h1  page-heading_m-h1'>{title}</h1>
 						{category.text?.description_top &&
 							<div className={'mb-3'} dangerouslySetInnerHTML={{__html: category.text.description_top}} />
 						}

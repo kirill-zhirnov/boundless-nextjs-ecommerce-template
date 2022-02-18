@@ -1,17 +1,22 @@
 import React, {useRef} from 'react';
 import {Swiper, SwiperSlide} from 'swiper/react';
-import SwiperCore, {Pagination, Navigation, Scrollbar} from 'swiper';
+import SwiperCore, {Pagination, Navigation} from 'swiper';
 import {IProductImage} from 'boundless-api-client/types/image';
 import ProductImage from './ProductImage';
 
-export default function ImagesSlider({images}: {images: IProductImage[]}) {
+export default function ImagesSlider({images, onClick}: ImagesSliderProps) {
 	const swiper = useRef<SwiperCore | null>(null);
+
+	const onImageClick = (index: number, e: React.MouseEvent, ) => {
+		e.preventDefault();
+		onClick(index);
+	};
 
 	return (
 		<div className='slider mb-5'>
 			<div className={'slider__wrapper'}>
 				<Swiper grabCursor={true}
-					modules={[Navigation, Pagination, Scrollbar]}
+					modules={[Navigation, Pagination]}
 					centerInsufficientSlides
 					slidesPerView={1}
 					spaceBetween={0}
@@ -26,12 +31,11 @@ export default function ImagesSlider({images}: {images: IProductImage[]}) {
 						},
 					}}
 					pagination={{clickable: true}}
-					scrollbar={{draggable: true}}
 					navigation
 					onSwiper={(instance) => swiper.current = instance}
 				>
-					{images.map((image) =>
-						<SwiperSlide key={image.image_id}>
+					{images.map((image, i) =>
+						<SwiperSlide key={image.image_id} onClick={onImageClick.bind(null, i)} >
 							<ProductImage image={image.image} maxSize={800} alt={image.alt || image.description!} />
 						</SwiperSlide>
 					)}
@@ -39,4 +43,9 @@ export default function ImagesSlider({images}: {images: IProductImage[]}) {
 			</div>
 		</div>
 	);
+}
+
+interface ImagesSliderProps {
+	images: IProductImage[];
+	onClick: (i: number) => void;
 }

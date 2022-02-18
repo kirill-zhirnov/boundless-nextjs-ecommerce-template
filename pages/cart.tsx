@@ -23,7 +23,7 @@ export default function CartPage({mainMenu, footerMenu}: ICartPageProps) {
 	const getCartData = async (cartId: string) => {
 		setLoading(true);
 
-		const promise = apiClient.orders.getCartItems(cartId)
+		const promise = apiClient.cart.getCartItems(cartId)
 			.then(({cart, items}) => {
 				setItems(items);
 				dispatch(setCartTotal(cart.total));
@@ -55,7 +55,7 @@ export default function CartPage({mainMenu, footerMenu}: ICartPageProps) {
 			<div className='container'>
 				<div className='cart-page row'>
 					<div className='col-lg-8 offset-lg-2'>
-						<h1 className='page-header page-header_h1  page-header_m-h1'>Shopping cart</h1>
+						<h1 className='page-heading page-heading_h1  page-heading_m-h1'>Shopping cart</h1>
 						<div className='cart-page__content'>
 							{(loading || cartInited === TCartInited.processing)
 								? <CartLoader />

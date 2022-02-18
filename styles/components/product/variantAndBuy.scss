@@ -38,15 +38,19 @@
 }
 
 .variant-and-buy {
+	&__hr {
+		border: 0;
+		border-top: 1px solid #eee;
+		height: 0;
+		margin: 30px 0;
+		opacity: 1;
+	}
+
 	&__error {
 		color: $front-error-color;
-		margin: 0 0 1rem;
 	}
 
 	&__variants {
-		border-bottom: 1px solid $front-hr-color;
-		margin: 0 0 1rem;
-
 		&.has-error {
 			.variant-picker {
 				background: #f2dede;

@@ -1,0 +1,10 @@
+.page-header {
+	z-index: $zindex-page-layout-children;
+
+	&__content {
+		align-items: center;
+		display: flex;
+		justify-content: space-between;
+		padding: 0.5rem 0;
+	}
+}

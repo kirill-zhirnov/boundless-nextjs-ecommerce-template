@@ -13,6 +13,9 @@ $btn-action-border: darken($theme-color, 10%);
 $front-highlight-link-color: $theme-color;
 $front-highlighted-price-color: #dc3545;
 
+$zindex-page-layout: 1;						//global page stacking context
+$zindex-page-layout-children: 2;	//for all children except call2order wrapper
+$zindex-page-layout-aside-opened: 3;
 $zindex-call-to-order: 1031;
 $zindex-nprogress: 1033;
 $zindex-collapsed-background: 1032;
@@ -52,6 +55,8 @@ $front-h-menu-child-bg: #fff;
 $front-h-menu-color: #000;
 $front-h-menu-active: #ffba00;
 $front-h-menu-link-weight: 400;
+
+$call-to-order-top: 130px;
 
 $front-footer-bg: #f5f5f5;
 $front-footer-text-color: #000;

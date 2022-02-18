@@ -92,6 +92,24 @@ export function getCategoryImg(image: IImagePartial, maxSize: number = 21): IIma
 	return {src: thumb.getSrc()};
 }
 
+export function getManufacturerImg(image: IImagePartial, maxSize: number = 200): IImageData {
+	const {width, height, path: imgLocalPath} = image;
+
+	const thumb = apiClient.makeThumb({
+		imgLocalPath,
+		maxSize
+	});
+
+	if (width && height) {
+		thumb.setOriginalSize(width, height);
+
+		return thumb.getAttrs();
+	}
+
+	return {src: thumb.getSrc()};
+}
+
+
 export function getCartImg(imgLocalPath: string, maxSize: number = 60): string {
 	return apiClient.makeThumb({
 		imgLocalPath,
