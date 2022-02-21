@@ -35,6 +35,10 @@ export default class HorizontalMenu extends React.Component<HorizontalMenuProps,
 		}, 300);
 	}
 
+	componentWillUnmount() {
+		if (this.hideTimeout) clearTimeout(this.hideTimeout);
+	}
+
 	render(): React.ReactNode {
 		const {menuList} = this.props;
 		const {visiblePopup} = this.state;

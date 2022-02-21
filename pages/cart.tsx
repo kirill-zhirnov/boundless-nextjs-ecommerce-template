@@ -1,5 +1,5 @@
 import {ICartItem} from 'boundless-api-client';
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import CartItems from '../components/cart/CartItems';
 import {useAppDispatch} from '../hooks/redux';
 import MainLayout from '../layouts/Main';
@@ -12,6 +12,7 @@ import {IMenuItem} from '../@types/components';
 import {GetServerSideProps} from 'next';
 import CartLoader from '../components/cart/CartLoader';
 import Link from 'next/link';
+import {calcTotal, calcTotalPrice} from '../lib/calculator';
 
 export default function CartPage({mainMenu, footerMenu}: ICartPageProps) {
 	const dispatch = useAppDispatch();
@@ -33,6 +34,18 @@ export default function CartPage({mainMenu, footerMenu}: ICartPageProps) {
 		dispatch(addPromise(promise));
 	};
 
+	const total = useMemo(() => calcTotal(items.map(el => ({
+		qty: el.qty,
+		price: calcTotalPrice(el.itemPrice.final_price!, el.qty)
+	}))), [items]);
+
+	useEffect(() => {
+		dispatch(setCartTotal({
+			qty: total.qty,
+			total: total.price
+		}));
+	}, [total]); //eslint-disable-line
+
 	useEffect(() => {
 		if (cartId) getCartData(cartId);
 	}, [cartId]); //eslint-disable-line
@@ -47,7 +60,7 @@ export default function CartPage({mainMenu, footerMenu}: ICartPageProps) {
 							{(loading || cartInited === TCartInited.processing)
 								? <CartLoader />
 								: items.length > 0
-									? <CartItems items={items} setItems={setItems} />
+									? <CartItems items={items} setItems={setItems} total={total}/>
 									: <>
 										<p className='cart-page__warning'>
 											Your shopping cart is empty.
