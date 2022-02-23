@@ -8,6 +8,7 @@ import debounce from 'lodash/debounce';
 import CartRow from './CartRow';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faShoppingCart} from '@fortawesome/free-solid-svg-icons/faShoppingCart';
+import {useRouter} from 'next/router';
 
 export default function CartItems({items, setItems, total}: ICartItemsProps) {
 	const dispatch = useAppDispatch();
@@ -15,6 +16,7 @@ export default function CartItems({items, setItems, total}: ICartItemsProps) {
 	const mounted = useRef(false);
 	const cartId = useAppSelector((state: RootState) => state.cart.cartId);
 	const [submitting, setSubmitting] = useState(false);
+	const router = useRouter();
 
 	const checkBgSubmits = () => {
 		const size = submits.current.length;
@@ -113,6 +115,7 @@ export default function CartItems({items, setItems, total}: ICartItemsProps) {
 				<button
 					className='btn btn-action btn-lg btn-anim'
 					disabled={submitting}
+					onClick={() => router.push('/checkout')}
 				>
 					Proceed to checkout <FontAwesomeIcon icon={faShoppingCart} />
 				</button>

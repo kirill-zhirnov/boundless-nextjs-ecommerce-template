@@ -21,27 +21,7 @@ const shopBaseUrl = process.env.BOUNDLESS_BASE_URL || '';
 
 export default function MainLayout({children, title, metaData, mainMenu, footerMenu}: IMainLayoutProps) {
 	const {canonicalUrl, imgUrl, description} = metaData || {};
-	const router = useRouter();
-	const dispatch = useAppDispatch();
 	const asideIsOpened = useAppSelector((state: RootState) => state.asideMenu.isOpened);
-
-	useEffect(() => {
-		const handleStart = () => {
-			dispatch(hideCall2Order());
-			dispatch(startRouting());
-		};
-		const handleComplete = () => dispatch(endRouting());
-
-		router.events.on('routeChangeStart', handleStart);
-		router.events.on('routeChangeComplete', handleComplete);
-		router.events.on('routeChangeError', handleComplete);
-
-		return () => {
-			router.events.off('routeChangeStart', handleStart);
-			router.events.off('routeChangeComplete', handleComplete);
-			router.events.off('routeChangeError', handleComplete);
-		};
-	}, []);//eslint-disable-line
 
 	return (
 		<>
@@ -67,7 +47,6 @@ export default function MainLayout({children, title, metaData, mainMenu, footerM
 
 				<title>{title || 'Boundless-Commerce Shop Example'}</title>
 			</Head>
-			<LoadingLine />
 			<AlertWidget />
 			<div className={clsx('page-layout page-layout_main', {'page-layout_aside-opened': asideIsOpened})}>
 				<CallToOrder />

@@ -11,10 +11,14 @@ import 'animate.css';
 import '@fortawesome/fontawesome-free/css/svg-with-js.css';
 
 import {AppProps} from 'next/app';
+import RouterListener from '../components/RouterListener';
+import LoadingLine from '../components/LoadingLine';
 
 function MyApp({Component, pageProps}: AppProps) {
 	return (
 		<Provider store={store}>
+			<RouterListener />
+			<LoadingLine />
 			<Component {...pageProps} />
 		</Provider>
 	);
