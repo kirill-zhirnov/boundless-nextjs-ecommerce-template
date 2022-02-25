@@ -1,14 +1,10 @@
 import dynamic from 'next/dynamic';
-import {ReactNode, useEffect} from 'react';
+import {ReactNode} from 'react';
 import Head from 'next/head';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import LoadingLine from '../components/LoadingLine';
 import AlertWidget from '../components/Alert';
-import {useRouter} from 'next/router';
-import {useAppDispatch, useAppSelector} from '../hooks/redux';
-import {endRouting, startRouting} from '../redux/reducers/app';
-import {hideCall2Order} from '../redux/reducers/cart';
+import {useAppSelector} from '../hooks/redux';
 import {RootState} from '../redux/store';
 import clsx from 'clsx';
 const AsideMenu = dynamic(() => import('../components/AsideMenu'), {ssr: false});

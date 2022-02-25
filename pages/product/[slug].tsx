@@ -53,8 +53,8 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 		<MainLayout
 			footerMenu={footerMenu}
 			mainMenu={mainMenu}
-			metaData={getProductMetaData(product!)}
-			title={product.text.custom_title || product.text.title}
+			metaData={getProductMetaData(product)}
+			title={product.seo.title}
 		>
 			<div className={'container'}>
 				<BreadCrumbs items={breadcrumbItems} />

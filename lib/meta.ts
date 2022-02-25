@@ -3,12 +3,10 @@ import {getMetaImgUrl} from './imgs';
 import {getCanonicalCategoryUrl, getCanonicalProductUrl} from './urls';
 
 export const getProductMetaData = (product: IProductItem) => {
-	if (!product) return {};
-
 	return {
 		canonicalUrl: getCanonicalProductUrl(product),
 		imgUrl: product.images?.length ? getMetaImgUrl(product.images[0].image) : null,
-		description: product.text?.meta_description || null,
+		description: product.seo.metaDesc
 	};
 };
 
@@ -18,6 +16,6 @@ export const getCategoryMetaData = (category: ICategoryItem) => {
 	return {
 		canonicalUrl: getCanonicalCategoryUrl(category),
 		imgUrl: category.image ? getMetaImgUrl(category.image) : null,
-		description: category.text?.meta_description || null,
+		description: category.seo.metaDesc
 	};
 };
