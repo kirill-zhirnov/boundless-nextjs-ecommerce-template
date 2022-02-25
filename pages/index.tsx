@@ -27,7 +27,7 @@ export default function IndexPage({products, mainMenu, footerMenu}: InferGetServ
 
 export const getServerSideProps: GetServerSideProps<IIndexPageProps> = async () => {
 	const categoryTree = await apiClient.catalog.getCategoryTree({menu: 'category'});
-	const {products} = await apiClient.catalog.getProducts({'per-page': 8});
+	const {products} = await apiClient.catalog.getProducts({collection: ['main-page'], sort: 'in_collection'});
 
 	const menus = makeAllMenus({categoryTree});
 
