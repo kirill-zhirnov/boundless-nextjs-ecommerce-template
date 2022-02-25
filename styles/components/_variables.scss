@@ -1,65 +1,65 @@
-$theme-color: #c490e4;
+$theme-color: #c490e4 !default;
 
-$front-text-color: #000;
-$front-link-color: #0d6efd;
+$front-text-color: #000 !default;
+$front-link-color: #0d6efd !default;
 
-$front-font-weight-bold: 700;
-$front-font-weight-light: 300;
+$front-font-weight-bold: 700 !default;
+$front-font-weight-light: 300 !default;
 
-$btn-action-color: color-contrast($theme-color);
-$btn-action-bg: $theme-color;
-$btn-action-border: darken($theme-color, 10%);
+$btn-action-color: color-contrast($theme-color) !default;
+$btn-action-bg: $theme-color !default;
+$btn-action-border: darken($theme-color, 10%) !default;
 
-$front-highlight-link-color: $theme-color;
-$front-highlighted-price-color: #dc3545;
+$front-highlight-link-color: $theme-color !default;
+$front-highlighted-price-color: #dc3545 !default;
 
-$zindex-page-layout: 1;						//global page stacking context
-$zindex-page-layout-children: 2;	//for all children except call2order wrapper
-$zindex-page-layout-aside-opened: 3;
-$zindex-call-to-order: 1031;
-$zindex-nprogress: 1033;
-$zindex-collapsed-background: 1032;
+$zindex-page-layout: 1 !default;						//global page stacking context
+$zindex-page-layout-children: 2 !default;	//for all children except call2order wrapper
+$zindex-page-layout-aside-opened: 3 !default;
+$zindex-call-to-order: 1031 !default;
+$zindex-nprogress: 1033 !default;
+$zindex-collapsed-background: 1032 !default;
 
-$front-bg-color: #f8f8f8;
+$front-bg-color: #f8f8f8 !default;
 
-$front-category-sidebar-color: $front-text-color;
-$front-category-sidebar-hover-color: $front-highlight-link-color;
+$front-category-sidebar-color: $front-text-color !default;
+$front-category-sidebar-hover-color: $front-highlight-link-color !default;
 
-$front-products-border-color: #cfd3da;
+$front-products-border-color: #cfd3da !default;
 
-$front-error-color: #a94442;
+$front-error-color: #a94442 !default;
 
-$front-hr-color: #eee;
+$front-hr-color: #eee !default;
 
 $aside-width: (
 	'xxs': 290px,
 	'xs': 430px,
-);
+) !default;
 
-$front-aside-header-bg: #eaeaea;
-$front-aside-list-bg: #fafafa;
-$front-aside-border-color: #dfdfdf;
-$front-aside-menu-color: #000;
-$front-aside-menu-active: #c490e4;
-$front-aside-menu-active-weight: 400;
+$front-aside-header-bg: #eaeaea !default;
+$front-aside-list-bg: #fafafa !default;
+$front-aside-border-color: #dfdfdf !default;
+$front-aside-menu-color: #000 !default;
+$front-aside-menu-active: #c490e4 !default;
+$front-aside-menu-active-weight: 400 !default;
 
-$front-cart-header-qty-bg: $theme-color;
-$front-cart-header-qty-color: color-contrast($theme-color);
+$front-cart-header-qty-bg: $theme-color !default;
+$front-cart-header-qty-color: color-contrast($theme-color) !default;
 
-$front-v-menu-bg: #f8f8f8;
-$front-v-menu-color: #000;
-$front-v-menu-active: #ffba00;
+$front-v-menu-bg: #f8f8f8 !default;
+$front-v-menu-color: #000 !default;
+$front-v-menu-active: #ffba00 !default;
 
-$front-h-menu-bg: #fff;
-$front-h-menu-child-bg: #fff;
-$front-h-menu-color: #000;
-$front-h-menu-active: #ffba00;
-$front-h-menu-link-weight: 400;
+$front-h-menu-bg: #fff !default;
+$front-h-menu-child-bg: #fff !default;
+$front-h-menu-color: #000 !default;
+$front-h-menu-active: #ffba00 !default;
+$front-h-menu-link-weight: 400 !default;
 
-$call-to-order-top: 130px;
+$call-to-order-top: 130px !default;
 
-$front-footer-bg: #f5f5f5;
-$front-footer-text-color: #000;
-$front-footer-header-weight: 600;
-$front-footer-link-color: #000;
-$front-footer-link-active: #ffba00;
+$front-footer-bg: #f5f5f5 !default;
+$front-footer-text-color: #000 !default;
+$front-footer-header-weight: 600 !default;
+$front-footer-link-color: #000 !default;
+$front-footer-link-active: #ffba00 !default;
