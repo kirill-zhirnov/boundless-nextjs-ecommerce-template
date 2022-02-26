@@ -57,7 +57,7 @@ function Product2Cart({product}: {product: IProduct}) {
 			{product.in_stock
 				? <button
 					type='button'
-					className='btn btn-action'
+					className='btn btn-action btn-resp-size'
 					onClick={onAddToCart}
 				>
 					<FontAwesomeIcon icon={faCartPlus} /> Add to cart

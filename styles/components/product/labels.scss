@@ -13,8 +13,13 @@
 
 		&_small {
 			.product__label {
-				font-size: 0.75rem;
-				padding: 5px;
+
+				font-size: 0.65rem;
+				padding: 2px;
+				@include media-breakpoint-up(sm) {
+					font-size: 0.75rem;
+					padding: 5px;
+				}
 			}
 		}
 	}
