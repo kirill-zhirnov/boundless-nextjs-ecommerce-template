@@ -4,7 +4,7 @@ $products-gutter: 10px !default;
 	align-items: stretch;
 	display: flex;
 	flex-wrap: wrap;
-	margin: 15px 0;
+	margin: 15px -1 * $products-gutter;
 	padding: 0;
 
 	&__item {
