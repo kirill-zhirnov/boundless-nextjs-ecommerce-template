@@ -6,6 +6,7 @@ import {apiClient} from '../lib/api';
 import {makeAllMenus} from '../lib/menu';
 import VerticalMenu from '../components/VerticalMenu';
 import {IMenuItem} from '../@types/components';
+import ProductsSlider from '../components/ProductsSlider';
 
 export default function IndexPage({products, mainMenu, footerMenu}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	return (
@@ -20,6 +21,7 @@ export default function IndexPage({products, mainMenu, footerMenu}: InferGetServ
 						<ProductsList products={products} query={{}}/>
 					</div>
 				</div>
+				<ProductsSlider products={products.slice(0, 5)} />
 			</div>
 		</MainLayout>
 	);

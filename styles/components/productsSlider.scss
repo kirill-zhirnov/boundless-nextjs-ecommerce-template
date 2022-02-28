@@ -1,0 +1,114 @@
+body .products-slider {
+	.product__labels {
+		left: 10px;
+		position: absolute;
+		top: 10px;
+	}
+
+	.product__label {
+		border-radius: 4px;
+		margin: 0 0 6px;
+
+		&:last-child {
+			margin-bottom: 0;
+		}
+	}
+
+	&__swiper {
+		padding: 10px;
+	}
+
+	&__slide {
+		display: flex;
+		height: unset !important;
+	}
+
+	&__product {
+		background: #fff;
+		border: 1px solid $front-products-border-color;
+		border-radius: 5px;
+		flex-shrink: 0;
+		margin: 0;
+		padding: 10px;
+		position: relative;
+		transition: all ease-in-out 0.35s;
+		width: 100%;
+
+		&:hover {
+			border-color: transparent;
+			box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.15);
+
+			.products__image {
+				.img {
+					img {
+						transform: scale(1.1);
+					}
+				}
+			}
+		}
+	}
+
+	&__product-wrapper {
+		align-items: stretch;
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		justify-content: space-between;
+		text-align: center;
+	}
+
+	&__product-title {
+		flex-grow: 2;
+		font-size: 1.1rem;
+		margin: 30px 0 15px;
+
+		a {
+			color: $front-text-color;
+			text-decoration: none;
+		}
+	}
+
+	&__product-image {
+		.img {
+			line-height: 0;
+
+			> span {
+				//might be it is not a good idea:
+				overflow: visible !important;
+			}
+
+			img {
+				height: auto;
+				transition: all ease-in-out 0.35s;
+				width: 100%;
+			}
+		}
+	}
+
+	&__product-offer {
+		margin: 0 0 15px;
+	}
+
+	&__product-price {
+		.from {
+			color: $text-muted;
+			display: inline-block;
+			font-size: 0.9rem;
+			margin: 0 5px;
+		}
+
+		.old {
+			color: $text-muted;
+			margin: 0 5px;
+		}
+
+		.current {
+			font-weight: $front-font-weight-bold;
+			margin: 0 5px;
+
+			&.has-old {
+				color: $front-highlighted-price-color;
+			}
+		}
+	}
+}

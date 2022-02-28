@@ -3,8 +3,6 @@ import clsx from 'clsx';
 import {useAppDispatch} from '../../hooks/redux';
 import {addItem2Cart} from '../../redux/actions/cart';
 import {getProductUrl} from '../../lib/urls';
-import ProductListImage from './ProductImage';
-import ProductPrice from './ProductPrice';
 import {TQuery} from '../../@types/common';
 import Link from 'next/link';
 import ProductLabels from '../product/Labels';
@@ -13,8 +11,10 @@ import {faCartPlus} from '@fortawesome/free-solid-svg-icons/faCartPlus';
 import NoImage from '../NoImage';
 import {productImgRatio} from '../../lib/imgs';
 import {TThumbRatio} from '../../@types/image';
+import ProductPrice from '../productsList/ProductPrice';
+import ProductListImage from '../productsList/ProductImage';
 
-export default function ProductItem({product, query, categoryId}: IProductItemProps) {
+export default function SliderProductItem({product, query, categoryId}: ISliderProductItemProps) {
 	const params = {...query};
 	if (categoryId && categoryId !== product.default_category?.category_id) {
 		Object.assign(params, {category: categoryId});
@@ -22,29 +22,24 @@ export default function ProductItem({product, query, categoryId}: IProductItemPr
 	const productUrl = getProductUrl(product, params);
 
 	return (
-		<li
-			className={clsx('products__item', {'in-stock': product.in_stock, 'out-of-stock': !product.in_stock})}
+		<div
+			className={clsx('products-slider__product', {'in-stock': product.in_stock, 'out-of-stock': !product.in_stock})}
 			data-id={product.product_id}
-			itemScope
-			itemType='http://schema.org/Product'
 		>
-			<div className='products__item-wrapper'>
+			<div className='products-slider__product-wrapper'>
 				<ProductImage product={product}
-											productUrl={productUrl} />
-				<h4 className='products__title'>
+					productUrl={productUrl} />
+				<h4 className='products-slider__product-title'>
 					<Link href={productUrl}>
-						<a itemProp='url'>
-							<span itemProp='name'>{product.title}</span>
-						</a>
+						<a>{product.title}</a>
 					</Link>
 				</h4>
-				<div className='products__offer'>
+				<div className='products-slider__product-offer'>
 					{product.price && <ProductPrice price={product.price} />}
 				</div>
 				<Product2Cart product={product} />
 			</div>
-			<ProductSchemaOrgMarkup product={product} />
-		</li>
+		</div>
 	);
 }
 
@@ -73,13 +68,13 @@ function ProductImage({product, productUrl}: {product: IProduct, productUrl: str
 
 	return (
 		<Link href={productUrl}>
-			<a className={'products__image'}>
+			<a className={'products-slider__product-image'}>
 				{img
 					? <ProductListImage image={img} alt={img.alt || product.title} />
 					: <NoImage ratio={productImgRatio || TThumbRatio['1-1']} />
 				}
 				<ProductLabels labels={product.labels!}
-											 className={'product__labels_small product__labels_column'}
+					className={'product__labels_small product__labels_column'}
 
 				/>
 			</a>
@@ -87,36 +82,7 @@ function ProductImage({product, productUrl}: {product: IProduct, productUrl: str
 	);
 }
 
-function ProductSchemaOrgMarkup({product}: {product: IProduct}) {
-	const schemaAvailability = product.in_stock ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock';
-
-	return (
-		<>
-			<meta itemProp='productID' content={String(product.product_id)} />
-			<meta itemProp='brand' content={product.manufacturer?.title || ''} />
-			<meta itemProp='sku' content={product.sku || ''} />
-			{product.price &&
-			(product.price?.min
-					?
-					<div itemProp='offers' itemScope itemType='http://schema.org/AggregateOffer'>
-						<meta itemProp='lowPrice' content={String(product.price.min)} />
-						<meta itemProp='highPrice' content={String(product.price.max)} />
-						<meta itemProp='priceCurrency' content={product.price.currency_alias?.toUpperCase()} />
-						<link itemProp='availability' href={schemaAvailability} />
-					</div>
-					:
-					<div itemProp='offers' itemScope itemType='http://schema.org/Offer'>
-						<meta itemProp='price' content={String(product.price.value)} />
-						<meta itemProp='priceCurrency' content={product.price.currency_alias?.toUpperCase()} />
-						<link itemProp='availability' href={schemaAvailability} />
-					</div>
-			)
-			}
-		</>
-	);
-}
-
-interface IProductItemProps {
+interface ISliderProductItemProps {
 	product: IProduct;
 	query: TQuery;
 	categoryId?: number;
