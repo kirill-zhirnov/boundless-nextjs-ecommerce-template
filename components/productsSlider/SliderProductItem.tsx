@@ -1,4 +1,4 @@
-import {IProduct} from 'boundless-api-client/types/catalog/product';
+import {IProduct} from 'boundless-api-client';
 import clsx from 'clsx';
 import {useAppDispatch} from '../../hooks/redux';
 import {addItem2Cart} from '../../redux/actions/cart';
