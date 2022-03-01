@@ -1,0 +1,125 @@
+$text-color: #fff;
+$screen-grow-min: 360px;
+
+.cover-text-center {
+	$root: &;
+	box-sizing: border-box;
+
+	&__wrapper {
+		display: block;
+		position: relative;
+		height: 100vh;
+
+		&_fixed {
+			@include media-breakpoint-up(sm) {
+				#{$root}__bg-img {
+					background-attachment: fixed;
+					background-position: center;
+					background-size: cover;
+				}
+			}
+		}
+	}
+
+	&__shadow {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 3;
+	}
+
+	&__bg-img {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 1;
+
+		background-repeat: no-repeat;
+		background-size: cover;
+		background-position: top;
+
+		&_with-portrait {
+			@media (orientation: portrait) {
+				display: none;
+			}
+		}
+
+		&_portrait {
+			z-index: 2;
+			@media (orientation: landscape) {
+				display: none;
+			}
+		}
+	}
+
+	&__content {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		z-index: 4;
+	}
+
+	&__content-container {
+		height: 100%;
+		overflow: hidden;
+
+		&:before,
+		&:after {
+			content: none;
+		}
+
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		text-decoration: none;
+	}
+
+	&__content-intro {
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		margin-bottom: 10px;
+		line-height: 2;
+		color: $text-color;
+
+		@include fluid-type(font-size, $screen-grow-min, 1200px, 10px, 18px);
+		@include fluid-type(margin-bottom, $screen-grow-min, 922px, 10px, 40px);
+
+		p {
+			margin: 0;
+		}
+	}
+
+	&__content-head {
+		font-weight: normal;
+		line-height: 1.15;
+		margin: 0;
+		color: $text-color;
+
+		@include fluid-type(font-size, $screen-grow-min, 1200px, 16px, 58px);
+		@include fluid-type(margin-bottom, $screen-grow-min, 992px, 10px, 40px);
+
+		p {
+			margin: 0;
+		}
+	}
+
+	&__content-sub-header {
+		line-height: 1.65;
+		font-weight: 300;
+		margin: 0;
+		color: $text-color;
+
+		@include fluid-type(font-size, 390px, 1200px, 11px, 22px);
+
+		p {
+			margin: 0;
+		}
+	}
+}
