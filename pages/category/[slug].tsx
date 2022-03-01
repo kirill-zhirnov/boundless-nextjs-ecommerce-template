@@ -90,7 +90,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 						{category.text?.description_bottom && <div dangerouslySetInnerHTML={{__html: category.text.description_bottom}} />}
 					</div>
 				</div>
-				<ProductsSliderByQuery query={productsQuery} />
+				<ProductsSliderByQuery query={productsQuery} title='Great products'/>
 			</div>
 			<FiltersModal
 				show={showModal}

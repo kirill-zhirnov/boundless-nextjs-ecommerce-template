@@ -1,4 +1,8 @@
-body .products-slider {
+.products-slider {
+	&__by-query-title {
+		text-align: center;
+	}
+
 	.product__labels {
 		left: 10px;
 		position: absolute;
@@ -15,7 +19,7 @@ body .products-slider {
 	}
 
 	&__swiper {
-		padding: 10px;
+		padding: 10px 30px !important;
 	}
 
 	&__slide {
@@ -85,6 +89,13 @@ body .products-slider {
 		}
 	}
 
+	&__to-cart {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+		min-height: 38px;
+	}
+
 	&__product-offer {
 		margin: 0 0 15px;
 	}
@@ -110,5 +121,12 @@ body .products-slider {
 				color: $front-highlighted-price-color;
 			}
 		}
+	}
+
+	.swiper-button-next {
+		right: 0px;
+	}
+	.swiper-button-prev {
+		left: 0px;
 	}
 }
