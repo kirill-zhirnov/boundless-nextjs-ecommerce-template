@@ -61,7 +61,9 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 				<div className='product-page' itemScope itemType='http://schema.org/Product'>
 					<div className='row'>
 						<div className='col-md-7'>
-							<h1 className='mb-4' itemProp='name'>{product.text.title}</h1>
+							<h1 className='product-page__header mb-4' itemProp='name'>
+								{product.text.title}
+							</h1>
 							<ProductLabels labels={product.labels} className={'mb-3'} />
 							<ProductImages product={product} />
 						</div>
