@@ -85,6 +85,13 @@ $products-gutter: 10px !default;
 		margin: 0 0 15px;
 	}
 
+	&__to-cart {
+		align-items: center;
+		display: flex;
+		justify-content: center;
+		min-height: 38px;
+	}
+
 	&__price {
 		.from {
 			color: $text-muted;

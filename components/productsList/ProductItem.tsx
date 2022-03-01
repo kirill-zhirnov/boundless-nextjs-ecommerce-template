@@ -53,7 +53,7 @@ function Product2Cart({product}: {product: IProduct}) {
 	const onAddToCart = () => dispatch(addItem2Cart(product.item_id, 1));
 
 	return (
-		<div>
+		<div className='products__to-cart'>
 			{product.in_stock
 				? <button
 					type='button'
