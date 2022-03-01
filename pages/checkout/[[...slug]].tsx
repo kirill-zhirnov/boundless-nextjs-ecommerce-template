@@ -18,7 +18,7 @@ export default function CheckoutPage() {
 		<BoundlessCheckout cartId={cartId!}
 											 show={true}
 											 onHide={() => router.push('/cart')}
-											 onThankYouPage={(data) => {console.log('need to go to the thank-you-page:', data);}}
+											 onThankYouPage={(data) => router.push(`/thank-you/${data.orderId}`)}
 											 basename={'/checkout'}
 											 api={apiClient}
 											 logo={<img src={logoImg.src} width={logoImg.width} height={logoImg.height} className={'bdl-header__img-logo'} />}
