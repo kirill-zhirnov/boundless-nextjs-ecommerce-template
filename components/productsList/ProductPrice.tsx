@@ -1,4 +1,4 @@
-import {IProductPrice} from 'boundless-api-client/types/catalog/product';
+import {IProductPrice} from 'boundless-api-client';
 import clsx from 'clsx';
 import {formatMoney} from '../../lib/formatter';
 import {getPriceForTpl} from '../../lib/product';

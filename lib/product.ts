@@ -1,4 +1,4 @@
-import {IProductPrice} from 'boundless-api-client/types/catalog/product';
+import {IProductPrice} from 'boundless-api-client';
 
 export interface IPriceForTpl {
 	price: number|null,
