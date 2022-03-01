@@ -12,8 +12,7 @@ import {getCategoryMetaData} from '../../lib/meta';
 import {makeAllMenus} from '../../lib/menu';
 import {IMenuItem} from '../../@types/components';
 import {makeBreadCrumbsFromCats} from '../../lib/breadcrumbs';
-import {IProduct, ICategoryItem} from 'boundless-api-client';
-import {IPagination} from 'boundless-api-client/types/common';
+import {IProduct, ICategoryItem, IPagination} from 'boundless-api-client';
 import {TQuery} from '../../@types/common';
 
 import MainLayout from '../../layouts/Main';

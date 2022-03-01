@@ -1,10 +1,10 @@
-$products-gutter: 10px;
+$products-gutter: 10px !default;
 
 .products {
 	align-items: stretch;
 	display: flex;
 	flex-wrap: wrap;
-	margin: 15px 0;
+	margin: 15px var(--bs-gutter-x, -0.75rem);
 	padding: 0;
 
 	&__item {
@@ -51,9 +51,14 @@ $products-gutter: 10px;
 	}
 
 	&__title {
+
 		flex-grow: 2;
-		font-size: 1.1rem;
+		font-size: 0.9rem;
+
 		margin: 30px 0 15px;
+		@include media-breakpoint-up(sm) {
+			font-size: 1.1rem;
+		}
 
 		a {
 			color: $front-text-color;
@@ -84,18 +89,32 @@ $products-gutter: 10px;
 		.from {
 			color: $text-muted;
 			display: inline-block;
-			font-size: 0.9rem;
+			font-size: 0.8rem;
 			margin: 0 5px;
 		}
 
 		.old {
+
 			color: $text-muted;
+			display: inline-block;
+			font-size: 0.85rem;
 			margin: 0 5px;
+
+			@include media-breakpoint-up(sm) {
+				font-size: 1rem;
+			}
 		}
 
 		.current {
+
+			display: inline-block;
+			font-size: 0.85rem;
 			font-weight: $front-font-weight-bold;
 			margin: 0 5px;
+
+			@include media-breakpoint-up(sm) {
+				font-size: 1rem;
+			}
 
 			&.has-old {
 				color: $front-highlighted-price-color;

@@ -54,9 +54,8 @@
 
 	&__group-header {
 		color: $front-text-color;
-		font-size: 18px;
-		font-weight: 600;
-		line-height: 1.27;
+		font-size: 1.125rem;
+		font-weight: $front-font-weight-bold;
 		margin-bottom: 16px;
 	}
 }

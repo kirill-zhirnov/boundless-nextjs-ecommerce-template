@@ -1,5 +1,5 @@
 import {ICategory, ICategoryItem} from 'boundless-api-client';
-import {IProduct, IProductItem} from 'boundless-api-client/types/catalog/product';
+import {IProduct, IProductItem} from 'boundless-api-client';
 import {createGetStr} from 'boundless-api-client/utils';
 import {TQuery} from '../@types/common';
 

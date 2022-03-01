@@ -43,7 +43,7 @@ export default function MainLayout({children, title, metaData, mainMenu, footerM
 
 				<title>{title || 'Boundless-Commerce Shop Example'}</title>
 
-				<link rel='preconnect' href={process.env.BOUNDLESS_API_BASE_URL || 'https://v1.api.boundless-commerce.com'} />
+				<link rel='preconnect' href={process.env.BOUNDLESS_API_BASE_URL || 'https://v1.api.boundless-commerce.com'} crossOrigin={'crossOrigin'} />
 			</Head>
 			<AlertWidget />
 			<div className={clsx('page-layout page-layout_main', {'page-layout_aside-opened': asideIsOpened})}>

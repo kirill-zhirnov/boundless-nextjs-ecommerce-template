@@ -48,12 +48,12 @@ $front-cart-header-qty-color: color-contrast($theme-color) !default;
 
 $front-v-menu-bg: #f8f8f8 !default;
 $front-v-menu-color: #000 !default;
-$front-v-menu-active: #ffba00 !default;
+$front-v-menu-active: $theme-color !default;
 
 $front-h-menu-bg: #fff !default;
 $front-h-menu-child-bg: #fff !default;
 $front-h-menu-color: #000 !default;
-$front-h-menu-active: #ffba00 !default;
+$front-h-menu-active: $theme-color !default;
 $front-h-menu-link-weight: 400 !default;
 
 $call-to-order-top: 130px !default;
@@ -62,4 +62,4 @@ $front-footer-bg: #f5f5f5 !default;
 $front-footer-text-color: #000 !default;
 $front-footer-header-weight: 600 !default;
 $front-footer-link-color: #000 !default;
-$front-footer-link-active: #ffba00 !default;
+$front-footer-link-active: $theme-color !default;

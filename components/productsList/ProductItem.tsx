@@ -1,4 +1,4 @@
-import {IProduct} from 'boundless-api-client/types/catalog/product';
+import {IProduct} from 'boundless-api-client';
 import clsx from 'clsx';
 import {useAppDispatch} from '../../hooks/redux';
 import {addItem2Cart} from '../../redux/actions/cart';
@@ -57,7 +57,7 @@ function Product2Cart({product}: {product: IProduct}) {
 			{product.in_stock
 				? <button
 					type='button'
-					className='btn btn-action'
+					className='btn btn-action btn-resp-size'
 					onClick={onAddToCart}
 				>
 					<FontAwesomeIcon icon={faCartPlus} /> Add to cart

@@ -1,7 +1,7 @@
 import {IExtendedVariants, IProductVariant} from 'boundless-api-client';
 import {useState} from 'react';
 import VariantPickerCharacteristic from './variantPicker/Characteristic';
-import {IVariantCombination} from 'boundless-api-client/src/types/catalog/variant';
+import {IVariantCombination} from 'boundless-api-client';
 import _isEqual from 'lodash/isEqual';
 import clsx from 'clsx';
 
