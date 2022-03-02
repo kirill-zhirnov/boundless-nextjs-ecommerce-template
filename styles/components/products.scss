@@ -68,6 +68,8 @@ $products-gutter: 10px !default;
 
 	&__image {
 		.img {
+			line-height: 0;
+
 			> span {
 				//might be it is not a good idea:
 				overflow: visible !important;

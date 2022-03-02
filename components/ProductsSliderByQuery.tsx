@@ -28,7 +28,7 @@ export default function ProductsSliderByQuery({query, title, className}: Product
 			className={className}
 			loading={loading}
 			products={products}
-			swiperProps={{loop: true}}
+			// swiperProps={{loop: true}}
 		/>
 	</>;
 }

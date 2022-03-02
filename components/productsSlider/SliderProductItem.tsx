@@ -67,7 +67,7 @@ function ProductImage({product, productUrl}: {product: IProduct, productUrl: str
 		<Link href={productUrl}>
 			<a className={'products-slider__product-image'}>
 				{img
-					? <ProductListImage image={img} alt={img.alt || product.title} />
+					? <ProductListImage image={img} alt={img.alt || product.title} maxSize={500} />
 					: <NoImage ratio={productImgRatio || TThumbRatio['1-1']} />
 				}
 				<ProductLabels labels={product.labels!}

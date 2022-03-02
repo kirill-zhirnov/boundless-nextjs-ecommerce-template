@@ -1,4 +1,7 @@
 .products-slider {
+	padding: 0 45px;
+	position: relative;
+
 	&__by-query-title {
 		text-align: center;
 	}
@@ -19,7 +22,7 @@
 	}
 
 	&__swiper {
-		padding: 10px 30px !important;
+		padding: 10px 10px 15px !important;
 	}
 
 	&__slide {
@@ -123,11 +126,43 @@
 		}
 	}
 
-	.swiper-button-next {
-		right: 0;
+	&__prev,
+	&__next {
+		align-items: center;
+		background-color: $theme-color;
+		border-radius: 50%;
+		color: #fff;
+		display: flex;
+		height: 50px;
+		justify-content: center;
+		opacity: 0.75;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		transition: opacity 0.35s ease-in-out;
+		width: 50px;
+		z-index: 10;
+
+		&:hover,
+		&:active {
+			color: #fff;
+		}
+
+		&:hover:not(.swiper-button-disabled) {
+			opacity: 1;
+		}
+
+		&.swiper-button-disabled {
+			background-color: lighten($theme-color, 15%);
+			cursor: not-allowed;
+		}
 	}
 
-	.swiper-button-prev {
+	&__prev {
 		left: 0;
+	}
+
+	&__next {
+		right: 0;
 	}
 }

@@ -5,6 +5,9 @@ import SwiperCore, {Navigation, Scrollbar} from 'swiper';
 import SliderProductItem from './productsSlider/SliderProductItem';
 import ProductItemLoader from './productsSlider/ProductItemLoader';
 import clsx from 'clsx';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import {faChevronLeft} from '@fortawesome/free-solid-svg-icons/faChevronLeft';
+import {faChevronRight} from '@fortawesome/free-solid-svg-icons/faChevronRight';
 
 export default function ProductsSlider({products, loading, className, swiperProps}: ProductsSliderProps) {
 	const swiper = useRef<SwiperCore | null>(null);
@@ -15,30 +18,37 @@ export default function ProductsSlider({products, loading, className, swiperProp
 				breakpoints={{
 					450: {
 						slidesPerView: 2,
-						spaceBetween: 30,
+						spaceBetween: 20,
 					},
-					750: {
+					576: {
+						slidesPerView: 2,
+						spaceBetween: 20,
+					},
+					768: {
 						slidesPerView: 3,
-						spaceBetween: 38,
+						spaceBetween: 20,
 					},
 					992: {
 						slidesPerView: 4,
-						spaceBetween: 30,
+						spaceBetween: 20,
 					},
 					1200: {
 						slidesPerView: 5,
-						spaceBetween: 30,
+						spaceBetween: 20,
 					},
 				}}
 				centerInsufficientSlides
 				className='products-slider__swiper'
 				grabCursor={true}
 				modules={[Navigation, Scrollbar]}
-				navigation
+				navigation={{
+					prevEl: '.products-slider__prev',
+					nextEl: '.products-slider__next'
+				}}
 				onSwiper={(instance) => swiper.current = instance}
 				scrollbar={{draggable: true}}
 				slidesPerView={1}
-				spaceBetween={30}
+				spaceBetween={20}
 				{...(swiperProps || {})}
 			>
 				{loading
@@ -53,6 +63,8 @@ export default function ProductsSlider({products, loading, className, swiperProp
 						</SwiperSlide>
 					)}
 			</Swiper>
+			<a href='#' className='products-slider__prev'><FontAwesomeIcon icon={faChevronLeft} size={'lg'}/></a>
+			<a href='#' className='products-slider__next'><FontAwesomeIcon icon={faChevronRight} size={'lg'}/></a>
 		</div>
 	);
 }
