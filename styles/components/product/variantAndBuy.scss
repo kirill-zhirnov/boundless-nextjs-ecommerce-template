@@ -2,7 +2,7 @@
 	margin: 0 0 1rem;
 
 	&__characteristic {
-		align-items: center;
+		align-items: flex-start;
 		display: flex;
 		flex-wrap: wrap;
 		margin: 0 0 0.75rem;
@@ -17,7 +17,7 @@
 	}
 
 	&__title {
-		margin: 5px 25px 5px 5px;
+		margin: 11px 25px 5px 5px;
 		white-space: nowrap;
 	}
 
@@ -77,14 +77,14 @@
 	&__old {
 		color: $text-muted;
 		display: inline-block;
-		font-size: 1.5rem;
+		font-size: 1.2rem;
 		margin: 0 5px;
 		text-decoration: line-through;
 	}
 
 	&__current {
 		display: inline-block;
-		font-size: 1.8rem;
+		font-size: 1.5rem;
 		margin: 0 5px;
 
 		&.has-old {
@@ -117,7 +117,7 @@
 	&__qty {
 		flex-shrink: 0;
 		margin: 5px 10px;
-		width: 130px;
+		width: 145px;
 
 		.form-control {
 			text-align: center;

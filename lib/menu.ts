@@ -1,4 +1,4 @@
-import {ICategory} from 'boundless-api-client/types/catalog/category';
+import {ICategory} from 'boundless-api-client';
 import {getCategoryUrl} from './urls';
 import {getCategoryImg} from './imgs';
 import {IMenuItem} from '../@types/components';

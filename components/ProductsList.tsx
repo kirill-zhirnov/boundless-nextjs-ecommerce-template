@@ -1,4 +1,4 @@
-import {IProduct} from 'boundless-api-client/types/catalog/product';
+import {IProduct} from 'boundless-api-client';
 import {TQuery} from '../@types/common';
 import ProductItem from './productsList/ProductItem';
 
