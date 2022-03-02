@@ -75,16 +75,6 @@ export function getMetaImgUrl(image: IImagePartial): string {
 	return thumb.getSrc();
 }
 
-export function getBgImg(imgLocalPath: string): string {
-	const thumb = apiClient.makeThumb({
-		imgLocalPath,
-		maxSize: 1920
-	});
-
-	return thumb.getSrc();
-}
-
-
 export function getCategoryImg(image: IImagePartial, maxSize: number = 21): IImageData {
 	const {width, height, path: imgLocalPath} = image;
 

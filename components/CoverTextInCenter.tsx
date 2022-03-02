@@ -1,28 +1,40 @@
+import {faChevronDown} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
 import Link from 'next/link';
-import {getBgImg} from '../lib/imgs';
+import React from 'react';
 
-export default function CoverTextInCenter({img, imgPortrait, shadow, content, link, fixed = true}: CoverTextInCenterProps) {
-	const imageUrl = `url(${getBgImg(img)})`;
-	const portraitUrl = imgPortrait ? `url(${getBgImg(imgPortrait)})` : '';
+export default function CoverTextInCenter({img, imgPortrait, shadow, content, link, showChevronDown, fixed = true}: CoverTextInCenterProps) {
+	const imageUrl = `url(${img})`;
+	const portraitUrl = `url(${imgPortrait})`;
+	const isGlobalLink = Boolean(link && /^http/.test(link));
+	const linkProps = isGlobalLink ? {target: '_blank'} : {};
+
+	const scrollDown = (e: React.MouseEvent) => {
+		e.preventDefault();
+		window.scrollBy({
+			top: window.innerHeight,
+			left: 0,
+			behavior: 'smooth'
+		});
+	};
 
 	return (
 		<div className='cover-text-center'>
 			<div className={clsx('cover-text-center__wrapper', fixed && 'cover-text-center__wrapper_fixed')}>
 				<div
-					className={clsx('cover-text-center__bg-img', portraitUrl && 'cover-text-center__bg-img_with-portrait')}
+					className='cover-text-center__bg-img'
 					style={{backgroundImage: imageUrl}}
 				/>
-				{portraitUrl &&
-					<div
-						className='cover-text-center__bg-img cover-text-center__bg-img_portrait'
-						style={{backgroundImage: portraitUrl}}
-					/>}
+				<div
+					className='cover-text-center__bg-img cover-text-center__bg-img_portrait'
+					style={{backgroundImage: portraitUrl}}
+				/>
 				{shadow && <div className='cover-text-center__shadow' style={shadow} />}
 				<div className='cover-text-center__content'>
 					{link
 						? <Link href={link}>
-							<a className='cover-text-center__content-container container'>
+							<a className='cover-text-center__content-container container' {...linkProps}>
 								<CoverContent {...content} />
 							</a>
 						</Link>
@@ -30,6 +42,13 @@ export default function CoverTextInCenter({img, imgPortrait, shadow, content, li
 							<CoverContent {...content} />
 						</div>}
 				</div>
+				{showChevronDown && <a
+					href='#'
+					className='cover-text-center__down'
+					onClick={scrollDown}
+				>
+					<FontAwesomeIcon icon={faChevronDown} />
+				</a>}
 			</div>
 		</div>
 	);
@@ -47,8 +66,9 @@ function CoverContent({intro, head, subHead}: ICoverTextContent) {
 
 interface CoverTextInCenterProps {
 	img: string;
-	imgPortrait?: string;
+	imgPortrait: string;
 	content: ICoverTextContent;
+	showChevronDown: boolean;
 	link?: string;
 	fixed?: boolean;
 	shadow?: ICoverShadow

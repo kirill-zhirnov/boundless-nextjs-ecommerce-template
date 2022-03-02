@@ -1,15 +1,18 @@
 import CoverTextInCenter from '../../components/CoverTextInCenter';
+import bgImg from '../../assets/cover-bg.jpeg';
+import bgPortraitImg from '../../assets/cover-bg-portrait.jpg';
 
 export default function CoverPage() {
 	return (
 		<>
 			<CoverTextInCenter
-				img='images/b4d299e7646154e5eb5e60e3e6f7bcc7.jpeg'
-				imgPortrait='images/902eda461019f0621cc5bca0ba01d388.jpg'
+				showChevronDown
+				img={bgImg.src}
+				imgPortrait={bgPortraitImg.src}
 				content={{
-					intro: 'Ну интро',
-					head: 'Типа хед',
-					subHead: 'типа под'
+					intro: 'Intro',
+					head: 'Main header',
+					subHead: 'subheader'
 				}}
 				shadow={{
 					opacity: 0.5,
