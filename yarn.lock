@@ -955,6 +955,15 @@ boundless-api-client@^0.0.4:
     currency.js "^2.0.4"
     jsonwebtoken "^8.5.1"
 
+boundless-api-client@^0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/boundless-api-client/-/boundless-api-client-0.0.5.tgz#8a7478d3b846ac3b2512e8f357dfb504dafbd9b4"
+  integrity sha512-Ps3hxJWQ8bIIG5tJHXHsy7BKukxmXv8yndZsPGZb2F8yahVxnqfSGvYuN5jyvvaUwqWXMFHZWfOwPJMkKAnKmQ==
+  dependencies:
+    axios "^0.26.0"
+    currency.js "^2.0.4"
+    jsonwebtoken "^8.5.1"
+
 boundless-checkout-react@^0.0.11:
   version "0.0.11"
   resolved "https://registry.yarnpkg.com/boundless-checkout-react/-/boundless-checkout-react-0.0.11.tgz#9c840b6c48cf2058faa9385a5fa8592f159b075d"

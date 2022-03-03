@@ -20,10 +20,6 @@ export default function ProductsSlider({products, loading, className, swiperProp
 						slidesPerView: 2,
 						spaceBetween: 20,
 					},
-					576: {
-						slidesPerView: 2,
-						spaceBetween: 20,
-					},
 					768: {
 						slidesPerView: 3,
 						spaceBetween: 20,

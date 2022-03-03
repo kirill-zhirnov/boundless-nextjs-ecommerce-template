@@ -5,7 +5,7 @@ import {apiClient} from '../lib/api';
 import {addPromise} from '../redux/reducers/xhr';
 import ProductsSlider from './ProductsSlider';
 
-export default function ProductsSliderByQuery({query, title, className}: ProductsSliderByQueryProps) {
+export default function ProductsSliderByQuery({query, title, className, wrapperClassName}: ProductsSliderByQueryProps) {
 	const dispatch = useAppDispatch();
 	const [products, setProducts] = useState<IProduct[] | null>(null);
 	const [loading, setLoading] = useState(false);
@@ -22,7 +22,9 @@ export default function ProductsSliderByQuery({query, title, className}: Product
 
 	}, [query]); //eslint-disable-line
 
-	return <>
+	if (products && !loading && !products.length) return null;
+
+	return <div className={wrapperClassName || ''}>
 		{title && <h2 className='products-slider__by-query-title'>{title}</h2>}
 		<ProductsSlider
 			className={className}
@@ -30,11 +32,12 @@ export default function ProductsSliderByQuery({query, title, className}: Product
 			products={products}
 			// swiperProps={{loop: true}}
 		/>
-	</>;
+	</div>;
 }
 
 interface ProductsSliderByQueryProps {
 	title?: string;
 	className?: string;
+	wrapperClassName?: string;
 	query: IGetProductsParams;
 }
