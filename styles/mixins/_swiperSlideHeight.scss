@@ -1,0 +1,18 @@
+@use 'sass:map';
+
+@mixin make-slide-height($height-lg) {
+	padding-top: calc($height-lg / (map.get($container-max-widths, 'xl') - 24px) * 100%);
+
+	@include media-breakpoint-up(md) {
+		height: calc($height-lg * (map.get($container-max-widths, 'md')) / (map.get($container-max-widths, 'xl')));
+		padding-top: 0;
+	}
+
+	@include media-breakpoint-up(lg) {
+		height: calc($height-lg * (map.get($container-max-widths, 'lg')) / (map.get($container-max-widths, 'xl')));
+	}
+
+	@include media-breakpoint-up(xl) {
+		height: $height-lg;
+	}
+}
