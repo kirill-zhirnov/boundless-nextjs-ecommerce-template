@@ -23,6 +23,7 @@ import CategorySidebar from '../../components/category/Sidebar';
 import FiltersModal from '../../components/category/FiltersModal';
 import CategoryControls from '../../components/category/Controls';
 import {RootState} from '../../redux/store';
+import ProductsSliderByQuery from '../../components/ProductsSliderByQuery';
 const FilterForm = dynamic(() => import('../../components/FilterForm'), {ssr: false});
 
 export default function CategoryPage({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
@@ -88,6 +89,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 						{category.text?.description_bottom && <div dangerouslySetInnerHTML={{__html: category.text.description_bottom}} />}
 					</div>
 				</div>
+				<ProductsSliderByQuery query={productsQuery} title='Great products'/>
 			</div>
 			<FiltersModal
 				show={showModal}
