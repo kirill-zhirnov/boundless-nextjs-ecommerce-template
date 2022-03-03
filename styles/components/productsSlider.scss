@@ -156,6 +156,10 @@
 			background-color: lighten($theme-color, 15%);
 			cursor: not-allowed;
 		}
+
+		&.swiper-button-lock {
+			display: flex;
+		}
 	}
 
 	&__prev {

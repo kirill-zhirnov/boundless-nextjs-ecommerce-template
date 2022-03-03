@@ -22,7 +22,6 @@ export default function IndexPage({products, mainMenu, footerMenu}: InferGetServ
 						<ProductsList products={products} query={{}}/>
 					</div>
 				</div>
-				<ProductsSlider products={products.slice(0, 5)} />
 				<MainPageSlider />
 			</div>
 		</MainLayout>

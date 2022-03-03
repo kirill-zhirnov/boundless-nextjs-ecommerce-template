@@ -1,5 +1,5 @@
 import {useEffect, useMemo, useState} from 'react';
-import {ICategoryFlatItem, IProductItem} from 'boundless-api-client';
+import {ICategoryFlatItem, IGetProductsParams, IProductItem} from 'boundless-api-client';
 import {GetStaticPaths, GetStaticProps, InferGetStaticPropsType} from 'next';
 import MainLayout from '../../layouts/Main';
 import {apiClient} from '../../lib/api';
@@ -16,12 +16,15 @@ import {makeAllMenus} from '../../lib/menu';
 import {makeBreadCrumbsFromCats} from '../../lib/breadcrumbs';
 import ProductShipping from '../../components/product/Shipping';
 import {IMenuItem} from '../../@types/components';
+import ProductsSliderByQuery from '../../components/ProductsSliderByQuery';
 
 export default function ProductPage({data: {product, categoryParents, mainMenu, footerMenu}}: InferGetStaticPropsType<typeof getStaticProps>) {
 	const [resolvedParents, setResolvedParents] = useState(categoryParents);
 	const router = useRouter();
 	const query = useMemo<ParsedQs>(() => qs.parse(router.asPath.split('?')[1] || ''), [router.asPath]);
 	const {category, ...restQuery} = query;
+	const similarQuery = useMemo(() => ({cross_sell_category: 'similar', cross_sell_product: product.product_id}), [product]);
+	const relatedQuery = useMemo(() => ({cross_sell_category: 'related', cross_sell_product: product.product_id}), [product]);
 
 	const fetchParents = async (categoryId: number) =>
 		setResolvedParents(await apiClient.catalog.getCategoryParents(categoryId));
@@ -84,6 +87,16 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 						dangerouslySetInnerHTML={{__html: product?.text.description}} />}
 					<MetaSchemaOrg product={product} parents={resolvedParents} />
 				</div>
+				<ProductsSliderByQuery
+					query={similarQuery as IGetProductsParams}
+					title='Similar products'
+					wrapperClassName='page-block'
+				/>
+				<ProductsSliderByQuery
+					query={relatedQuery as IGetProductsParams}
+					title='Frequently Bought Together'
+					wrapperClassName='page-block'
+				/>
 			</div>
 		</MainLayout>
 	);
