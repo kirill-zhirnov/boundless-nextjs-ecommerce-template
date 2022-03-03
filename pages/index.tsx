@@ -7,6 +7,7 @@ import {makeAllMenus} from '../lib/menu';
 import VerticalMenu from '../components/VerticalMenu';
 import {IMenuItem} from '../@types/components';
 import ProductsSlider from '../components/ProductsSlider';
+import SliderWrapper from '../components/SliderWrapper';
 
 export default function IndexPage({products, mainMenu, footerMenu}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	return (
@@ -22,6 +23,7 @@ export default function IndexPage({products, mainMenu, footerMenu}: InferGetServ
 					</div>
 				</div>
 				<ProductsSlider products={products.slice(0, 5)} />
+				<SliderWrapper />
 			</div>
 		</MainLayout>
 	);
