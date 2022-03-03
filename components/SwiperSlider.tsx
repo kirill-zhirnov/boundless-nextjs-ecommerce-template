@@ -50,7 +50,7 @@ interface ProductsSliderProps {
 	className?: string;
 	slideClassName?: string;
 	showPrevNext?: boolean;
-	pagination?: string;
+	pagination?: PaginationOptions['type'];
 	roundCorners?: boolean;
 	size?: 'small' | 'medium' | 'large';
 	swiperProps?: SwiperProps;
