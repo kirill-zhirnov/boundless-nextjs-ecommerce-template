@@ -15,7 +15,7 @@ import {IMenuItem} from '../@types/components';
 
 const shopBaseUrl = process.env.BOUNDLESS_BASE_URL || '';
 
-export default function MainLayout({children, title, metaData, mainMenu, footerMenu}: IMainLayoutProps) {
+export default function MainLayout({children, title, metaData, mainMenu, footerMenu, noIndex}: IMainLayoutProps) {
 	const {canonicalUrl, imgUrl, description} = metaData || {};
 	const asideIsOpened = useAppSelector((state: RootState) => state.asideMenu.isOpened);
 
@@ -44,6 +44,7 @@ export default function MainLayout({children, title, metaData, mainMenu, footerM
 				<title>{title || 'Boundless-Commerce Shop Example'}</title>
 
 				<link rel='preconnect' href={process.env.BOUNDLESS_API_BASE_URL || 'https://v1.api.boundless-commerce.com'} crossOrigin={'crossOrigin'} />
+				{noIndex && <meta name='robots' content='noindex' />}
 			</Head>
 			<AlertWidget />
 			<div className={clsx('page-layout page-layout_main', {'page-layout_aside-opened': asideIsOpened})}>
@@ -67,6 +68,7 @@ interface IMainLayoutProps {
 	metaData?: IMetaData;
 	mainMenu: IMenuItem [];
 	footerMenu: IMenuItem [];
+	noIndex?: boolean;
 }
 
 interface IMetaData {

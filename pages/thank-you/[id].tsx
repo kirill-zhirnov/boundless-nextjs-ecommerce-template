@@ -16,6 +16,7 @@ export default function ThankYouPage({mainMenu, footerMenu}: IProps) {
 		<MainLayout title={'Thank you for your order!'}
 								mainMenu={mainMenu}
 								footerMenu={footerMenu}
+								noIndex
 		>
 			<div className={'container'}>
 				<h1 className='page-heading page-heading_h1  page-heading_m-h1'>Thank you for your order!</h1>
