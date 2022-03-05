@@ -51,7 +51,7 @@ export default function CartPage({mainMenu, footerMenu}: ICartPageProps) {
 	}, [cartId]); //eslint-disable-line
 
 	return (
-		<MainLayout mainMenu={mainMenu} footerMenu={footerMenu}>
+		<MainLayout mainMenu={mainMenu} footerMenu={footerMenu} noIndex>
 			<div className='container'>
 				<div className='cart-page row'>
 					<div className='col-lg-8 offset-lg-2'>
