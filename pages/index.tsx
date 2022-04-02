@@ -6,13 +6,15 @@ import {apiClient} from '../lib/api';
 import {makeAllMenus} from '../lib/menu';
 import VerticalMenu from '../components/VerticalMenu';
 import {IMenuItem} from '../@types/components';
-import ProductsSlider from '../components/ProductsSlider';
 import SwiperSlider from '../components/SwiperSlider';
+import cliffImg from '../assets/cliff_1.jpg';
+import cliff2Img from '../assets/cliff_2.jpg';
 
 export default function IndexPage({products, mainMenu, footerMenu}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	return (
 		<MainLayout mainMenu={mainMenu} footerMenu={footerMenu}>
 			<div className='container'>
+				<MainPageSlider />
 				<div className='row'>
 					<nav className='col-md-3 col-sm-4'>
 						{mainMenu && <VerticalMenu menuList={mainMenu} />}
@@ -22,7 +24,6 @@ export default function IndexPage({products, mainMenu, footerMenu}: InferGetServ
 						<ProductsList products={products} query={{}}/>
 					</div>
 				</div>
-				<MainPageSlider />
 			</div>
 		</MainLayout>
 	);
@@ -51,29 +52,20 @@ interface IIndexPageProps {
 function MainPageSlider() {
 	const slides = [
 		{
-			'img': 'https://i4431-static.my-sellios.ru/media/tpl-images/24/df/6703cb392146512eeb43899ff8cf.jpeg',
+			'img': cliffImg.src,
 			'link': '',
-			'caption': 'Три вещи нельзя скрыть: солнце, луну и истину.',
+			'caption': 'Three things cannot be long hidden: The Sun, The Moon, and The Truth.',
 			'captionPosition': 'center',
 			'useFilling': true,
 			'fillingColor': '#000000',
 			'fillingOpacity': 0.40
 		},
 		{
-			'img': 'https://i4431-static.my-sellios.ru/media/tpl-images/a0/af/669bf3da0205acffd5f31d093e38.jpeg',
+			'img': cliff2Img.src,
 			'link': '',
-			'caption': null,
+			'caption': 'Pray not for easy lives, pray to be stronger men.',
 			'captionPosition': null,
-			'useFilling': false,
-			'fillingColor': '#000000',
-			'fillingOpacity': 0.4
-		},
-		{
-			'img': 'https://i4431-static.my-sellios.ru/media/tpl-images/26/f0/7e3a35271c7bc381dfac2814cbe7.jpg',
-			'link': '',
-			'caption': 'Some text',
-			'captionPosition': 'top',
-			'useFilling': false,
+			'useFilling': true,
 			'fillingColor': '#000000',
 			'fillingOpacity': 0.4
 		}
@@ -84,8 +76,9 @@ function MainPageSlider() {
 			showPrevNext
 			roundCorners
 			pagination='progressbar'
-			size={'medium'}
+			size={'large'}
 			slides={slides}
+			className={'mb-4'}
 		/>
 	);
 }
