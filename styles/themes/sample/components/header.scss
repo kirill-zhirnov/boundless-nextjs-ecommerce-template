@@ -1,0 +1,45 @@
+.sample-theme {
+	.horizontal-menu {
+		@include media-breakpoint-down(md) {
+			display: none;
+		}
+	}
+
+	.page-header {
+		position: relative;
+
+		@include media-breakpoint-down(md) {
+			&::after {
+				border-bottom: $horizontal-menu-border;
+				bottom: 0;
+				content: '';
+				display: block;
+				left: 0.75rem;
+				position: absolute;
+				right: 0.75rem;
+			}
+		}
+
+		&__content {
+			align-items: center;
+			display: flex;
+			justify-content: space-between;
+			padding: 0.5rem 0;
+		}
+
+		&__right-blocks {
+			align-items: center;
+			display: flex;
+
+		}
+
+		&__hamburger {
+			display: none;
+
+			@include media-breakpoint-down(md) {
+				display: inline-block;
+			}
+		}
+	}
+}
+

@@ -29,13 +29,15 @@ export default function Header({companyTitle}: {companyTitle?: string}) {
 							</a>
 						</Link>
 					</div>
-					<HeaderCart />
-					<button type={'button'}
-						className={'btn btn-outline-secondary'}
-						onClick={onHamburgerBtnClicked}
-					>
-						<FontAwesomeIcon icon={faBars} />
-					</button>
+					<div className={'page-header__right-blocks'}>
+						<HeaderCart />
+						<button type={'button'}
+										className={'btn btn-outline-secondary page-header__hamburger'}
+										onClick={onHamburgerBtnClicked}
+						>
+							<FontAwesomeIcon icon={faBars} />
+						</button>
+					</div>
 				</div>
 			</div>
 			<ChooseVariantModal />

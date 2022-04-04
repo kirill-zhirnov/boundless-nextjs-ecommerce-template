@@ -16,10 +16,10 @@ export default function IndexPage({products, mainMenu, footerMenu}: InferGetServ
 			<div className='container'>
 				<MainPageSlider />
 				<div className='row'>
-					<nav className='col-md-3 col-sm-4'>
+					<nav className='col-lg-3 d-none d-lg-block'>
 						{mainMenu && <VerticalMenu menuList={mainMenu} />}
 					</nav>
-					<div className='col-md-9 col-sm-8'>
+					<div className='col-lg-9 col-md-12'>
 						<h1 className='page-heading page-heading_h1  page-heading_m-h1'>Boundless store</h1>
 						<ProductsList products={products} query={{}}/>
 					</div>
