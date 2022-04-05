@@ -1,6 +1,21 @@
 {
   "name": "boundless-nextjs-sample",
-  "version": "0.0.1",
+  "version": "1.0.0",
+	"description": "Next.js starter kit for high-performance e-commerce websites.",
+	"keywords": [
+		"boundless",
+		"boundless-commerce",
+		"cms",
+		"headless",
+		"ecommerce",
+		"api",
+		"checkout",
+		"typescript",
+		"cms",
+		"cart",
+		"nextjs",
+		"theme"
+	],
   "main": "index.js",
   "license": "MIT",
   "scripts": {
