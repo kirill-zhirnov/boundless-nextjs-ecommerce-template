@@ -5,7 +5,7 @@ import {IMenuItem} from '../@types/components';
 export default function VerticalMenu({menuList}: {menuList: IMenuItem[]}) {
 	return (
 		<nav className='vertical-menu'>
-			<ul className='vertical-menu__list list-unstyled mb-0' itemScope itemType='http://schema.org/ItemList'>
+			<ul className='vertical-menu__list list-unstyled mb-0' itemScope itemType='//schema.org/ItemList'>
 				{menuList.map((item, i) => {
 					const hasChildren = item.children && item.children.length > 0;
 					return (
@@ -17,7 +17,7 @@ export default function VerticalMenu({menuList}: {menuList: IMenuItem[]}) {
 							})}
 							key={item.title + i}
 						>
-							<div itemProp='itemListElement' itemScope itemType='http://schema.org/ListItem'>
+							<div itemProp='itemListElement' itemScope itemType='//schema.org/ListItem'>
 								<ListElement item={item} position={i} />
 							</div>
 							{item.children && item.children.length > 0 &&

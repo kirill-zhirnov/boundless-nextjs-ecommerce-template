@@ -16,7 +16,7 @@ export default function CharacteristicItem({characteristic}: {characteristic: IN
 					))}
 				</dd>
 			</dl>
-			<div itemProp='additionalProperty' itemScope itemType='http://schema.org/PropertyValue'>
+			<div itemProp='additionalProperty' itemScope itemType='//schema.org/PropertyValue'>
 				<meta itemProp='name' content={characteristic.title} />
 				<meta itemProp='value' content={characteristic.value || characteristic.cases?.map(el => el.title).join(', ')} />
 			</div>

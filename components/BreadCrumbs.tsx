@@ -8,12 +8,12 @@ export default function BreadCrumbs({items}: {items: IBreadCrumbItem[]}) {
 	const richItemAttrs = {
 		itemProp: 'itemListElement',
 		itemScope: true,
-		itemType: 'http://schema.org/ListItem'
+		itemType: '//schema.org/ListItem'
 	};
 
 	return (
 		<nav className={clsx('breadcrumb-wrapper', isEmpty && 'd-none')}>
-			{!isEmpty && <ol className='breadcrumb' itemProp='breadcrumb' itemScope itemType='http://schema.org/BreadcrumbList'>
+			{!isEmpty && <ol className='breadcrumb' itemProp='breadcrumb' itemScope itemType='//schema.org/BreadcrumbList'>
 				<li className='breadcrumb-item' {...richItemAttrs}>
 					<Link href='/'>
 						<a itemProp='item'><span itemProp='name'>Home</span></a>
@@ -35,7 +35,14 @@ export default function BreadCrumbs({items}: {items: IBreadCrumbItem[]}) {
 								</Link>
 								<meta itemProp='position' content={String(i + 2)} />
 							</>
-							: item.title}
+							:
+							<>
+								<span itemProp='item'>
+									<span itemProp='name'>{item.title}</span>
+								</span>
+								<meta itemProp='position' content={String(i + 2)} />
+							</>
+						}
 					</li>))}
 			</ol>}
 		</nav>

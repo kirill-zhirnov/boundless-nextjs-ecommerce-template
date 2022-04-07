@@ -46,7 +46,7 @@ export default class HorizontalMenu extends React.Component<HorizontalMenuProps,
 		return (
 			<nav className='horizontal-menu'>
 				<div className='container'>
-					<ul className='horizontal-menu__list list-unstyled' itemScope itemType='http://schema.org/ItemList'>
+					<ul className='horizontal-menu__list list-unstyled' itemScope itemType='//schema.org/ItemList'>
 						{menuList.map((item, i) => {
 							const hasChildren = item.children && item.children.length > 0;
 							return (
@@ -60,7 +60,7 @@ export default class HorizontalMenu extends React.Component<HorizontalMenuProps,
 									onMouseOver={this.handleShow.bind(this, i)}
 									onMouseOut={this.handleHide.bind(this, i)}
 								>
-									<div itemProp='itemListElement' itemScope itemType='http://schema.org/ListItem'>
+									<div itemProp='itemListElement' itemScope itemType='//schema.org/ListItem'>
 										<ListElement item={item} position={i} hasChildren={hasChildren} />
 									</div>
 									{item.children && item.children.length > 0 &&

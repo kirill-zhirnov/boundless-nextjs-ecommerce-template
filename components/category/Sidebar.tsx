@@ -51,7 +51,7 @@ export default function CategorySidebar({category}: {category: ICategoryItem}) {
 			</ul>
 			}
 
-			<ul className='category-sidebar__list list-unstyled' itemScope itemType='http://schema.org/ItemList'>
+			<ul className='category-sidebar__list list-unstyled' itemScope itemType='//schema.org/ItemList'>
 				{categoryMenu.map((item, i) => {
 					const categoryUrl = getCategoryUrl(item);
 					const image = item.image ? getCategoryImg(item.image) : null;
@@ -61,7 +61,7 @@ export default function CategorySidebar({category}: {category: ICategoryItem}) {
 							className={clsx({active: category.category_id === item.category_id})}
 							key={item.category_id}
 						>
-							<div itemProp='itemListElement' itemScope itemType='http://schema.org/ListItem'>
+							<div itemProp='itemListElement' itemScope itemType='//schema.org/ListItem'>
 								{image &&
 								<Link href={categoryUrl}>
 									<a className={'img-link'}>

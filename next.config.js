@@ -1,8 +1,15 @@
 const webpack = require('webpack');
+const {URL} = require('url');
+
+const imgDomains = ['media.boundless-commerce.com'];
+if (process.env.BOUNDLESS_MEDIA_SERVER) {
+	const imgUrl = new URL(process.env.BOUNDLESS_MEDIA_SERVER);
+	imgDomains.push(imgUrl.host);
+}
 
 module.exports = {
 	images: {
-		domains: ['dev-img.boundless-commerce.com']
+		domains: imgDomains
 	},
 	webpack: (config) => {
 		const defineMap = {};
@@ -13,7 +20,8 @@ module.exports = {
 			'BOUNDLESS_API_PERMANENT_TOKEN',
 			'BOUNDLESS_S3_PREFIX',
 			'BOUNDLESS_INSTANCE_ID',
-			'BOUNDLESS_PRODUCTS_IMAGE_PROPORTION'
+			'BOUNDLESS_PRODUCTS_IMAGE_PROPORTION',
+			'BOUNDLESS_MEDIA_SERVER'
 		].forEach((key) => defineMap[`process.env.${key}`] = JSON.stringify(process.env[key]));
 
 		config.plugins.push(

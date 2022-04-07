@@ -17,15 +17,15 @@ export default function SizeAndWeight({size}: {size: IItemSize}) {
 					{`${length || ''} x ${width || ''} x ${height || ''} ${LENGTH_MEASURE_UNIT}`}
 				</dd>
 			</dl>}
-			{width && <div itemProp='width' itemScope itemType='http://schema.org/QuantitativeValue'>
+			{width && <div itemProp='width' itemScope itemType='//schema.org/QuantitativeValue'>
 				<meta itemProp='value' content={String(width)} />
 				<meta itemProp='unitText' content={LENGTH_MEASURE_UNIT} />
 			</div>}
-			{height && <div itemProp='height' itemScope itemType='http://schema.org/QuantitativeValue'>
+			{height && <div itemProp='height' itemScope itemType='//schema.org/QuantitativeValue'>
 				<meta itemProp='value' content={String(height)} />
 				<meta itemProp='unitText' content={LENGTH_MEASURE_UNIT} />
 			</div>}
-			{length && <div itemProp='length' itemScope itemType='http://schema.org/QuantitativeValue'>
+			{length && <div itemProp='length' itemScope itemType='//schema.org/QuantitativeValue'>
 				<meta itemProp='value' content={String(length)} />
 				<meta itemProp='unitText' content={LENGTH_MEASURE_UNIT} />
 			</div>}
@@ -39,7 +39,7 @@ export default function SizeAndWeight({size}: {size: IItemSize}) {
 						{`${weight} ${WEIGHT_MEASURE_UNIT}`}
 					</dd>
 				</dl>
-				<div itemProp='weight' itemScope itemType='http://schema.org/QuantitativeValue'>
+				<div itemProp='weight' itemScope itemType='//schema.org/QuantitativeValue'>
 					<meta itemProp='value' content={String(weight)} />
 					<meta itemProp='unitText' content={WEIGHT_MEASURE_UNIT} />
 				</div>

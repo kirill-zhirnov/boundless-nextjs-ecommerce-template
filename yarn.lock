@@ -946,19 +946,19 @@ bootstrap@^5.1.3:
   resolved "https://registry.yarnpkg.com/bootstrap/-/bootstrap-5.1.3.tgz#ba081b0c130f810fa70900acbc1c6d3c28fa8f34"
   integrity sha512-fcQztozJ8jToQWXxVuEyXWW+dSo8AiXWKwiSSrKWsRB/Qt+Ewwza+JWoLKiTuQLaEPhdNAJ7+Dosc9DOIqNy7Q==
 
-boundless-api-client@^0.0.7:
-  version "0.0.7"
-  resolved "https://registry.yarnpkg.com/boundless-api-client/-/boundless-api-client-0.0.7.tgz#2045640e31748563faab79d2bea3c7064ce43c7a"
-  integrity sha512-elIeuiVsVdVaVne/iJfo1z2e3M8WHbgPq9JzIXJMQdML1XbUqf3aSVKPJ5F3w2+cSBi1dHePaZ8csRJ/OM6Uzg==
+boundless-api-client@^0.0.9:
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/boundless-api-client/-/boundless-api-client-0.0.9.tgz#c2caa2be21e72a3e35ac6b741271275ddb16a674"
+  integrity sha512-IoEOKR6MIEkXUHOPsZJfqbIAqSqcTFn9OSDkBNKmFOdxVmniHonvju0AxI9Z5lSDncFlZhRBFmUneQSmnDsmUg==
   dependencies:
     axios "^0.26.0"
     currency.js "^2.0.4"
     jsonwebtoken "^8.5.1"
 
-boundless-checkout-react@^0.0.13:
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/boundless-checkout-react/-/boundless-checkout-react-0.0.13.tgz#7b502ab4a02d76e2b31e20ac511a1211efd63148"
-  integrity sha512-jHwUbY6Nts15RlhFpOObIL38xoc9wJOEU31sOZ+uEO8INvtZdiBc9l4nkXYQO7liKRHsFr4/pJOyrtkkZ1dXWg==
+boundless-checkout-react@^0.0.14:
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/boundless-checkout-react/-/boundless-checkout-react-0.0.14.tgz#bb0bc71ffc94df129b8409c03b823c174757361c"
+  integrity sha512-qIz3kirkxWKTRz49bvsKbJBzxQx8VQ8EPXpWoSsL+Pk0D7EFNbQxcC/cyoj6GplwzVGbg4aInEHE+W7ihOow/g==
   dependencies:
     "@emotion/react" "^11.7.1"
     "@emotion/styled" "^11.6.0"
@@ -967,7 +967,7 @@ boundless-checkout-react@^0.0.13:
     "@reduxjs/toolkit" "^1.7.1"
     "@tanem/react-nprogress" "^4.0.8"
     body-scroll-lock "^4.0.0-beta.0"
-    boundless-api-client "^0.0.7"
+    boundless-api-client "^0.0.9"
     clsx "^1.1.1"
     currency.js "^2.0.4"
     formik "^2.2.9"

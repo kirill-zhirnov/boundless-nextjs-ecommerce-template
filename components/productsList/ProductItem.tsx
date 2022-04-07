@@ -26,7 +26,7 @@ export default function ProductItem({product, query, categoryId}: IProductItemPr
 			className={clsx('products__item', {'in-stock': product.in_stock, 'out-of-stock': !product.in_stock})}
 			data-id={product.product_id}
 			itemScope
-			itemType='http://schema.org/Product'
+			itemType='//schema.org/Product'
 		>
 			<div className='products__item-wrapper'>
 				<ProductImage product={product}
@@ -88,7 +88,7 @@ function ProductImage({product, productUrl}: {product: IProduct, productUrl: str
 }
 
 function ProductSchemaOrgMarkup({product}: {product: IProduct}) {
-	const schemaAvailability = product.in_stock ? 'http://schema.org/InStock' : 'http://schema.org/OutOfStock';
+	const schemaAvailability = product.in_stock ? '//schema.org/InStock' : '//schema.org/OutOfStock';
 
 	return (
 		<>
@@ -98,14 +98,14 @@ function ProductSchemaOrgMarkup({product}: {product: IProduct}) {
 			{product.price &&
 			(product.price?.min
 					?
-					<div itemProp='offers' itemScope itemType='http://schema.org/AggregateOffer'>
+					<div itemProp='offers' itemScope itemType='//schema.org/AggregateOffer'>
 						<meta itemProp='lowPrice' content={String(product.price.min)} />
 						<meta itemProp='highPrice' content={String(product.price.max)} />
 						<meta itemProp='priceCurrency' content={product.price.currency_alias?.toUpperCase()} />
 						<link itemProp='availability' href={schemaAvailability} />
 					</div>
 					:
-					<div itemProp='offers' itemScope itemType='http://schema.org/Offer'>
+					<div itemProp='offers' itemScope itemType='//schema.org/Offer'>
 						<meta itemProp='price' content={String(product.price.value)} />
 						<meta itemProp='priceCurrency' content={product.price.currency_alias?.toUpperCase()} />
 						<link itemProp='availability' href={schemaAvailability} />

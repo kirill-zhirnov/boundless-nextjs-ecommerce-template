@@ -19,7 +19,7 @@ export default function Manufacturer({manufacturer}: {manufacturer: IProductItem
 					{title}
 				</dd>
 			</dl>
-			<div itemProp='brand' itemScope itemType='http://schema.org/Brand'>
+			<div itemProp='brand' itemScope itemType='//schema.org/Brand'>
 				<meta itemProp='name' content={title} />
 			</div>
 		</>

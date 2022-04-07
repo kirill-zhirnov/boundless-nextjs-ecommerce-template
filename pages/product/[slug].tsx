@@ -61,7 +61,7 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 		>
 			<div className={'container'}>
 				<BreadCrumbs items={breadcrumbItems} />
-				<div className='product-page' itemScope itemType='http://schema.org/Product'>
+				<div className='product-page' itemScope itemType='//schema.org/Product'>
 					<div className='row'>
 						<div className='col-md-7'>
 							<h1 className='product-page__header mb-4' itemProp='name'>

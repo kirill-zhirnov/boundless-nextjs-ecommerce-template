@@ -27,7 +27,7 @@ export default function AsideMenuList({menuList}: {menuList: IMenuItem[]}) {
 
 	return (
 		<nav>
-			<ul className='aside-menu__list list-unstyled' itemScope itemType='http://schema.org/ItemList'>
+			<ul className='aside-menu__list list-unstyled' itemScope itemType='//schema.org/ItemList'>
 				{menuList.map((item, i) => {
 					const hasChildren = item.children && item.children.length > 0;
 					const collapsibleProps = {onClick: () => toggleOpen(i)};
@@ -43,7 +43,7 @@ export default function AsideMenuList({menuList}: {menuList: IMenuItem[]}) {
 							key={item.title + i}
 							{...(hasChildren ? collapsibleProps : {})}
 						>
-							<div itemProp='itemListElement' itemScope itemType='http://schema.org/ListItem'>
+							<div itemProp='itemListElement' itemScope itemType='//schema.org/ListItem'>
 								<ListElement item={item} position={i} open={open} />
 							</div>
 							{hasChildren && <ChildList children={item.children!} />}
