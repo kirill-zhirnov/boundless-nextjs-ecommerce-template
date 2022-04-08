@@ -9,6 +9,10 @@ import {IMenuItem} from '../@types/components';
 import SwiperSlider from '../components/SwiperSlider';
 import cliffImg from '../assets/cliff_1.jpg';
 import cliff2Img from '../assets/cliff_2.jpg';
+import CoverTextInCenter from '../components/CoverTextInCenter';
+import bgImg from '../assets/cover-bg.jpeg';
+import bgPortraitImg from '../assets/cover-bg-portrait.jpg';
+import ProductsSliderByQuery from '../components/ProductsSliderByQuery';
 
 export default function IndexPage({products, mainMenu, footerMenu}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	return (
@@ -24,6 +28,32 @@ export default function IndexPage({products, mainMenu, footerMenu}: InferGetServ
 						<ProductsList products={products} query={{}}/>
 					</div>
 				</div>
+				<div className='container'>
+					<h2 className='page-heading page-heading_h1  page-heading_m-h1'>Cover example:</h2>
+				</div>
+			</div>
+			<CoverTextInCenter
+				showChevronDown
+				img={bgImg.src}
+				imgPortrait={bgPortraitImg.src}
+				content={{
+					intro: 'Intro',
+					head: 'Main header',
+					subHead: 'subheader'
+				}}
+				shadow={{
+					opacity: 0.5,
+					backgroundColor: '#000'
+				}}
+				link={'http://google.com'}
+			/>
+			<div className='container'>
+				<h2 className='page-heading page-heading_h1  page-heading_m-h1'>Products carousel:</h2>
+				<ProductsSliderByQuery
+					query={{collection: ['main-page'], sort: 'in_collection'}}
+					title={'Collection title'}
+					wrapperClassName='page-block'
+				/>
 			</div>
 		</MainLayout>
 	);
