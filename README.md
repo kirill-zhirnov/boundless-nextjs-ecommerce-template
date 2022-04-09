@@ -3,6 +3,10 @@
 Ready to use [Next.js](https://nextjs.org) (TypeScript) starter kit for high-performance 
 e-commerce websites.
 
+## Online Demo
+
+[blank.demos.boundless-commerce.com](https://blank.demos.boundless-commerce.com/) - deployed to Netlify.
+
 ## About Boundless Commerce
 
 [Boundless-commerce.com](https://boundless-commerce.com/) - API’s First Headless E-commerce CMS: We Provide An 
@@ -34,3 +38,5 @@ We developed the theme keeping SEO in mind: schema markup, sitemap, and
 all necessary meta-tags.
 
 Shopping cart with a nice animated widget and [Fully customizable React checkout](https://github.com/kirill-zhirnov/boundless-checkout-react).
+
+User friendly mobile version.
