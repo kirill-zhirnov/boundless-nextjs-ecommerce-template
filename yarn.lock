@@ -955,10 +955,10 @@ boundless-api-client@^0.0.9:
     currency.js "^2.0.4"
     jsonwebtoken "^8.5.1"
 
-boundless-checkout-react@^0.0.14:
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/boundless-checkout-react/-/boundless-checkout-react-0.0.14.tgz#bb0bc71ffc94df129b8409c03b823c174757361c"
-  integrity sha512-qIz3kirkxWKTRz49bvsKbJBzxQx8VQ8EPXpWoSsL+Pk0D7EFNbQxcC/cyoj6GplwzVGbg4aInEHE+W7ihOow/g==
+boundless-checkout-react@^0.0.15:
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/boundless-checkout-react/-/boundless-checkout-react-0.0.15.tgz#20b90a55597118223859d84a3b08dfae972456c6"
+  integrity sha512-5aux5zTRI0tUhOEjZE1woHR6wCO7OrLEWFf6AqUsE6xQAmVyVUELyFJwJM4ubOS2CkcTGGmceZGPeShTa6ZRLw==
   dependencies:
     "@emotion/react" "^11.7.1"
     "@emotion/styled" "^11.6.0"

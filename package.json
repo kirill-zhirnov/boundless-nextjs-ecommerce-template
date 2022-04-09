@@ -48,7 +48,7 @@
     "body-scroll-lock": "^4.0.0-beta.0",
     "bootstrap": "^5.1.3",
     "boundless-api-client": "^0.0.9",
-    "boundless-checkout-react": "^0.0.14",
+    "boundless-checkout-react": "^0.0.15",
     "clsx": "^1.1.1",
     "currency.js": "^2.0.4",
     "js-cookie": "^3.0.1",
