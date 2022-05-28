@@ -1,13 +1,17 @@
-# Next.js eCommerce starter theme (blank)
+# Next.js Ecommerce template (blank theme) 💻
 
 Ready to use [Next.js](https://nextjs.org) (TypeScript) starter kit for high-performance 
-e-commerce websites.
+e-commerce websites 🔥.
 
-## Online Demo
+Free 👍. Ready to use 😎. Just clone & deploy! 🤘
+
+## Online Demo ⚡️
 
 [blank.demos.boundless-commerce.com](https://blank.demos.boundless-commerce.com/) - deployed to Netlify.
 
 ## About Boundless Commerce
+
+![Boundless-commerce.com](assets/logo.svg)
 
 [Boundless-commerce.com](https://boundless-commerce.com/) - API’s First Headless E-commerce CMS: We Provide An 
 Admin-Side For Store Management, Powerful API, And Ready-To-Use Checkout Area.
