@@ -26,12 +26,12 @@ export default function CheckoutPage() {
 					else
 						console.log('unknown element: ', element);
 				},
-				onThankYouPage: (data) => router.push(`/thank-you/${data.orderId}`),
+				onThankYouPage: (data) => window.location.assign(`/thank-you/${data.orderId}`),
 				basename: '/checkout',
 				logoSrc: logoImg.src,
 			});
 		}
-	}, [cartInited]);//eslint-disable-line
+	}, [cartInited, cartId]);//eslint-disable-line
 	useEffect(() => {
 		return () => {
 			if (checkoutStarter.current) {
