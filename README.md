@@ -52,3 +52,7 @@ all necessary meta-tags.
 Shopping cart with a nice animated widget and [Fully customizable React checkout](https://github.com/kirill-zhirnov/boundless-checkout-react).
 
 User friendly mobile version.
+
+---
+
+[NextJS eCommerce templates](https://boundless-commerce.com/templates) - Free. Ready to use. Just clone & deploy!
