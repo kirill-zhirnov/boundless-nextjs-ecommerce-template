@@ -13,12 +13,14 @@ import {GetServerSideProps} from 'next';
 import CartLoader from '../components/cart/CartLoader';
 import Link from 'next/link';
 import {calcTotal, calcTotalPrice} from '../lib/calculator';
+import {useRouter} from 'next/router';
 
 export default function CartPage({mainMenu, footerMenu}: ICartPageProps) {
 	const dispatch = useAppDispatch();
 	const {id: cartId, cartInited} = useCart();
 	const [items, setItems] = useState<ICartItem[]>([]);
 	const [loading, setLoading] = useState(false);
+	const router = useRouter();
 
 	const getCartData = async (cartId: string) => {
 		setLoading(true);
@@ -55,6 +57,7 @@ export default function CartPage({mainMenu, footerMenu}: ICartPageProps) {
 			<div className='container'>
 				<div className='cart-page row'>
 					<div className='col-lg-8 offset-lg-2'>
+						{router.query.error && <div className={'alert alert-danger'} role={'alert'}>{router.query.error}</div>}
 						<h1 className='page-heading page-heading_h1  page-heading_m-h1'>Shopping cart</h1>
 						<div className='cart-page__content'>
 							{(loading || cartInited === TCartInited.processing)

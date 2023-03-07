@@ -5,6 +5,7 @@ import {getCartImg} from '../../lib/imgs';
 import {getProductUrl} from '../../lib/urls';
 import NoImage from '../NoImage';
 import {TThumbRatio} from '../../@types/image';
+import {calcTotalPrice} from '../../lib/calculator';
 
 export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 	const imgPath = item.vwItem?.image?.path;
@@ -65,7 +66,7 @@ export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 			</div>
 			<div className='cart-item__col col-md-2'>
 				<span className='cart-items__label'><strong>Total: </strong></span>
-				{formatMoney(parseInt(item.itemPrice.final_price || '') * item.qty)}</div>
+				{calcTotalPrice(item.itemPrice.final_price!, item.qty)}</div>
 			<div className='cart-item__col cart-item__col_rm col-md-2'>
 				<button
 					className='btn btn-sm btn-outline-secondary'
