@@ -13,10 +13,11 @@ import CoverTextInCenter from '../components/CoverTextInCenter';
 import bgImg from '../assets/cover-bg.jpeg';
 import bgPortraitImg from '../assets/cover-bg-portrait.jpg';
 import ProductsSliderByQuery from '../components/ProductsSliderByQuery';
+import {IBasicSettings} from '../@types/settings';
 
-export default function IndexPage({products, mainMenu, footerMenu}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function IndexPage({products, mainMenu, footerMenu, basicSettings}: InferGetServerSidePropsType<typeof getServerSideProps>) {
 	return (
-		<MainLayout mainMenu={mainMenu} footerMenu={footerMenu}>
+		<MainLayout mainMenu={mainMenu} footerMenu={footerMenu} basicSettings={basicSettings}>
 			<div className='container'>
 				<MainPageSlider />
 				<div className='row'>
@@ -62,12 +63,14 @@ export default function IndexPage({products, mainMenu, footerMenu}: InferGetServ
 export const getServerSideProps: GetServerSideProps<IIndexPageProps> = async () => {
 	const categoryTree = await apiClient.catalog.getCategoryTree({menu: 'category'});
 	const {products} = await apiClient.catalog.getProducts({collection: ['main-page'], sort: 'in_collection'});
+	const basicSettings = await apiClient.system.fetchSettings(['system.locale', 'system.currency']) as IBasicSettings;
 
 	const menus = makeAllMenus({categoryTree});
 
 	return {
 		props: {
 			products,
+			basicSettings,
 			...menus
 		}
 	};
@@ -77,6 +80,7 @@ interface IIndexPageProps {
 	products: IProduct[];
 	mainMenu: IMenuItem[];
 	footerMenu: IMenuItem[];
+	basicSettings: IBasicSettings;
 }
 
 function MainPageSlider() {

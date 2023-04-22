@@ -4,16 +4,17 @@ import clsx from 'clsx';
 import {useAppDispatch} from '../../hooks/redux';
 import {addItem2Cart} from '../../redux/actions/cart';
 import {getPriceForTpl, IPriceForTpl} from '../../lib/product';
-import {formatMoney} from '../../lib/formatter';
 import currency from 'currency.js';
 import {faPlus} from '@fortawesome/free-solid-svg-icons/faPlus';
 import {faMinus} from '@fortawesome/free-solid-svg-icons/faMinus';
 import {faCartPlus} from '@fortawesome/free-solid-svg-icons/faCartPlus';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
+import useFormatCurrency from '../../hooks/useFormatCurrency';
 
 export default function ProductPriceAndBuy({product, selectedVariant, setError, onAddedToCart}: IPriceAndBuyProps) {
 	const dispatch = useAppDispatch();
 	const [qty, setQty] = useState<number>(1);
+	const {formatCurrency} = useFormatCurrency();
 
 	const {price, benefit, isInStock} = useMemo(() => {
 		let price: IPriceForTpl, benefit: number | null = null;
@@ -52,12 +53,14 @@ export default function ProductPriceAndBuy({product, selectedVariant, setError, 
 		<div className='price-and-buy'>
 			{price.price && <p className={'price-and-buy__price'}>
 				{price.isFrom && <span className={'price-and-buy__from'}>From:</span>}
-				<span className={clsx('price-and-buy__current', {'has-old': price.oldPrice})}>{formatMoney(price.price)}</span>
-				{price.oldPrice && <span className={'price-and-buy__old'}>{formatMoney(price.oldPrice)}</span>}
+				<span className={clsx('price-and-buy__current', {'has-old': price.oldPrice})}>
+					{formatCurrency(price.price)}
+				</span>
+				{price.oldPrice && <span className={'price-and-buy__old'}>{formatCurrency(price.oldPrice)}</span>}
 			</p>}
 			{benefit && <p className={'price-and-buy__benefit'}>
 				<label className={'price-and-buy__benefit-label'}>You save:</label>
-				<span className={'price-and-buy__benefit-value'}>{formatMoney(benefit)}</span>
+				<span className={'price-and-buy__benefit-value'}>{formatCurrency(benefit)}</span>
 			</p>}
 			{(!product.has_variants || selectedVariant) && <>
 				<p className={clsx('price-and-buy__stock', {'in': isInStock, 'out': !isInStock})}>

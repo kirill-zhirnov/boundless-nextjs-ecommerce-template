@@ -1,5 +1,5 @@
 import {ICartItem} from 'boundless-api-client';
-import {useEffect, useMemo, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 import CartItems from '../components/cart/CartItems';
 import {useAppDispatch} from '../hooks/redux';
 import MainLayout from '../layouts/Main';
@@ -14,46 +14,20 @@ import CartLoader from '../components/cart/CartLoader';
 import Link from 'next/link';
 import {calcTotal, calcTotalPrice} from '../lib/calculator';
 import {useRouter} from 'next/router';
+import {IBasicSettings} from '../@types/settings';
 
-export default function CartPage({mainMenu, footerMenu}: ICartPageProps) {
-	const dispatch = useAppDispatch();
-	const {id: cartId, cartInited} = useCart();
-	const [items, setItems] = useState<ICartItem[]>([]);
-	const [loading, setLoading] = useState(false);
+export default function CartPage({mainMenu, footerMenu, basicSettings}: ICartPageProps) {
+	const {cartInited} = useCart();
 	const router = useRouter();
-
-	const getCartData = async (cartId: string) => {
-		setLoading(true);
-
-		const promise = apiClient.cart.getCartItems(cartId)
-			.then(({cart, items}) => {
-				setItems(items);
-				dispatch(setCartTotal(cart.total));
-			})
-			.catch((err) => console.error(err))
-			.finally(() => setLoading(false));
-
-		dispatch(addPromise(promise));
-	};
-
-	const total = useMemo(() => calcTotal(items.map(el => ({
-		qty: el.qty,
-		price: calcTotalPrice(el.itemPrice.final_price!, el.qty)
-	}))), [items]);
-
-	useEffect(() => {
-		dispatch(setCartTotal({
-			qty: total.qty,
-			total: total.price
-		}));
-	}, [total]); //eslint-disable-line
-
-	useEffect(() => {
-		if (cartId) getCartData(cartId);
-	}, [cartId]); //eslint-disable-line
+	const {items, setItems, loading, total} = useCartItems();
 
 	return (
-		<MainLayout mainMenu={mainMenu} footerMenu={footerMenu} noIndex>
+		<MainLayout
+			mainMenu={mainMenu}
+			footerMenu={footerMenu}
+			basicSettings={basicSettings}
+			noIndex
+		>
 			<div className='container'>
 				<div className='cart-page row'>
 					<div className='col-lg-8 offset-lg-2'>
@@ -84,12 +58,14 @@ export default function CartPage({mainMenu, footerMenu}: ICartPageProps) {
 
 export const getServerSideProps: GetServerSideProps<ICartPageProps> = async () => {
 	const categoryTree = await apiClient.catalog.getCategoryTree({menu: 'category'});
+	const basicSettings = await apiClient.system.fetchSettings(['system.locale', 'system.currency']) as IBasicSettings;
 	const {mainMenu, footerMenu} = makeAllMenus({categoryTree});
 
 	return {
 		props: {
 			mainMenu,
-			footerMenu
+			footerMenu,
+			basicSettings
 		}
 	};
 };
@@ -97,4 +73,51 @@ export const getServerSideProps: GetServerSideProps<ICartPageProps> = async () =
 interface ICartPageProps {
 	mainMenu: IMenuItem[];
 	footerMenu: IMenuItem[];
+	basicSettings: IBasicSettings;
 }
+
+const useCartItems = () => {
+	const dispatch = useAppDispatch();
+	const {id: cartId} = useCart();
+	const [items, setItems] = useState<ICartItem[]>([]);
+	const [loading, setLoading] = useState(false);
+
+	const initCartData = useCallback((cartId: string) => {
+		setLoading(true);
+
+		const promise = apiClient.cart.getCartItems(cartId)
+			.then(({cart, items}) => {
+				setItems(items);
+				dispatch(setCartTotal(cart.total));
+			})
+			.catch((err) => console.error(err))
+			.finally(() => setLoading(false));
+
+		dispatch(addPromise(promise));
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (cartId) {
+			initCartData(cartId);
+		}
+	}, [cartId, initCartData]);
+
+	const total = useMemo(() => calcTotal(items.map(el => ({
+		qty: el.qty,
+		price: calcTotalPrice(el.itemPrice.final_price!, el.qty)
+	}))), [items]);
+
+	useEffect(() => {
+		dispatch(setCartTotal({
+			qty: total.qty,
+			total: total.price
+		}));
+	}, [total, dispatch]);
+
+	return {
+		items,
+		setItems,
+		loading,
+		total
+	};
+};

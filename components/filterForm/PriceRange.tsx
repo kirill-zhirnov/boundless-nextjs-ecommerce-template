@@ -1,12 +1,16 @@
 import {IFilterFieldProps} from '../FilterForm';
 import {ChangeEvent} from 'react';
 import {Range as RangeComponent, createSliderWithTooltip} from 'rc-slider';
-import {formatMoney, getCurrencySymbol} from '../../lib/formatter';
 import 'rc-slider/assets/index.css';
+import useFormatCurrency from '../../hooks/useFormatCurrency';
+import {useAppSelector} from '../../hooks/redux';
 
 const Range = createSliderWithTooltip(RangeComponent);
 
 export default function PriceRangeField({field, onChange, values, idsPrefix}: IFilterFieldProps) {
+	const currencySymbol = useAppSelector((state) => state.app.localeSettings?.money.symbol);
+	const {formatCurrency} = useFormatCurrency();
+
 	const onInput = (e: ChangeEvent<HTMLInputElement>) => onChange({[e.target.name]: e.target.value});
 	const minValue = field.range?.min ? parseFloat(field.range.min) : 0;
 	const maxValue = field.range?.max ? parseFloat(field.range?.max) : 0;
@@ -20,7 +24,7 @@ export default function PriceRangeField({field, onChange, values, idsPrefix}: IF
 
 	return (
 		<>
-			<label className='form-label'>Price ({getCurrencySymbol()})</label>
+			<label className='form-label'>Price ({currencySymbol || ''})</label>
 			<Range
 				allowCross={false}
 				className='range-slider mb-2'
@@ -28,7 +32,7 @@ export default function PriceRangeField({field, onChange, values, idsPrefix}: IF
 				min={minValue}
 				onChange={onRangeChange}
 				step={0.01}
-				tipFormatter={formatMoney}
+				tipFormatter={formatCurrency}
 				value={[values.price_min || minValue, values.price_max || maxValue]}
 			/>
 			<div className={'row'}>

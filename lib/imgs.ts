@@ -1,4 +1,4 @@
-import {TThumbRatio} from '../@types/image';
+import {TThumbRatio} from 'boundless-api-client';
 import {apiClient} from './api';
 
 //fixed aspect ratio for product images

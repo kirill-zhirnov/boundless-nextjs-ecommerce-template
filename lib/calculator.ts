@@ -10,27 +10,12 @@ export const calcTotal = (items: ICalcTotalItem[]) => {
 	}
 	return {
 		qty: totalQty,
-		price: totalPrice.format()
+		price: totalPrice.toString()
 	};
 };
 
-export const calcFinalPrice = (basicPrice: string|number, discountAmount:number|string|null = null, discountPercent:number|string|null = null) => {
-	let finalPrice = currency(basicPrice);
-
-	if (discountPercent) {
-		const multiply = currency(1).subtract(currency(discountPercent,{fromCents: true}));
-		finalPrice = finalPrice.multiply(multiply);
-	}
-
-	if (discountAmount) {
-		finalPrice = finalPrice.subtract(discountAmount);
-	}
-
-	return finalPrice;
-};
-
-export const calcTotalPrice = (finalPrice: number|string, qty: number) => {
-	return currency(finalPrice).multiply(qty * 1).format();
+export const calcTotalPrice = (finalPrice: number|string, qty: number): string => {
+	return currency(finalPrice).multiply(qty * 1).toString();
 };
 
 interface ICalcTotalItem {

@@ -1,13 +1,15 @@
 import {ICartItem} from 'boundless-api-client';
 import Link from 'next/link';
-import {formatMoney} from '../../lib/formatter';
 import {getCartImg} from '../../lib/imgs';
 import {getProductUrl} from '../../lib/urls';
 import NoImage from '../NoImage';
-import {TThumbRatio} from '../../@types/image';
+import {TThumbRatio} from 'boundless-api-client';
 import {calcTotalPrice} from '../../lib/calculator';
+import useFormatCurrency from '../../hooks/useFormatCurrency';
 
 export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
+	const {formatCurrency} = useFormatCurrency();
+
 	const imgPath = item.vwItem?.image?.path;
 	const productUrl = getProductUrl(item.vwItem.product);
 
@@ -36,7 +38,7 @@ export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 			</div>
 			<div className='cart-item__col col-md-2'>
 				<span className='cart-items__label'><strong>Price: </strong></span>
-				{formatMoney(item.itemPrice.final_price)}
+				{item.itemPrice.final_price !== null && formatCurrency(item.itemPrice.final_price)}
 			</div>
 			<div className='cart-item__col cart-item__col_qty col-md-2'>
 				<span className='cart-items__label'><strong>Qty: </strong></span>
@@ -66,7 +68,8 @@ export default function CartRow({item, rmItem, onQtyChange}: ICartRowProps) {
 			</div>
 			<div className='cart-item__col col-md-2'>
 				<span className='cart-items__label'><strong>Total: </strong></span>
-				{calcTotalPrice(item.itemPrice.final_price!, item.qty)}</div>
+				{item.itemPrice.final_price !== null && formatCurrency(calcTotalPrice(item.itemPrice.final_price, item.qty))}
+			</div>
 			<div className='cart-item__col cart-item__col_rm col-md-2'>
 				<button
 					className='btn btn-sm btn-outline-secondary'

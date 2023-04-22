@@ -23,10 +23,11 @@ import CategorySidebar from '../../components/category/Sidebar';
 import FiltersModal from '../../components/category/FiltersModal';
 import CategoryControls from '../../components/category/Controls';
 import {RootState} from '../../redux/store';
+import {IBasicSettings} from '../../@types/settings';
 const FilterForm = dynamic(() => import('../../components/FilterForm'), {ssr: false});
 
 export default function CategoryPage({data}: InferGetServerSidePropsType<typeof getServerSideProps>) {
-	const {category, mainMenu, footerMenu} = data;
+	const {category, mainMenu, footerMenu, basicSettings} = data;
 	const router = useRouter();
 	const [productsQuery, setProductsQuery] = useState(data.productsQuery);
 	const [collection, setCollection] = useState(data.collection);
@@ -61,6 +62,7 @@ export default function CategoryPage({data}: InferGetServerSidePropsType<typeof 
 			mainMenu={mainMenu}
 			metaData={getCategoryMetaData(category)}
 			title={category.seo.title}
+			basicSettings={basicSettings}
 		>
 			<div className='container'>
 				<div className='row'>
@@ -158,10 +160,13 @@ const fetchData = async (slug: string, params: TQuery) => {
 	const categoryTree = await apiClient.catalog.getCategoryTree({menu: 'category'});
 	const menus = makeAllMenus({categoryTree, activeCategoryId: category.category_id});
 
+	const basicSettings = await apiClient.system.fetchSettings(['system.locale', 'system.currency']) as IBasicSettings;
+
 	const out = {
 		category,
 		collection,
 		productsQuery,
+		basicSettings,
 		...menus
 	};
 
@@ -201,4 +206,5 @@ interface ICategoryPageData {
 	productsQuery: {[key: string]: any},
 	mainMenu: IMenuItem[];
 	footerMenu: IMenuItem[];
+	basicSettings: IBasicSettings;
 }

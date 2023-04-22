@@ -9,7 +9,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCartPlus} from '@fortawesome/free-solid-svg-icons/faCartPlus';
 import NoImage from '../NoImage';
 import {productImgRatio} from '../../lib/imgs';
-import {TThumbRatio} from '../../@types/image';
+import {TThumbRatio} from 'boundless-api-client';
 import ProductPrice from '../productsList/ProductPrice';
 import ProductListImage from '../productsList/ProductImage';
 
