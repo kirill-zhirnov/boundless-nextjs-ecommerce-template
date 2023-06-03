@@ -1,11 +1,11 @@
 import {useRouter} from 'next/router';
-import {StarterWrapper, startOrderInfo} from 'boundless-checkout-react';
+import {StarterWrapper, startOrderInfo, resetCheckoutState} from 'boundless-checkout-react';
 import {apiClient} from '../../lib/api';
 import MainLayout from '../../layouts/Main';
 import {GetServerSideProps} from 'next';
 import {makeAllMenus} from '../../lib/menu';
 import {IMenuItem} from '../../@types/components';
-import {useCallback, useRef} from 'react';
+import {useCallback, useEffect, useRef} from 'react';
 
 export default function ThankYouPage({mainMenu, footerMenu}: IProps) {
 	const router = useRouter();
@@ -20,6 +20,15 @@ export default function ThankYouPage({mainMenu, footerMenu}: IProps) {
 			});
 		}
 	}, [router.query.id]);
+
+	useEffect(() => {
+		return () => {
+			if (checkoutStarter.current) {
+				checkoutStarter.current.destroy();
+				resetCheckoutState();
+			}
+		};
+	}, []);
 
 	if (!router.query.id) {
 		return null;
