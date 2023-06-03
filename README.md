@@ -53,6 +53,10 @@ Shopping cart with a nice animated widget and [Fully customizable React checkout
 
 User friendly mobile version.
 
+## Video tutorial
+
+[![How to build React E-commerce Website with Next.js, TypeScript, and Redux in 2023 (Tutorial)](https://img.youtube.com/vi/BOZRLereGig/0.jpg)](https://youtu.be/BOZRLereGig "How to build React E-commerce Website with Next.js, TypeScript, and Redux in 2023 (Tutorial)")
+
 ---
 
 [NextJS eCommerce templates](https://boundless-commerce.com/templates) - Free. Ready to use. Just clone & deploy!
