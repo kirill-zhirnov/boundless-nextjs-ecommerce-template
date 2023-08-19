@@ -32,10 +32,8 @@ export default function ProductItem({product, query, categoryId}: IProductItemPr
 				<ProductImage product={product}
 											productUrl={productUrl} />
 				<h4 className='products__title'>
-					<Link href={productUrl}>
-						<a itemProp='url'>
-							<span itemProp='name'>{product.title}</span>
-						</a>
+					<Link href={productUrl} itemProp='url'>
+						<span itemProp='name'>{product.title}</span>
 					</Link>
 				</h4>
 				<div className='products__offer'>
@@ -72,17 +70,14 @@ function ProductImage({product, productUrl}: {product: IProduct, productUrl: str
 	const img = product.images!.find(({is_default}) => is_default);
 
 	return (
-		<Link href={productUrl}>
-			<a className={'products__image'}>
-				{img
+		<Link href={productUrl} className={'products__image'}>
+			{img
 					? <ProductListImage image={img} alt={img.alt || product.title} />
 					: <NoImage ratio={productImgRatio || TThumbRatio['1-1']} />
-				}
-				<ProductLabels labels={product.labels!}
-											 className={'product__labels_small product__labels_column'}
-
-				/>
-			</a>
+			}
+			<ProductLabels labels={product.labels!}
+										 className={'product__labels_small product__labels_column'}
+			/>
 		</Link>
 	);
 }

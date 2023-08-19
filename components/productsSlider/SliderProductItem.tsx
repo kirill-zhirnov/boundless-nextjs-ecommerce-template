@@ -28,7 +28,7 @@ export default function SliderProductItem({product}: {product: IProduct}) {
 				/>
 				<h4 className='products-slider__product-title'>
 					<Link href={productUrl}>
-						<a>{product.title}</a>
+						{product.title}
 					</Link>
 				</h4>
 				<div className='products-slider__product-offer'>
@@ -64,17 +64,14 @@ function ProductImage({product, productUrl}: {product: IProduct, productUrl: str
 	const img = product.images!.find(({is_default}) => is_default);
 
 	return (
-		<Link href={productUrl}>
-			<a className={'products-slider__product-image'}>
-				{img
+		<Link href={productUrl} className={'products-slider__product-image'}>
+			{img
 					? <ProductListImage image={img} alt={img.alt || product.title} maxSize={500} />
 					: <NoImage ratio={productImgRatio || TThumbRatio['1-1']} />
-				}
-				<ProductLabels labels={product.labels!}
+			}
+			<ProductLabels labels={product.labels!}
 					className={'product__labels_small product__labels_column'}
-
-				/>
-			</a>
+			/>
 		</Link>
 	);
 }

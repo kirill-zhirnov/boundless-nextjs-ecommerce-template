@@ -24,9 +24,7 @@ export default function Header({companyTitle}: {companyTitle?: string}) {
 				<div className='page-header__content'>
 					<div className='page-header__logo'>
 						<Link href='/'>
-							<a>
-								<img src={logoImg.src} width={logoImg.width} height={logoImg.height} alt={title} />
-							</a>
+							<img src={logoImg.src} width={logoImg.width} height={logoImg.height} alt={title} />
 						</Link>
 					</div>
 					<div className={'page-header__right-blocks'}>
@@ -42,5 +40,5 @@ export default function Header({companyTitle}: {companyTitle?: string}) {
 			</div>
 			<ChooseVariantModal />
 		</header>
-	);
+    );
 }

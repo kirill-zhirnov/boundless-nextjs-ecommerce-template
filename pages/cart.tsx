@@ -43,8 +43,8 @@ export default function CartPage({mainMenu, footerMenu, basicSettings}: ICartPag
 											Your shopping cart is empty.
 										</p>
 										<p className='cart-page__warning'>
-											<Link href='/'>
-												<a className='btn btn-success'>Go shopping!</a>
+											<Link href='/' className='btn btn-success'>
+												Go shopping!
 											</Link>
 										</p>
 									</>}
@@ -53,7 +53,7 @@ export default function CartPage({mainMenu, footerMenu, basicSettings}: ICartPag
 				</div>
 			</div>
 		</MainLayout >
-	);
+    );
 }
 
 export const getServerSideProps: GetServerSideProps<ICartPageProps> = async () => {

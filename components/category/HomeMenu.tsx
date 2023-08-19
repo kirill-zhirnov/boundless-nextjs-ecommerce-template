@@ -22,7 +22,7 @@ export default function CategoryHomeMenu({categoryTree}: {categoryTree: ICategor
 													 alt={category.title || ''}
 													 className='me-2'
 						/>}
-						<Link href={getCategoryUrl(category)}>{category.title}</Link>
+						<Link href={getCategoryUrl(category)} legacyBehavior>{category.title}</Link>
 						{showChildren &&
 							<ul className='category-menu__child-list'>
 								{category.children && category.children.map(child => {
@@ -34,7 +34,7 @@ export default function CategoryHomeMenu({categoryTree}: {categoryTree: ICategor
 																			height={subImg.height}
 																			alt={child.title || ''}
 																			className='me-2' />}
-											<Link href={getCategoryUrl(child)}>{child.title}</Link>
+											<Link href={getCategoryUrl(child)} legacyBehavior>{child.title}</Link>
 										</li>
 									);
 								})}

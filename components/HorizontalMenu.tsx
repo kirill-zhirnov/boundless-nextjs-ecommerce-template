@@ -120,23 +120,23 @@ function ListElement({item, position, hasChildren}: {item: IMenuItem, position?:
 		</>
 		: item.title;
 
-	if (item.url && (!item.isActive || isRootElem)) return (
-		<>
-			<Link href={item.url}>
-				<a className={clsx(
-					'horizontal-menu__element is-link',
-					isRootElem ? 'is-root' : 'is-child',
-					{active: item.isActive}
-				)}>
-					{image && <span className='img-link'>{imageElem}</span>}
-					<span className='title' {...(isRootElem ? {itemProp: 'name'} : {})}>
-						{isRootElem ? titleWithIcon : item.title}
-					</span>
-				</a>
-			</Link>
-			{isRootElem && <meta itemProp='position' content={String(position + 1)} />}
-		</>
-	);
+	if (item.url && (!item.isActive || isRootElem)) return <>
+        <Link
+            href={item.url}
+            className={clsx(
+                'horizontal-menu__element is-link',
+                isRootElem ? 'is-root' : 'is-child',
+                {active: item.isActive}
+            )}>
+
+            {image && <span className='img-link'>{imageElem}</span>}
+            <span className='title' {...(isRootElem ? {itemProp: 'name'} : {})}>
+                {isRootElem ? titleWithIcon : item.title}
+            </span>
+
+        </Link>
+        {isRootElem && <meta itemProp='position' content={String(position + 1)} />}
+    </>;
 
 	return (
 		<div className={clsx(

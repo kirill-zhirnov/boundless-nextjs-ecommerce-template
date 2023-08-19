@@ -25,21 +25,19 @@ export default function FooterMenu({menuList}: {menuList: IMenuItem[]}) {
 }
 
 function ListElement({item, position}: {item: IMenuItem, position: number}) {
-	if (item.url) return (
-		<>
-			<Link href={item.url}>
-				<a className={clsx(
-					'page-footer-menu__element is-link',
-					{active: item.isActive}
-				)}>
+	if (item.url) return <>
+        <Link
+					href={item.url}
+					className={clsx(
+							'page-footer-menu__element is-link',
+							{active: item.isActive}
+					)}>
 					<span className='title' itemProp='name'>
 						{item.title}
 					</span>
-				</a>
-			</Link>
-			<meta itemProp='position' content={String(position + 1)} />
-		</>
-	);
+        </Link>
+        <meta itemProp='position' content={String(position + 1)} />
+    </>;
 
 	return (
 		<div className={clsx(

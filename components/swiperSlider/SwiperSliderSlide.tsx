@@ -5,21 +5,20 @@ export default function SwiperSliderSlide({img, link, caption, captionPosition, 
 	const isGlobalLink = Boolean(link && /^http/.test(link));
 	const linkProps = isGlobalLink ? {target: '_blank'} : {};
 
-	return (
-		<>
-			<div className='swiper-slider__bg-img' style={{backgroundImage: `url(${img})`}} />
+	return <>
+		<div className='swiper-slider__bg-img' style={{backgroundImage: `url(${img})`}} />
 			{useFilling && <div className='swiper-slider__shadow' style={{backgroundColor: fillingColor, opacity: fillingOpacity}} />}
 			{link
-				? <Link href={link}>
-					<a className={clsx('swiper-slider__content', captionPosition && `swiper-slider__content_${captionPosition}`)} {...linkProps}>
-						{caption && <div className='swiper-slider__caption' dangerouslySetInnerHTML={{__html: caption}}></div>}
-					</a>
-				</Link>
+				? <Link
+            href={link}
+            className={clsx('swiper-slider__content', captionPosition && `swiper-slider__content_${captionPosition}`)}
+            {...linkProps}>
+            {caption && <div className='swiper-slider__caption' dangerouslySetInnerHTML={{__html: caption}}></div>}
+        </Link>
 				: <div className={clsx('swiper-slider__content', captionPosition && `swiper-slider__content_${captionPosition}`)}>
 					{caption && <div className='swiper-slider__caption' dangerouslySetInnerHTML={{__html: caption}}></div>}
-				</div>}
-		</>
-	);
+			</div>}
+    </>;
 }
 
 export interface ISwiperSliderSlide {
