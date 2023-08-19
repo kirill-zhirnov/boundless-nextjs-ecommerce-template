@@ -25,11 +25,20 @@
     "skipLibCheck": true,
     "noEmit": true,
     "isolatedModules": true,
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+		"paths": {
+			"react": [ "./node_modules/@types/react" ]
+		}
   },
   "include": [
     "./**/*.ts",
-    "./**/*.tsx"
+    "./**/*.tsx",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

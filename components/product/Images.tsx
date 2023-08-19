@@ -8,8 +8,8 @@ import dynamic from 'next/dynamic';
 import {Item, Gallery, useGallery} from 'react-photoswipe-gallery';
 
 import 'photoswipe/dist/photoswipe.css';
-import 'photoswipe/dist/default-skin/default-skin.css';
-const ImagesSlider = dynamic(() => import('./ImagesSlider'), {ssr: false});
+// import 'photoswipe/dist/default-skin/default-skin.css';
+const ImagesSlider = dynamic(() => import('./ImagesSlider'), {ssr: false, loading: () => <div/>});
 
 export default function ProductImagesWrapper({product}: {product: IProductItem}) {
 	return (

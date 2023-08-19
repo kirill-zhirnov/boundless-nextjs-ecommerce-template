@@ -57,6 +57,10 @@ User friendly mobile version.
 
 [![How to build React E-commerce Website with Next.js, TypeScript, and Redux in 2023 (Tutorial)](https://img.youtube.com/vi/BOZRLereGig/0.jpg)](https://youtu.be/BOZRLereGig "How to build React E-commerce Website with Next.js, TypeScript, and Redux in 2023 (Tutorial)")
 
+## Ways to deploy Node.js Apps
+
+[![Ways to deploy NodeJs (and/or NextJS) apps - quick overview](https://img.youtube.com/vi/pRj0o-B57O4/0.jpg)](https://www.youtube.com/watch?v=pRj0o-B57O4 " Ways to deploy NodeJs (and/or NextJS) apps - quick overview")
+
 ---
 
 [NextJS eCommerce templates](https://boundless-commerce.com/templates) - Free. Ready to use. Just clone & deploy!
