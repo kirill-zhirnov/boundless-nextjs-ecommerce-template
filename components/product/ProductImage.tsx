@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import {getProductImg, IImagePartial} from '../../lib/imgs';
 
 export default function ProductImage({image, alt, maxSize = 800, preserveRatio = false}: IProductImageProps) {
