@@ -17,8 +17,9 @@ import {makeBreadCrumbsFromCats} from '../../lib/breadcrumbs';
 import ProductShipping from '../../components/product/Shipping';
 import {IMenuItem} from '../../@types/components';
 import ProductsSliderByQuery from '../../components/ProductsSliderByQuery';
+import {IBasicSettings} from '../../@types/settings';
 
-export default function ProductPage({data: {product, categoryParents, mainMenu, footerMenu}}: InferGetStaticPropsType<typeof getStaticProps>) {
+export default function ProductPage({data: {product, categoryParents, mainMenu, footerMenu, basicSettings}}: InferGetStaticPropsType<typeof getStaticProps>) {
 	const [resolvedParents, setResolvedParents] = useState(categoryParents);
 	const router = useRouter();
 	const query = useMemo<ParsedQs>(() => qs.parse(router.asPath.split('?')[1] || ''), [router.asPath]);
@@ -58,6 +59,7 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 			mainMenu={mainMenu}
 			metaData={getProductMetaData(product)}
 			title={product.seo.title}
+			basicSettings={basicSettings}
 		>
 			<div className={'container'}>
 				<BreadCrumbs items={breadcrumbItems} />
@@ -164,11 +166,13 @@ const fetchData = async (slug: string) => {
 	}
 
 	const categoryTree = await apiClient.catalog.getCategoryTree({menu: 'category'});
+	const basicSettings = await apiClient.system.fetchSettings(['system.locale', 'system.currency']) as IBasicSettings;
 	const menus = makeAllMenus({categoryTree});
 
 	return {
 		product,
 		categoryParents,
+		basicSettings,
 		...menus
 	};
 };
@@ -183,4 +187,5 @@ interface IProductPageData {
 	categoryParents: ICategoryFlatItem[] | null;
 	mainMenu: IMenuItem[];
 	footerMenu: IMenuItem[];
+	basicSettings: IBasicSettings;
 }
