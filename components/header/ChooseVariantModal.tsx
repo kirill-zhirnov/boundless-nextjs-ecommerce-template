@@ -29,7 +29,7 @@ export default function ChooseVariantModal() {
 								: <NoImage ratio={TThumbRatio['1-1']} className={'bg-xs'} />
 							}
 						</div>
-						<h6>{product.text.title}</h6>
+						<h6>{product.title}</h6>
 					</div>
 					<ProductVariantAndBuy product={product}
 																onAddedToCart={onHide}

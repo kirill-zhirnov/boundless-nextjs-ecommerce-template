@@ -21,8 +21,8 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 	}, [field.characteristic, displayLimit]);
 
 	const onInput = (caseId: number, e: ChangeEvent<HTMLInputElement>) => {
-		const value = (characteristic.characteristic_id in values.props && Array.isArray(values.props[characteristic.characteristic_id]))
-			? [...values.props[characteristic.characteristic_id]] : []
+		const value = (characteristic.id in values.props && Array.isArray(values.props[characteristic.id]))
+			? [...values.props[characteristic.id]] : []
 			;
 		const index = value.findIndex((item: string | number) => String(item) == String(caseId));
 
@@ -36,11 +36,11 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 			}
 		}
 
-		onChange({props: {[characteristic.characteristic_id]: value}});
+		onChange({props: {[characteristic.id]: value}});
 	};
 
 	const isChecked = (caseId: number): boolean => {
-		const characteristicId = characteristic.characteristic_id;
+		const characteristicId = characteristic.id;
 		if (characteristicId in values.props && Array.isArray(values.props[characteristicId])) {
 			return values.props[characteristicId].some((value: string | number) => String(value) == String(caseId));
 		}
@@ -58,21 +58,21 @@ export default function MultipleSelectCharacteristic({field, onChange, values, d
 			<label className='form-label'>{characteristic.title}</label>
 			<CharacteristicCases
 				caseItems={visibleCases}
-				characteristicId={characteristic.characteristic_id}
+				characteristicId={characteristic.id}
 				onInput={onInput}
 				isChecked={isChecked}
-				idsPrefix={`${idsPrefix}filter_props_${characteristic.characteristic_id}`}
+				idsPrefix={`${idsPrefix}filter_props_${characteristic.id}`}
 			/>
 			{collapsedCases.length > 0 && <>
-				<Collapse in={showMore} key={characteristic.characteristic_id}>
+				<Collapse in={showMore} key={characteristic.id}>
 					<div> {/* Intentional for smooth Collapse animation */}
 						<div className='mt-1'>
 							<CharacteristicCases
 								caseItems={collapsedCases}
-								characteristicId={characteristic.characteristic_id}
+								characteristicId={characteristic.id}
 								onInput={onInput}
 								isChecked={isChecked}
-								idsPrefix={`${idsPrefix}filter_props_${characteristic.characteristic_id}`}
+								idsPrefix={`${idsPrefix}filter_props_${characteristic.id}`}
 							/>
 						</div>
 					</div>

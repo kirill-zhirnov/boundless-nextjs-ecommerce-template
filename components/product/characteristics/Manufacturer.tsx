@@ -3,7 +3,7 @@ import {getManufacturerImg} from '../../../lib/imgs';
 
 export default function Manufacturer({manufacturer}: {manufacturer: IProductItemManufacturer}) {
 	const image = manufacturer.image?.path ? getManufacturerImg(manufacturer.image) : null;
-	const title = manufacturer.text?.title || '';
+	const title = manufacturer.title || '';
 	return (
 		<>
 			<dl className='product-attrs__item product-attrs__item_brand'>

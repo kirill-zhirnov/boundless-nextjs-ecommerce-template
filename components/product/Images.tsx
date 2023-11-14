@@ -43,20 +43,20 @@ function ProductImages({product}: {product: IProductItem}) {
 							original={images4Gallery[i].src}
 							width={images4Gallery[i].width}
 							height={images4Gallery[i].height}
-							id={image.image_id}
-							key={image.image_id}
+							id={image.image.image_id}
+							key={image.image.image_id}
 						>
 							{({ref}) => (<li
 								ref={ref as React.MutableRefObject<HTMLLIElement>}
 								className={clsx('product-gallery__thumb', {active: activeImg === i})}
-								key={image.image_id}
+								key={image.image.image_id}
 								onMouseEnter={() => setActiveImg(i)}
 								onClick={() => setActiveImg(i)}
 							>
 								<a href='#' className='product-gallery__thumb-link' onClick={(e) => {
 									e.preventDefault();
 								}}>
-									<ProductImage image={image.image} maxSize={100} alt={image.alt || product.text.title} preserveRatio={true} />
+									<ProductImage image={image.image} maxSize={100} alt={image.alt || product.title} preserveRatio={true} />
 								</a>
 								<meta itemProp='image' content={getMetaImgUrl(image.image)} />
 							</li>)}

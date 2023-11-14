@@ -34,7 +34,7 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 		const categoryId = category ? parseInt(category as string) : null;
 		if (!categoryId) return;
 
-		const notDefaultCat = product.categoryRels.some(cat => (cat.is_default !== true && cat.category_id === categoryId));
+		const notDefaultCat = product.categoryRels.some(cat => (cat.is_default !== true && cat.category.category_id === categoryId));
 
 		if (notDefaultCat) {
 			fetchParents(categoryId);
@@ -67,7 +67,7 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 					<div className='row'>
 						<div className='col-md-7'>
 							<h1 className='product-page__header mb-4' itemProp='name'>
-								{product.text.title}
+								{product.title}
 							</h1>
 							<ProductLabels labels={product.labels} className={'mb-3'} />
 							<ProductImages product={product} />
@@ -76,7 +76,7 @@ export default function ProductPage({data: {product, categoryParents, mainMenu, 
 							<ProductVariantAndBuy product={product} />
 							<hr className='product-page__hr' />
 							<ProductCharacteristics
-								characteristics={product.nonVariantCharacteristics!}
+								characteristics={product.attributes!}
 								manufacturer={product.manufacturer}
 								size={product.props.size}
 							/>
@@ -140,10 +140,10 @@ export const getStaticProps: GetStaticProps<IProductPageProps> = async ({params}
 		}
 	}
 
-	if (data?.product?.text.url_key && data?.product?.text.url_key !== slug) {
+	if (data?.product?.url_key && data?.product?.url_key !== slug) {
 		return {
 			redirect: {
-				destination: `/product/${data?.product?.text.url_key}`,
+				destination: `/product/${data?.product?.url_key}`,
 				permanent: true,
 			}
 		};
@@ -159,7 +159,7 @@ export const getStaticProps: GetStaticProps<IProductPageProps> = async ({params}
 const fetchData = async (slug: string) => {
 	const product = await apiClient.catalog.getProduct(slug as string);
 
-	const categoryId = product.categoryRels.find(cat => cat.is_default === true)?.category_id;
+	const categoryId = product.categoryRels.find(cat => cat.is_default === true)?.category.category_id;
 	let categoryParents = null;
 	if (categoryId) {
 		categoryParents = await apiClient.catalog.getCategoryParents(categoryId);

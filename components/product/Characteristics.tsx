@@ -1,4 +1,4 @@
-import {IItemSize, INonVariantCaracteristic, IProductItemManufacturer} from 'boundless-api-client';
+import {IItemSize, IProductAttribute, IProductItemManufacturer} from 'boundless-api-client';
 import React from 'react';
 import CharacteristicItem from './characteristics/CharacteristicItem';
 import Manufacturer from './characteristics/Manufacturer';
@@ -28,7 +28,7 @@ export default function ProductCharacteristics({characteristics, manufacturer, s
 }
 
 interface IProductCharacteristicsProps {
-	characteristics: INonVariantCaracteristic[];
+	characteristics: IProductAttribute[];
 	manufacturer: IProductItemManufacturer|null;
 	size: IItemSize|null;
 }

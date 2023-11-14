@@ -15,7 +15,7 @@ export const getCategoryUrl = (category: ICategoryUrlPartial, params?: TQuery) =
 };
 
 export const getCategoryItemUrl = (category: ICategoryItem, params?: TQuery) => {
-	const baseUrl = category.props?.custom_link || `${CATEGORY_PREFIX}/${category.text?.url_key || category.category_id}`;
+	const baseUrl = category.props?.custom_link || `${CATEGORY_PREFIX}/${category.url_key || category.category_id}`;
 	const queryStr = params && Object.keys(params).length ? `?${createGetStr(params)}`: '';
 
 	return `${baseUrl}${queryStr}`;
@@ -29,7 +29,7 @@ export const getProductUrl = (product: IProductUrlProps, params?: TQuery) => {
 };
 
 export const getProductItemUrl = (product: IProductItem, params?: TQuery) => {
-	const basePath = `${PRODUCTS_PREFIX}/${product.text?.url_key || product.product_id}`;
+	const basePath = `${PRODUCTS_PREFIX}/${product.url_key || product.product_id}`;
 	const queryStr = params && Object.keys(params).length ? `?${createGetStr(params)}`: '';
 
 	return `${basePath}${queryStr}`;

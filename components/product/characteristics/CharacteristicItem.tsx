@@ -1,6 +1,6 @@
-import {INonVariantCaracteristic} from 'boundless-api-client';
+import {IProductAttribute} from 'boundless-api-client';
 
-export default function CharacteristicItem({characteristic}: {characteristic: INonVariantCaracteristic}) {
+export default function CharacteristicItem({characteristic}: {characteristic: IProductAttribute}) {
 	return (
 		<>
 			<dl className='product-attrs__item'>
