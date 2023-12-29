@@ -12,9 +12,11 @@ import {productImgRatio} from '../../lib/imgs';
 import {TThumbRatio} from 'boundless-api-client';
 import ProductPrice from '../productsList/ProductPrice';
 import ProductListImage from '../productsList/ProductImage';
+import {findSellingPrice} from '../../lib/product';
 
 export default function SliderProductItem({product}: {product: IProduct}) {
 	const productUrl = getProductUrl(product);
+	const sellingPrice = findSellingPrice(product.prices);
 
 	return (
 		<div
@@ -32,7 +34,7 @@ export default function SliderProductItem({product}: {product: IProduct}) {
 					</Link>
 				</h4>
 				<div className='products-slider__product-offer'>
-					{product.price && <ProductPrice price={product.price} />}
+					{sellingPrice && <ProductPrice price={sellingPrice} />}
 				</div>
 				<Product2Cart product={product} />
 			</div>

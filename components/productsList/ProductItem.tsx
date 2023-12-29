@@ -13,6 +13,7 @@ import {faCartPlus} from '@fortawesome/free-solid-svg-icons/faCartPlus';
 import NoImage from '../NoImage';
 import {productImgRatio} from '../../lib/imgs';
 import {TThumbRatio} from 'boundless-api-client';
+import {findSellingPrice} from '../../lib/product';
 
 export default function ProductItem({product, query, categoryId}: IProductItemProps) {
 	const params = {...query};
@@ -20,6 +21,7 @@ export default function ProductItem({product, query, categoryId}: IProductItemPr
 		Object.assign(params, {category: categoryId});
 	}
 	const productUrl = getProductUrl(product, params);
+	const sellingPrice = findSellingPrice(product.prices);
 
 	return (
 		<li
@@ -37,7 +39,7 @@ export default function ProductItem({product, query, categoryId}: IProductItemPr
 					</Link>
 				</h4>
 				<div className='products__offer'>
-					{product.price && <ProductPrice price={product.price} />}
+					{sellingPrice && <ProductPrice price={sellingPrice} />}
 				</div>
 				<Product2Cart product={product} />
 			</div>
@@ -84,25 +86,26 @@ function ProductImage({product, productUrl}: {product: IProduct, productUrl: str
 
 function ProductSchemaOrgMarkup({product}: {product: IProduct}) {
 	const schemaAvailability = product.in_stock ? '//schema.org/InStock' : '//schema.org/OutOfStock';
+	const sellingPrice = findSellingPrice(product.prices);
 
 	return (
 		<>
 			<meta itemProp='productID' content={String(product.product_id)} />
 			<meta itemProp='brand' content={product.manufacturer?.title || ''} />
 			<meta itemProp='sku' content={product.sku || ''} />
-			{product.price &&
-			(product.price?.min
+			{sellingPrice &&
+			(sellingPrice?.min
 					?
 					<div itemProp='offers' itemScope itemType='//schema.org/AggregateOffer'>
-						<meta itemProp='lowPrice' content={String(product.price.min)} />
-						<meta itemProp='highPrice' content={String(product.price.max)} />
-						<meta itemProp='priceCurrency' content={product.price.currency_alias?.toUpperCase()} />
+						<meta itemProp='lowPrice' content={String(sellingPrice.min)} />
+						<meta itemProp='highPrice' content={String(sellingPrice.max)} />
+						<meta itemProp='priceCurrency' content={sellingPrice.currency_alias?.toUpperCase()} />
 						<link itemProp='availability' href={schemaAvailability} />
 					</div>
 					:
 					<div itemProp='offers' itemScope itemType='//schema.org/Offer'>
-						<meta itemProp='price' content={String(product.price.value)} />
-						<meta itemProp='priceCurrency' content={product.price.currency_alias?.toUpperCase()} />
+						<meta itemProp='price' content={String(sellingPrice.value)} />
+						<meta itemProp='priceCurrency' content={sellingPrice.currency_alias?.toUpperCase()} />
 						<link itemProp='availability' href={schemaAvailability} />
 					</div>
 			)

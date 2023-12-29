@@ -1,6 +1,6 @@
 import {IVariantCharacteristic, IVariantIdCombinations} from 'boundless-api-client';
 import {MouseEvent} from 'react';
-import {IProductVariant} from 'boundless-api-client';
+import {IVariant} from 'boundless-api-client';
 import clsx from 'clsx';
 
 // values, onSelect, idCombinations
@@ -52,10 +52,10 @@ interface IVariantCharProps {
 	value: {[characteristicId: number|string]: number};
 	onSelectCase: (characteristicId: number, caseId: number|null) => void;
 	idCombinations: IVariantIdCombinations;
-	variants: IProductVariant[]
+	variants: IVariant[]
 }
 
-const findAvailableVariants = (variants: IProductVariant[], idCombinations: IVariantIdCombinations, value: {[characteristicId: number|string]: number}): IProductVariant[] => {
+const findAvailableVariants = (variants: IVariant[], idCombinations: IVariantIdCombinations, value: {[characteristicId: number|string]: number}): IVariant[] => {
 	const variantIds: number[] = [];
 
 	for (const [variantId, combination] of Object.entries(idCombinations)) {

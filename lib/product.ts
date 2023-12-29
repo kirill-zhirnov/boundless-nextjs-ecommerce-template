@@ -1,12 +1,12 @@
-import {IProductPrice} from 'boundless-api-client';
+import {IFinalPrice} from 'boundless-api-client';
 
 export interface IPriceForTpl {
-	price: number|null,
-	oldPrice?: number|null,
+	price: string|null,
+	oldPrice?: string|null,
 	isFrom?: boolean
 }
 
-export const getPriceForTpl = (price: IProductPrice|null): IPriceForTpl => {
+export const getPriceForTpl = (price: IFinalPrice|null): IPriceForTpl => {
 	if (!price) {
 		return {price: null};
 	}
@@ -16,4 +16,12 @@ export const getPriceForTpl = (price: IProductPrice|null): IPriceForTpl => {
 		oldPrice: price.old_min ? price.old_min : price.old,
 		isFrom: (price.min && price.max && price.min != price.max) ? true : false
 	};
+};
+
+export const findSellingPrice = (prices: IFinalPrice[]): IFinalPrice|undefined => {
+	return findPriceByAlias(prices, 'selling_price');
+};
+
+export const findPriceByAlias = (prices: IFinalPrice[], alias: string): IFinalPrice|undefined => {
+	return prices.find(({price_alias}) => price_alias === alias);
 };

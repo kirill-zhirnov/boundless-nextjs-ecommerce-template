@@ -1,9 +1,9 @@
-import {IProductPrice} from 'boundless-api-client';
+import {IFinalPrice} from 'boundless-api-client';
 import clsx from 'clsx';
 import {getPriceForTpl} from '../../lib/product';
 import useFormatCurrency from '../../hooks/useFormatCurrency';
 
-export default function ProductPrice({price, className = 'products__price'}: {price: IProductPrice, className?: string}) {
+export default function ProductPrice({price, className = 'products__price'}: {price: IFinalPrice, className?: string}) {
 	const tplPrice = getPriceForTpl(price);
 	const {formatCurrency} = useFormatCurrency();
 

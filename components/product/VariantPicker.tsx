@@ -1,4 +1,4 @@
-import {IExtendedVariants, IProductVariant} from 'boundless-api-client';
+import {IExtendedVariants, IVariant} from 'boundless-api-client';
 import {useState} from 'react';
 import VariantPickerCharacteristic from './variantPicker/Characteristic';
 import {IVariantCombination} from 'boundless-api-client';
@@ -19,7 +19,7 @@ export default function ProductVariantPicker({extendedVariants, onChange}: IVari
 
 		setValue(newValue);
 
-		let variant: IProductVariant|undefined;
+		let variant: IVariant|undefined;
 		const variantId = findVariantIdByCombinations(newValue, combinations);
 		if (variantId) {
 			variant = list.find(({variant_id}) => String(variant_id) == variantId);
@@ -47,7 +47,7 @@ export default function ProductVariantPicker({extendedVariants, onChange}: IVari
 
 interface IVariantPickerProps {
 	extendedVariants: IExtendedVariants;
-	onChange?: (value: {[characteristicId: number]: number}, variant?: IProductVariant) => void,
+	onChange?: (value: {[characteristicId: number]: number}, variant?: IVariant) => void,
 }
 
 const findVariantIdByCombinations = (value: {[key: number]: number}, combinations: IVariantCombination): null|string => {

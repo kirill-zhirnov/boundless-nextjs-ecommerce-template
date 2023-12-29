@@ -1,9 +1,9 @@
 import {useState, useMemo, ChangeEvent, MouseEvent} from 'react';
-import {IProductItem, IProductVariant} from 'boundless-api-client';
+import {IProductItem, IVariant} from 'boundless-api-client';
 import clsx from 'clsx';
 import {useAppDispatch} from '../../hooks/redux';
 import {addItem2Cart} from '../../redux/actions/cart';
-import {getPriceForTpl, IPriceForTpl} from '../../lib/product';
+import {findSellingPrice, getPriceForTpl, IPriceForTpl} from '../../lib/product';
 import currency from 'currency.js';
 import {faPlus} from '@fortawesome/free-solid-svg-icons/faPlus';
 import {faMinus} from '@fortawesome/free-solid-svg-icons/faMinus';
@@ -17,14 +17,20 @@ export default function ProductPriceAndBuy({product, selectedVariant, setError, 
 	const {formatCurrency} = useFormatCurrency();
 
 	const {price, benefit, isInStock} = useMemo(() => {
-		let price: IPriceForTpl, benefit: number | null = null;
+		let price: IPriceForTpl|undefined, benefit: number | null = null;
 		if (selectedVariant) {
-			price = {price: selectedVariant.price, oldPrice: selectedVariant.price_old};
+			const sellingPrice = findSellingPrice(selectedVariant.prices);
+			if (sellingPrice) {
+				price = {price: sellingPrice.value, oldPrice: sellingPrice.old};
+			}
 		} else {
-			price = getPriceForTpl(product.price);
+			const sellingPrice = findSellingPrice(product.prices);
+			if (sellingPrice) {
+				price = getPriceForTpl(sellingPrice);
+			}
 		}
 
-		if (price.price && price.oldPrice) {
+		if (price && price.price && price.oldPrice) {
 			benefit = new currency(price.oldPrice).subtract(price.price).toJSON();
 		}
 
@@ -41,7 +47,7 @@ export default function ProductPriceAndBuy({product, selectedVariant, setError, 
 			return;
 		}
 
-		const itemId = selectedVariant ? selectedVariant.item_id : product.item_id;
+		const itemId = selectedVariant ? selectedVariant.inventoryItem.item_id : product.item_id;
 		dispatch(addItem2Cart(itemId, qty));
 
 		if (onAddedToCart) {
@@ -51,7 +57,7 @@ export default function ProductPriceAndBuy({product, selectedVariant, setError, 
 
 	return (
 		<div className='price-and-buy'>
-			{price.price && <p className={'price-and-buy__price'}>
+			{price?.price && <p className={'price-and-buy__price'}>
 				{price.isFrom && <span className={'price-and-buy__from'}>From:</span>}
 				<span className={clsx('price-and-buy__current', {'has-old': price.oldPrice})}>
 					{formatCurrency(price.price)}
@@ -89,8 +95,8 @@ export default function ProductPriceAndBuy({product, selectedVariant, setError, 
 }
 
 interface IPriceAndBuyProps {
-	product: Pick<IProductItem, 'price' | 'has_variants' | 'in_stock' | 'item_id' | 'sku'>;
-	selectedVariant?: IProductVariant | null;
+	product: Pick<IProductItem, 'prices' | 'has_variants' | 'in_stock' | 'item_id' | 'sku'>;
+	selectedVariant?: IVariant | null;
 	setError: (error: null | string) => void;
 	onAddedToCart?: (itemId: number, qty: number) => void;
 }
