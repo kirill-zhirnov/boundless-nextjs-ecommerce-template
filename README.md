@@ -16,6 +16,10 @@ Free 👍. Ready to use 😎. Just clone & deploy! 🤘
 [Boundless-commerce.com](https://boundless-commerce.com/) - API’s First Headless E-commerce CMS: We Provide An 
 Admin-Side For Store Management, Powerful API, And Ready-To-Use Checkout Area.
 
+## Self-Hosted solution
+
+There is an option for Running Boundless-Commerce on your own server. Read more at [Open-Source Headless eCommerce Platform](https://boundless-commerce.com/open-source)
+
 ## Getting Started
 
 1. Go to [Boundless-commerce.com](https://boundless-commerce.com/) and create a free account (no credit card required).
